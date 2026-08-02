@@ -1,0 +1,255 @@
+DEBUG - 2026-08-01 19:53:06 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-01 19:53:06 --> Método da requisição: GET
+DEBUG - 2026-08-01 19:53:06 --> É AJAX? NÃO
+DEBUG - 2026-08-01 19:53:14 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-01 19:53:14 --> Método da requisição: POST
+DEBUG - 2026-08-01 19:53:14 --> É AJAX? SIM
+ERROR - 2026-08-01 19:53:15 --> Error connecting to the database: mysqli_sql_exception: Access denied for user ''@'localhost' (using password: YES) in C:\wamp64\www\Agendamento1\system\Database\MySQLi\Connection.php:201
+Stack trace:
+#0 C:\wamp64\www\Agendamento1\system\Database\MySQLi\Connection.php(201): mysqli->real_connect('localhost', '', Object(SensitiveParameterValue), '', 3306, '', 0)
+#1 C:\wamp64\www\Agendamento1\system\Database\BaseConnection.php(555): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#2 C:\wamp64\www\Agendamento1\system\Database\BaseConnection.php(795): CodeIgniter\Database\BaseConnection->initialize()
+#3 C:\wamp64\www\Agendamento1\system\Database\BaseBuilder.php(1659): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#4 C:\wamp64\www\Agendamento1\system\Model.php(297): CodeIgniter\Database\BaseBuilder->get()
+#5 C:\wamp64\www\Agendamento1\system\BaseModel.php(714): CodeIgniter\Model->doFirst()
+#6 C:\wamp64\www\Agendamento1\app\Models\AuthModel.php(21): CodeIgniter\BaseModel->first()
+#7 C:\wamp64\www\Agendamento1\app\Controllers\Auth.php(120): App\Models\AuthModel->getUsuarioByEmail('archer@gmail.co...')
+#8 C:\wamp64\www\Agendamento1\system\CodeIgniter.php(974): App\Controllers\Auth->login()
+#9 C:\wamp64\www\Agendamento1\system\CodeIgniter.php(520): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Auth))
+#10 C:\wamp64\www\Agendamento1\system\CodeIgniter.php(363): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\wamp64\www\Agendamento1\system\Boot.php(417): CodeIgniter\CodeIgniter->run()
+#12 C:\wamp64\www\Agendamento1\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#13 C:\wamp64\www\Agendamento1\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#14 {main}
+
+Next CodeIgniter\Database\Exceptions\DatabaseException: Access denied for user ''@'localhost' (using password: YES) in C:\wamp64\www\Agendamento1\system\Database\MySQLi\Connection.php:231
+Stack trace:
+#0 C:\wamp64\www\Agendamento1\system\Database\BaseConnection.php(555): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#1 C:\wamp64\www\Agendamento1\system\Database\BaseConnection.php(795): CodeIgniter\Database\BaseConnection->initialize()
+#2 C:\wamp64\www\Agendamento1\system\Database\BaseBuilder.php(1659): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#3 C:\wamp64\www\Agendamento1\system\Model.php(297): CodeIgniter\Database\BaseBuilder->get()
+#4 C:\wamp64\www\Agendamento1\system\BaseModel.php(714): CodeIgniter\Model->doFirst()
+#5 C:\wamp64\www\Agendamento1\app\Models\AuthModel.php(21): CodeIgniter\BaseModel->first()
+#6 C:\wamp64\www\Agendamento1\app\Controllers\Auth.php(120): App\Models\AuthModel->getUsuarioByEmail('archer@gmail.co...')
+#7 C:\wamp64\www\Agendamento1\system\CodeIgniter.php(974): App\Controllers\Auth->login()
+#8 C:\wamp64\www\Agendamento1\system\CodeIgniter.php(520): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Auth))
+#9 C:\wamp64\www\Agendamento1\system\CodeIgniter.php(363): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 C:\wamp64\www\Agendamento1\system\Boot.php(417): CodeIgniter\CodeIgniter->run()
+#11 C:\wamp64\www\Agendamento1\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#12 C:\wamp64\www\Agendamento1\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#13 {main}
+CRITICAL - 2026-08-01 19:53:15 --> CodeIgniter\Database\Exceptions\DatabaseException: Unable to connect to the database.
+Main connection [MySQLi]: Access denied for user ''@'localhost' (using password: YES)
+[Method: POST, Route: auth/login]
+in SYSTEMPATH\Database\BaseConnection.php on line 606.
+ 1 SYSTEMPATH\Database\BaseConnection.php(795): CodeIgniter\Database\BaseConnection->initialize()
+ 2 SYSTEMPATH\Database\BaseBuilder.php(1659): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `usuarios`
+WHERE `email` = :email:
+ LIMIT 1', [...], false)
+ 3 SYSTEMPATH\Model.php(297): CodeIgniter\Database\BaseBuilder->get()
+ 4 SYSTEMPATH\BaseModel.php(714): CodeIgniter\Model->doFirst()
+ 5 APPPATH\Models\AuthModel.php(21): CodeIgniter\BaseModel->first()
+ 6 APPPATH\Controllers\Auth.php(120): App\Models\AuthModel->getUsuarioByEmail('archer@gmail.com')
+ 7 SYSTEMPATH\CodeIgniter.php(974): App\Controllers\Auth->login()
+ 8 SYSTEMPATH\CodeIgniter.php(520): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Auth))
+ 9 SYSTEMPATH\CodeIgniter.php(363): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+12 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2026-08-01 19:54:06 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-01 19:54:06 --> Método da requisição: GET
+DEBUG - 2026-08-01 19:54:06 --> É AJAX? NÃO
+DEBUG - 2026-08-01 19:54:16 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-01 19:54:16 --> Método da requisição: POST
+DEBUG - 2026-08-01 19:54:16 --> É AJAX? SIM
+DEBUG - 2026-08-01 19:54:16 --> Usuário encontrado: NÃO
+DEBUG - 2026-08-01 19:56:45 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-01 19:56:45 --> Método da requisição: GET
+DEBUG - 2026-08-01 19:56:45 --> É AJAX? NÃO
+INFO - 2026-08-01 19:56:51 --> CSRF token verified.
+DEBUG - 2026-08-01 19:56:51 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-01 19:56:51 --> Método da requisição: POST
+DEBUG - 2026-08-01 19:56:51 --> É AJAX? SIM
+DEBUG - 2026-08-01 19:56:51 --> Usuário encontrado: NÃO
+DEBUG - 2026-08-01 19:58:30 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-01 19:58:30 --> === Auth Controller Inicializado ===
+DEBUG - 2026-08-01 19:58:30 --> === Método login chamado ===
+DEBUG - 2026-08-01 19:58:30 --> Método HTTP: GET
+DEBUG - 2026-08-01 19:58:30 --> É AJAX? NÃO
+INFO - 2026-08-01 19:58:38 --> CSRF token verified.
+DEBUG - 2026-08-01 19:58:38 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-01 19:58:38 --> === Auth Controller Inicializado ===
+DEBUG - 2026-08-01 19:58:38 --> === Método login chamado ===
+DEBUG - 2026-08-01 19:58:38 --> Método HTTP: POST
+DEBUG - 2026-08-01 19:58:38 --> É AJAX? SIM
+DEBUG - 2026-08-01 19:58:38 --> Tentando login com email: archer@gmail.com
+DEBUG - 2026-08-01 19:58:38 --> Buscando usuário com email: archer@gmail.com
+DEBUG - 2026-08-01 19:58:38 --> Nenhum usuário encontrado com email: archer@gmail.com
+DEBUG - 2026-08-01 19:58:38 --> Campos da tabela usuarios: ID_Usuario, Email, Senha, Tipo_Usuario, ID_Referencia, Criado_Em
+ERROR - 2026-08-01 19:58:38 --> Campo "email" não encontrado na tabela usuarios!
+DEBUG - 2026-08-01 19:58:38 --> Email existe? NÃO
+DEBUG - 2026-08-01 19:58:38 --> Buscando todos os emails cadastrados...
+DEBUG - 2026-08-01 19:58:38 --> Todos os emails na tabela: admin@hospital.com, ana.costa@hospital.com, archer3@gmail.com, archergomes@gmail.com, beatriz.lima@exemplo.com, janna3@gmail.com, joao.silva@hospital.com, teste@exemplo.com
+DEBUG - 2026-08-01 19:58:38 --> Emails na base: admin@hospital.com, ana.costa@hospital.com, archer3@gmail.com, archergomes@gmail.com, beatriz.lima@exemplo.com, janna3@gmail.com, joao.silva@hospital.com, teste@exemplo.com
+ERROR - 2026-08-01 19:58:38 --> Login falhou: Email não encontrado - archer@gmail.com
+DEBUG - 2026-08-01 20:01:02 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-01 20:01:02 --> === Método login chamado ===
+DEBUG - 2026-08-01 20:01:02 --> Método HTTP: GET
+INFO - 2026-08-01 20:01:09 --> CSRF token verified.
+DEBUG - 2026-08-01 20:01:09 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-01 20:01:09 --> === Método login chamado ===
+DEBUG - 2026-08-01 20:01:09 --> Método HTTP: POST
+DEBUG - 2026-08-01 20:01:09 --> Tentando login com email: archer@gmail.com
+DEBUG - 2026-08-01 20:01:09 --> Buscando usuário com email: archer@gmail.com
+DEBUG - 2026-08-01 20:01:09 --> Nenhum usuário encontrado com email: archer@gmail.com
+ERROR - 2026-08-01 20:01:09 --> Login falhou: Email não encontrado - archer@gmail.com
+DEBUG - 2026-08-01 20:02:52 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-01 20:02:52 --> === Método login chamado ===
+DEBUG - 2026-08-01 20:02:52 --> Método HTTP: GET
+DEBUG - 2026-08-01 20:03:00 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-01 20:03:00 --> === Método login chamado ===
+DEBUG - 2026-08-01 20:03:00 --> Método HTTP: GET
+INFO - 2026-08-01 20:03:06 --> CSRF token verified.
+DEBUG - 2026-08-01 20:03:06 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-01 20:03:06 --> === Método login chamado ===
+DEBUG - 2026-08-01 20:03:06 --> Método HTTP: POST
+DEBUG - 2026-08-01 20:03:06 --> Tentando login com email: admin@hospital.com
+DEBUG - 2026-08-01 20:03:06 --> Buscando usuário com email: admin@hospital.com
+DEBUG - 2026-08-01 20:03:06 --> Usuário encontrado: stdClass Object
+(
+    [ID_Usuario] => 4
+    [Email] => admin@hospital.com
+    [Senha] => $2y$12$3xzlUIGtUBRonFs1FyGkseni7xoZ6fNA89/UQHUoRnNTIyGOQuOYy
+    [Tipo_Usuario] => Admin
+    [ID_Referencia] => 0
+    [Criado_Em] => 2025-09-21 00:24:59
+)
+
+DEBUG - 2026-08-01 20:03:06 --> Usuário encontrado: stdClass Object
+(
+    [ID_Usuario] => 4
+    [Email] => admin@hospital.com
+    [Senha] => $2y$12$3xzlUIGtUBRonFs1FyGkseni7xoZ6fNA89/UQHUoRnNTIyGOQuOYy
+    [Tipo_Usuario] => Admin
+    [ID_Referencia] => 0
+    [Criado_Em] => 2025-09-21 00:24:59
+)
+
+DEBUG - 2026-08-01 20:03:06 --> Dados da sessão: Array
+(
+    [user_id] => 4
+    [email] => admin@hospital.com
+    [tipo_usuario] => Admin
+    [paciente_id] => 0
+    [logged_in] => 1
+)
+
+DEBUG - 2026-08-01 20:03:06 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-01 20:03:08 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-01 20:03:08 --> === Método login chamado ===
+DEBUG - 2026-08-01 20:03:08 --> Método HTTP: GET
+DEBUG - 2026-08-01 20:07:51 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-01 20:07:51 --> === Método login chamado ===
+DEBUG - 2026-08-01 20:07:51 --> Método HTTP: GET
+INFO - 2026-08-01 20:12:23 --> CSRF token verified.
+CRITICAL - 2026-08-01 20:12:23 --> ErrorException: Cannot redeclare App\Controllers\Auth::register()
+[Method: POST, Route: auth/login]
+in APPPATH\Controllers\Auth.php on line 194.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2026-08-01 20:12:30 --> CodeIgniter\Security\Exceptions\SecurityException: The action you requested is not allowed.
+[Method: POST, Route: auth/login]
+in SYSTEMPATH\Security\Security.php on line 258.
+ 1 SYSTEMPATH\Security\Security.php(258): CodeIgniter\Security\Exceptions\SecurityException::forDisallowedAction()
+ 2 SYSTEMPATH\Filters\CSRF.php(52): CodeIgniter\Security\Security->verify(Object(CodeIgniter\HTTP\IncomingRequest))
+ 3 SYSTEMPATH\Filters\Filters.php(241): CodeIgniter\Filters\CSRF->before(Object(CodeIgniter\HTTP\IncomingRequest), null)
+ 4 SYSTEMPATH\Filters\Filters.php(360): CodeIgniter\Filters\Filters->runBefore([...])
+ 5 SYSTEMPATH\CodeIgniter.php(396): CodeIgniter\Filters\Filters->runRequired('before')
+ 6 SYSTEMPATH\CodeIgniter.php(356): CodeIgniter\CodeIgniter->runRequiredBeforeFilters(Object(CodeIgniter\Filters\Filters))
+ 7 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-08-01 20:12:32 --> CodeIgniter\Security\Exceptions\SecurityException: The action you requested is not allowed.
+[Method: POST, Route: auth/login]
+in SYSTEMPATH\Security\Security.php on line 258.
+ 1 SYSTEMPATH\Security\Security.php(258): CodeIgniter\Security\Exceptions\SecurityException::forDisallowedAction()
+ 2 SYSTEMPATH\Filters\CSRF.php(52): CodeIgniter\Security\Security->verify(Object(CodeIgniter\HTTP\IncomingRequest))
+ 3 SYSTEMPATH\Filters\Filters.php(241): CodeIgniter\Filters\CSRF->before(Object(CodeIgniter\HTTP\IncomingRequest), null)
+ 4 SYSTEMPATH\Filters\Filters.php(360): CodeIgniter\Filters\Filters->runBefore([...])
+ 5 SYSTEMPATH\CodeIgniter.php(396): CodeIgniter\Filters\Filters->runRequired('before')
+ 6 SYSTEMPATH\CodeIgniter.php(356): CodeIgniter\CodeIgniter->runRequiredBeforeFilters(Object(CodeIgniter\Filters\Filters))
+ 7 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-08-01 20:12:33 --> CodeIgniter\Security\Exceptions\SecurityException: The action you requested is not allowed.
+[Method: POST, Route: auth/login]
+in SYSTEMPATH\Security\Security.php on line 258.
+ 1 SYSTEMPATH\Security\Security.php(258): CodeIgniter\Security\Exceptions\SecurityException::forDisallowedAction()
+ 2 SYSTEMPATH\Filters\CSRF.php(52): CodeIgniter\Security\Security->verify(Object(CodeIgniter\HTTP\IncomingRequest))
+ 3 SYSTEMPATH\Filters\Filters.php(241): CodeIgniter\Filters\CSRF->before(Object(CodeIgniter\HTTP\IncomingRequest), null)
+ 4 SYSTEMPATH\Filters\Filters.php(360): CodeIgniter\Filters\Filters->runBefore([...])
+ 5 SYSTEMPATH\CodeIgniter.php(396): CodeIgniter\Filters\Filters->runRequired('before')
+ 6 SYSTEMPATH\CodeIgniter.php(356): CodeIgniter\CodeIgniter->runRequiredBeforeFilters(Object(CodeIgniter\Filters\Filters))
+ 7 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-08-01 20:12:33 --> CodeIgniter\Security\Exceptions\SecurityException: The action you requested is not allowed.
+[Method: POST, Route: auth/login]
+in SYSTEMPATH\Security\Security.php on line 258.
+ 1 SYSTEMPATH\Security\Security.php(258): CodeIgniter\Security\Exceptions\SecurityException::forDisallowedAction()
+ 2 SYSTEMPATH\Filters\CSRF.php(52): CodeIgniter\Security\Security->verify(Object(CodeIgniter\HTTP\IncomingRequest))
+ 3 SYSTEMPATH\Filters\Filters.php(241): CodeIgniter\Filters\CSRF->before(Object(CodeIgniter\HTTP\IncomingRequest), null)
+ 4 SYSTEMPATH\Filters\Filters.php(360): CodeIgniter\Filters\Filters->runBefore([...])
+ 5 SYSTEMPATH\CodeIgniter.php(396): CodeIgniter\Filters\Filters->runRequired('before')
+ 6 SYSTEMPATH\CodeIgniter.php(356): CodeIgniter\CodeIgniter->runRequiredBeforeFilters(Object(CodeIgniter\Filters\Filters))
+ 7 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-08-01 20:12:33 --> CodeIgniter\Security\Exceptions\SecurityException: The action you requested is not allowed.
+[Method: POST, Route: auth/login]
+in SYSTEMPATH\Security\Security.php on line 258.
+ 1 SYSTEMPATH\Security\Security.php(258): CodeIgniter\Security\Exceptions\SecurityException::forDisallowedAction()
+ 2 SYSTEMPATH\Filters\CSRF.php(52): CodeIgniter\Security\Security->verify(Object(CodeIgniter\HTTP\IncomingRequest))
+ 3 SYSTEMPATH\Filters\Filters.php(241): CodeIgniter\Filters\CSRF->before(Object(CodeIgniter\HTTP\IncomingRequest), null)
+ 4 SYSTEMPATH\Filters\Filters.php(360): CodeIgniter\Filters\Filters->runBefore([...])
+ 5 SYSTEMPATH\CodeIgniter.php(396): CodeIgniter\Filters\Filters->runRequired('before')
+ 6 SYSTEMPATH\CodeIgniter.php(356): CodeIgniter\CodeIgniter->runRequiredBeforeFilters(Object(CodeIgniter\Filters\Filters))
+ 7 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-08-01 20:12:33 --> CodeIgniter\Security\Exceptions\SecurityException: The action you requested is not allowed.
+[Method: POST, Route: auth/login]
+in SYSTEMPATH\Security\Security.php on line 258.
+ 1 SYSTEMPATH\Security\Security.php(258): CodeIgniter\Security\Exceptions\SecurityException::forDisallowedAction()
+ 2 SYSTEMPATH\Filters\CSRF.php(52): CodeIgniter\Security\Security->verify(Object(CodeIgniter\HTTP\IncomingRequest))
+ 3 SYSTEMPATH\Filters\Filters.php(241): CodeIgniter\Filters\CSRF->before(Object(CodeIgniter\HTTP\IncomingRequest), null)
+ 4 SYSTEMPATH\Filters\Filters.php(360): CodeIgniter\Filters\Filters->runBefore([...])
+ 5 SYSTEMPATH\CodeIgniter.php(396): CodeIgniter\Filters\Filters->runRequired('before')
+ 6 SYSTEMPATH\CodeIgniter.php(356): CodeIgniter\CodeIgniter->runRequiredBeforeFilters(Object(CodeIgniter\Filters\Filters))
+ 7 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-08-01 20:12:34 --> CodeIgniter\Security\Exceptions\SecurityException: The action you requested is not allowed.
+[Method: POST, Route: auth/login]
+in SYSTEMPATH\Security\Security.php on line 258.
+ 1 SYSTEMPATH\Security\Security.php(258): CodeIgniter\Security\Exceptions\SecurityException::forDisallowedAction()
+ 2 SYSTEMPATH\Filters\CSRF.php(52): CodeIgniter\Security\Security->verify(Object(CodeIgniter\HTTP\IncomingRequest))
+ 3 SYSTEMPATH\Filters\Filters.php(241): CodeIgniter\Filters\CSRF->before(Object(CodeIgniter\HTTP\IncomingRequest), null)
+ 4 SYSTEMPATH\Filters\Filters.php(360): CodeIgniter\Filters\Filters->runBefore([...])
+ 5 SYSTEMPATH\CodeIgniter.php(396): CodeIgniter\Filters\Filters->runRequired('before')
+ 6 SYSTEMPATH\CodeIgniter.php(356): CodeIgniter\CodeIgniter->runRequiredBeforeFilters(Object(CodeIgniter\Filters\Filters))
+ 7 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-08-01 20:12:34 --> CodeIgniter\Security\Exceptions\SecurityException: The action you requested is not allowed.
+[Method: POST, Route: auth/login]
+in SYSTEMPATH\Security\Security.php on line 258.
+ 1 SYSTEMPATH\Security\Security.php(258): CodeIgniter\Security\Exceptions\SecurityException::forDisallowedAction()
+ 2 SYSTEMPATH\Filters\CSRF.php(52): CodeIgniter\Security\Security->verify(Object(CodeIgniter\HTTP\IncomingRequest))
+ 3 SYSTEMPATH\Filters\Filters.php(241): CodeIgniter\Filters\CSRF->before(Object(CodeIgniter\HTTP\IncomingRequest), null)
+ 4 SYSTEMPATH\Filters\Filters.php(360): CodeIgniter\Filters\Filters->runBefore([...])
+ 5 SYSTEMPATH\CodeIgniter.php(396): CodeIgniter\Filters\Filters->runRequired('before')
+ 6 SYSTEMPATH\CodeIgniter.php(356): CodeIgniter\CodeIgniter->runRequiredBeforeFilters(Object(CodeIgniter\Filters\Filters))
+ 7 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
