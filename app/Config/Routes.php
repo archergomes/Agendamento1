@@ -122,3 +122,53 @@ $routes->get('admin/get_appointments', 'Admin::getAppointments');
 $routes->post('admin/get_appointment_details', 'Admin::getAppointmentDetails');
 $routes->post('admin/delete_appointment', 'Admin::deleteAppointment');
 $routes->post('admin/cancel_appointment', 'Admin::cancelAppointment');
+
+// Rotas para médicos
+$routes->get('admin/get_doctors', 'Admin::getDoctors');
+$routes->post('admin/get_doctor_details', 'Admin::getDoctorDetails');
+$routes->post('admin/delete_doctor', 'Admin::deleteDoctor');
+$routes->post('admin/update_doctor', 'Admin::updateDoctor');
+
+// Rotas para secretários
+$routes->get('admin/get_secretaries', 'Admin::getSecretaries');
+$routes->post('admin/get_secretary_details', 'Admin::getSecretaryDetails');
+$routes->post('admin/delete_secretary', 'Admin::deleteSecretary');
+$routes->post('admin/update_secretary', 'Admin::updateSecretary');
+
+// Rotas para agendamentos
+$routes->get('admin/get_appointments', 'Admin::getAppointments');
+$routes->post('admin/get_appointment_details', 'Admin::getAppointmentDetails');
+$routes->post('admin/delete_appointment', 'Admin::deleteAppointment');
+$routes->post('admin/cancel_appointment', 'Admin::cancelAppointment');
+$routes->post('admin/update_appointment', 'Admin::updateAppointment');
+
+// Rotas para cadastro de pacientes
+$routes->post('admin/create_patient', 'Admin::createPatient');
+
+// Rotas para secretários
+$routes->post('admin/create_secretary', 'Admin::createSecretary');
+$routes->post('admin/update_secretary', 'Admin::updateSecretary');
+
+// Rotas para médicos
+$routes->post('admin/create_doctor', 'Admin::createDoctor');
+
+// Rotas para relatórios
+$routes->post('admin/get_report_data', 'Admin::getReportData');
+$routes->post('admin/export_report', 'Admin::exportReport');
+
+// Rotas para configurações
+$routes->post('admin/save_hospital_config', 'Admin::saveHospitalConfig');
+$routes->post('admin/save_system_config', 'Admin::saveSystemConfig');
+$routes->post('admin/save_schedule_config', 'Admin::saveScheduleConfig');
+$routes->post('admin/delete_user', 'Admin::deleteUser');
+$routes->get('admin/add_user', 'Admin::addUser');
+$routes->get('admin/edit_user', 'Admin::editUser');
+
+// Rotas para disponibilidade
+$routes->get('admin/disponibilidade', 'Admin::disponibilidade');
+$routes->post('admin/save_schedule', 'Admin::saveSchedule');
+$routes->post('admin/delete_schedule', 'Admin::deleteSchedule');
+
+// Rotas para agendamentos
+$routes->get('admin/cad_agendamento', 'Admin::cadAgendamento');
+$routes->post('admin/create_appointment', 'Admin::createAppointment');

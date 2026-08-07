@@ -43,24 +43,28 @@ class Filters extends BaseConfig
                     'admin/get_patient_details',
                     'admin/delete_patient',
                     'admin/update_patient',
+                    'admin/create_patient',
                     
                     // Rotas de médicos
                     'admin/get_doctors',
                     'admin/get_doctor_details',
                     'admin/delete_doctor',
                     'admin/update_doctor',
+                    'admin/create_doctor',
                     
                     // Rotas de secretários
                     'admin/get_secretaries',
                     'admin/get_secretary_details',
                     'admin/delete_secretary',
                     'admin/update_secretary',
+                    'admin/create_secretary',
                     
                     // Rotas de agendamentos
                     'admin/get_appointments',
                     'admin/get_appointment_details',
                     'admin/delete_appointment',
                     'admin/cancel_appointment',
+                    'admin/update_appointment',
                     
                     // Rotas de métricas e gráficos
                     'admin/metrics',
@@ -68,7 +72,11 @@ class Filters extends BaseConfig
                     'admin/chart_appointments_trend',
                     'admin/chart_appointments_status',
                     'admin/chart_doctors_specialty',
-                    'admin/chart_patients_monthly'
+                    'admin/chart_patients_monthly',
+                    
+                    // Rotas de relatórios - ADICIONAR ESTAS
+                    'admin/get_report_data',
+                    'admin/export_report'
                 ]
             ],
         ],

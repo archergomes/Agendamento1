@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pacientes - Administrador - Hospital Matlhovele</title>
-    <meta name="description" content="Gerenciar pacientes no Hospital Público de Matlhovele">
+    <title>Secretários - Administrador - Hospital Matlhovele</title>
+    <meta name="description" content="Gerenciar secretários no Hospital Público de Matlhovele">
     <meta name="csrf-token" content="<?= csrf_hash(); ?>">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
@@ -441,6 +441,39 @@
             transform: translateY(-1px);
         }
 
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .pagination button {
+            padding: 0.4rem 0.8rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+            background: white;
+            color: #374151;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.875rem;
+        }
+        .pagination button:hover:not(:disabled) {
+            background-color: var(--brand-500);
+            color: white;
+            border-color: var(--brand-500);
+        }
+        .pagination button.active {
+            background-color: var(--brand-500);
+            color: white;
+            border-color: var(--brand-500);
+        }
+        .pagination button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
         @media (max-width: 640px) {
             .main-content { padding: 0.5rem; }
             table { font-size: 0.75rem; }
@@ -448,6 +481,7 @@
             .pulse-line { display: none; }
             .btn-sm { font-size: 0.65rem; padding: 0.2rem 0.5rem; }
             .modal-content { padding: 1rem; }
+            .pagination button { padding: 0.3rem 0.6rem; font-size: 0.75rem; }
         }
     </style>
 </head>
@@ -475,9 +509,9 @@
         <nav class="sidebar-nav">
             <div class="main-menu">
                 <a href="<?= site_url('admin') ?>"><i class="fas fa-chart-pie"></i><span class="sidebar-text">Dashboard</span></a>
-                <a href="<?= site_url('admin/pacientes') ?>" class="active"><i class="fas fa-users"></i><span class="sidebar-text">Pacientes</span></a>
+                <a href="<?= site_url('admin/pacientes') ?>"><i class="fas fa-users"></i><span class="sidebar-text">Pacientes</span></a>
                 <a href="<?= site_url('admin/medicos') ?>"><i class="fas fa-user-md"></i><span class="sidebar-text">Médicos</span></a>
-                <a href="<?= site_url('admin/secretarios') ?>"><i class="fas fa-user-tie"></i><span class="sidebar-text">Secretários</span></a>
+                <a href="<?= site_url('admin/secretarios') ?>" class="active"><i class="fas fa-user-tie"></i><span class="sidebar-text">Secretários</span></a>
                 <a href="<?= site_url('admin/agendamentos') ?>"><i class="fas fa-calendar-check"></i><span class="sidebar-text">Agendamentos</span></a>
                 <a href="<?= site_url('admin/disponibilidade') ?>"><i class="fas fa-calendar-alt"></i><span class="sidebar-text">Disponibilidade</span></a>
                 <a href="<?= site_url('admin/relatorios') ?>"><i class="fas fa-chart-bar"></i><span class="sidebar-text">Relatórios</span></a>
@@ -518,11 +552,11 @@
             <div class="container mx-auto px-4 py-8">
                 <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
                     <div>
-                        <h2 class="text-2xl font-semibold text-gray-800">Lista de Pacientes</h2>
-                        <p class="text-gray-500 text-sm">Gerencie todos os pacientes cadastrados</p>
+                        <h2 class="text-2xl font-semibold text-gray-800">Lista de Secretários</h2>
+                        <p class="text-gray-500 text-sm">Gerencie todos os secretários cadastrados</p>
                     </div>
-                    <a href="<?= site_url('admin/cad_paciente') ?>" class="btn-primary">
-                        <i class="fas fa-user-plus mr-2"></i> Cadastrar Paciente
+                    <a href="<?= site_url('admin/cad_secretario') ?>" class="btn-primary">
+                        <i class="fas fa-user-plus mr-2"></i> Cadastrar Secretário
                     </a>
                 </div>
 
@@ -530,11 +564,11 @@
                 <div class="mb-6">
                     <div class="search-box max-w-lg">
                         <i class="fas fa-search"></i>
-                        <input type="text" id="search-input" placeholder="Pesquisar por nome, BI ou telefone..." aria-label="Pesquisar">
+                        <input type="text" id="search-input" placeholder="Pesquisar por nome ou email..." aria-label="Pesquisar">
                     </div>
                 </div>
 
-                <!-- Patients Table -->
+                <!-- Secretaries Table -->
                 <div class="card-panel">
                     <div class="table-container">
                         <table>
@@ -542,64 +576,25 @@
                                 <tr>
                                     <th>Nome</th>
                                     <th>Telefone</th>
-                                    <th>BI</th>
                                     <th>Email</th>
-                                    <th>Data Nasc.</th>
-                                    <th>Género</th>
+                                    <th>Cargo</th>
                                     <th class="text-center">Ações</th>
                                 </tr>
                             </thead>
-                            <tbody id="patients-table">
-                                <?php if (empty($pacientes)): ?>
-                                    <tr>
-                                        <td colspan="7" class="empty-state">
-                                            <i class="fas fa-users"></i>
-                                            <p class="text-lg font-medium mb-2">Nenhum paciente encontrado</p>
-                                            <p class="text-gray-500 mb-4">Comece cadastrando o primeiro paciente.</p>
-                                            <a href="<?= site_url('admin/cad_paciente') ?>" class="btn-primary inline-flex">
-                                                <i class="fas fa-user-plus mr-2"></i> Cadastrar Paciente
-                                            </a>
-                                        </td>
-                                    </tr>
-                                <?php else: ?>
-                                    <?php foreach ($pacientes as $paciente): ?>
-                                        <tr>
-                                            <td class="font-medium"><?= htmlspecialchars($paciente->Nome . ' ' . $paciente->Sobrenome) ?></td>
-                                            <td><?= htmlspecialchars($paciente->Telefone ?? '-') ?></td>
-                                            <td><span class="font-mono text-sm"><?= htmlspecialchars($paciente->BI ?? '-') ?></span></td>
-                                            <td><?= htmlspecialchars($paciente->email ?? '-') ?></td>
-                                            <td><?= isset($paciente->Data_Nascimento) ? date('d/m/Y', strtotime($paciente->Data_Nascimento)) : '-' ?></td>
-                                            <td><?= htmlspecialchars($paciente->Genero ?? '-') ?></td>
-                                            <td class="text-center">
-                                                <div class="flex justify-center gap-1">
-                                                    <button class="btn-sm btn-view view-btn" 
-                                                            data-bi="<?= htmlspecialchars($paciente->BI ?? '') ?>" 
-                                                            title="Ver Detalhes">
-                                                        <i class="fas fa-eye"></i>
-                                                    </button>
-                                                    <button class="btn-sm btn-edit edit-btn" 
-                                                            data-bi="<?= htmlspecialchars($paciente->BI ?? '') ?>" 
-                                                            title="Editar">
-                                                        <i class="fas fa-edit"></i>
-                                                    </button>
-                                                    <button class="btn-sm btn-danger delete-btn" 
-                                                            data-bi="<?= htmlspecialchars($paciente->BI ?? '') ?>" 
-                                                            data-name="<?= htmlspecialchars($paciente->Nome . ' ' . $paciente->Sobrenome) ?>"
-                                                            title="Excluir">
-                                                        <i class="fas fa-trash"></i>
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    <?php endforeach; ?>
-                                <?php endif; ?>
+                            <tbody id="secretaries-table">
+                                <tr>
+                                    <td colspan="5" class="text-center py-8">
+                                        <span class="loading-spinner"></span> Carregando...
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
                     <div id="no-results" class="hidden text-center py-8 text-gray-500">
                         <i class="fas fa-search text-2xl block mb-2 text-gray-300"></i>
-                        Nenhum paciente encontrado para a pesquisa.
+                        Nenhum secretário encontrado para a pesquisa.
                     </div>
+                    <div id="pagination-container" class="pagination"></div>
                 </div>
             </div>
         </main>
@@ -611,7 +606,7 @@
     <div id="view-modal" class="modal-overlay">
         <div class="modal-content">
             <div class="modal-header">
-                <h3><i class="fas fa-user-circle text-blue-500 mr-2"></i>Detalhes do Paciente</h3>
+                <h3><i class="fas fa-user-circle text-blue-500 mr-2"></i>Detalhes do Secretário</h3>
                 <button class="modal-close" onclick="closeModal('view-modal')">&times;</button>
             </div>
             <div class="modal-body" id="view-modal-body">
@@ -630,11 +625,11 @@
     <div id="edit-modal" class="modal-overlay">
         <div class="modal-content">
             <div class="modal-header">
-                <h3><i class="fas fa-user-edit text-green-500 mr-2"></i>Editar Paciente</h3>
+                <h3><i class="fas fa-user-edit text-green-500 mr-2"></i>Editar Secretário</h3>
                 <button class="modal-close" onclick="closeModal('edit-modal')">&times;</button>
             </div>
             <form id="edit-form" onsubmit="saveEdit(event)">
-                <input type="hidden" id="edit-bi" name="bi">
+                <input type="hidden" id="edit-id" name="id">
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="edit-nome">Nome Completo <span class="text-red-500">*</span></label>
@@ -651,16 +646,12 @@
                         </p>
                     </div>
                     <div class="form-group">
-                        <label for="edit-bi-display">BI</label>
-                        <input type="text" id="edit-bi-display" readonly class="bg-gray-100">
+                        <label for="edit-email">Email <span class="text-red-500">*</span></label>
+                        <input type="email" id="edit-email" name="email" required placeholder="exemplo@email.com">
                     </div>
                     <div class="form-group">
-                        <label for="edit-email">Email</label>
-                        <input type="email" id="edit-email" name="email" placeholder="exemplo@email.com">
-                    </div>
-                    <div class="form-group">
-                        <label for="edit-endereco">Endereço</label>
-                        <input type="text" id="edit-endereco" name="endereco" placeholder="Endereço completo">
+                        <label for="edit-cargo">Cargo <span class="text-red-500">*</span></label>
+                        <input type="text" id="edit-cargo" name="cargo" required placeholder="Ex: Secretário, Recepcionista, etc.">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -685,7 +676,7 @@
                     <i class="fas fa-trash-alt"></i>
                 </div>
                 <div id="confirm-delete-message">
-                    <p class="text-gray-600">Tem certeza que deseja excluir este paciente?</p>
+                    <p class="text-gray-600">Tem certeza que deseja excluir este secretário?</p>
                     <p class="text-sm text-red-500 mt-2"><i class="fas fa-info-circle mr-1"></i>Esta ação não pode ser desfeita.</p>
                 </div>
             </div>
@@ -811,11 +802,19 @@
             });
         });
 
-        // ==================== VIEW PATIENT ====================
-        let currentViewBi = null;
+        // ==================== VARIÁVEIS ====================
+        let allSecretaries = [];
+        let filteredSecretaries = [];
+        let currentPage = 1;
+        const secretariesPerPage = 10;
+        let isSearching = false;
+        let currentViewId = null;
+        let deleteId = null;
+        let deleteName = null;
 
-        function viewPatient(bi) {
-            currentViewBi = bi;
+        // ==================== VIEW SECRETARY ====================
+        function viewSecretary(id) {
+            currentViewId = id;
             const modalBody = document.getElementById('view-modal-body');
             modalBody.innerHTML = `
                 <div class="text-center py-4">
@@ -827,10 +826,10 @@
             const csrfName = getCsrfName();
             
             const formData = new FormData();
-            formData.append('bi', bi);
+            formData.append('id', id);
             formData.append(csrfName, csrfToken);
 
-            fetch('<?= site_url('admin/get_patient_details') ?>', {
+            fetch('<?= site_url('admin/get_secretary_details') ?>', {
                 method: 'POST',
                 headers: { 'X-Requested-With': 'XMLHttpRequest' },
                 body: formData
@@ -855,39 +854,27 @@
                     return;
                 }
 
-                const patient = data;
+                const secretary = data;
                 modalBody.innerHTML = `
                     <div class="detail-row">
                         <span class="detail-label"><i class="fas fa-user mr-1"></i>Nome</span>
-                        <span class="detail-value font-medium">${patient.name || 'N/A'}</span>
+                        <span class="detail-value font-medium">${secretary.name || 'N/A'}</span>
                     </div>
                     <div class="detail-row">
                         <span class="detail-label"><i class="fas fa-phone mr-1"></i>Telefone</span>
-                        <span class="detail-value">${formatMozambicanPhone(patient.phone)}</span>
-                    </div>
-                    <div class="detail-row">
-                        <span class="detail-label"><i class="fas fa-id-card mr-1"></i>BI</span>
-                        <span class="detail-value font-mono">${patient.bi || 'N/A'}</span>
+                        <span class="detail-value">${formatMozambicanPhone(secretary.phone)}</span>
                     </div>
                     <div class="detail-row">
                         <span class="detail-label"><i class="fas fa-envelope mr-1"></i>Email</span>
-                        <span class="detail-value">${patient.email || 'N/A'}</span>
+                        <span class="detail-value">${secretary.email || 'N/A'}</span>
                     </div>
                     <div class="detail-row">
-                        <span class="detail-label"><i class="fas fa-calendar-alt mr-1"></i>Data Nascimento</span>
-                        <span class="detail-value">${patient.birthday || 'N/A'}</span>
-                    </div>
-                    <div class="detail-row">
-                        <span class="detail-label"><i class="fas fa-venus-mars mr-1"></i>Género</span>
-                        <span class="detail-value">${patient.gender || 'N/A'}</span>
-                    </div>
-                    <div class="detail-row">
-                        <span class="detail-label"><i class="fas fa-map-marker-alt mr-1"></i>Endereço</span>
-                        <span class="detail-value">${patient.address || 'N/A'}</span>
+                        <span class="detail-label"><i class="fas fa-briefcase mr-1"></i>Cargo</span>
+                        <span class="detail-value font-medium text-teal-600">${secretary.cargo || 'N/A'}</span>
                     </div>
                     <div class="detail-row">
                         <span class="detail-label"><i class="fas fa-calendar-plus mr-1"></i>Cadastrado em</span>
-                        <span class="detail-value">${patient.created_at || 'N/A'}</span>
+                        <span class="detail-value">${secretary.created_at || 'N/A'}</span>
                     </div>
                 `;
                 openModal('view-modal');
@@ -897,7 +884,7 @@
                 modalBody.innerHTML = `
                     <div class="text-center py-4 text-red-500">
                         <i class="fas fa-exclamation-circle text-2xl block mb-2"></i>
-                        ${error.message || 'Erro ao carregar dados do paciente.'}
+                        ${error.message || 'Erro ao carregar dados do secretário.'}
                     </div>
                 `;
                 if (error.message.includes('403') || error.message.includes('expirado')) {
@@ -908,20 +895,19 @@
 
         // ==================== EDIT FROM VIEW ====================
         function editFromView() {
-            if (currentViewBi) {
+            if (currentViewId) {
                 closeModal('view-modal');
-                setTimeout(() => editPatient(currentViewBi), 300);
+                setTimeout(() => editSecretary(currentViewId), 300);
             }
         }
 
-        // ==================== EDIT PATIENT ====================
-        function editPatient(bi) {
-            document.getElementById('edit-bi').value = bi;
-            document.getElementById('edit-bi-display').value = bi;
+        // ==================== EDIT SECRETARY ====================
+        function editSecretary(id) {
+            document.getElementById('edit-id').value = id;
             document.getElementById('edit-nome').value = '';
             document.getElementById('edit-telefone').value = '';
             document.getElementById('edit-email').value = '';
-            document.getElementById('edit-endereco').value = '';
+            document.getElementById('edit-cargo').value = '';
 
             document.getElementById('edit-telefone').classList.remove('input-success', 'input-error');
 
@@ -929,10 +915,10 @@
             const csrfName = getCsrfName();
             
             const formData = new FormData();
-            formData.append('bi', bi);
+            formData.append('id', id);
             formData.append(csrfName, csrfToken);
 
-            fetch('<?= site_url('admin/get_patient_details') ?>', {
+            fetch('<?= site_url('admin/get_secretary_details') ?>', {
                 method: 'POST',
                 headers: { 'X-Requested-With': 'XMLHttpRequest' },
                 body: formData
@@ -952,13 +938,13 @@
                     return;
                 }
 
-                const patient = data;
-                document.getElementById('edit-nome').value = patient.name || '';
-                document.getElementById('edit-telefone').value = patient.phone || '';
-                document.getElementById('edit-email').value = patient.email || '';
-                document.getElementById('edit-endereco').value = patient.address || '';
+                const secretary = data;
+                document.getElementById('edit-nome').value = secretary.name || '';
+                document.getElementById('edit-telefone').value = secretary.phone || '';
+                document.getElementById('edit-email').value = secretary.email || '';
+                document.getElementById('edit-cargo').value = secretary.cargo || '';
                 
-                if (patient.phone && validateMozambicanPhone(patient.phone)) {
+                if (secretary.phone && validateMozambicanPhone(secretary.phone)) {
                     document.getElementById('edit-telefone').classList.add('input-success');
                 }
                 
@@ -974,16 +960,18 @@
         function saveEdit(event) {
             event.preventDefault();
 
-            const bi = document.getElementById('edit-bi').value;
+            const id = document.getElementById('edit-id').value;
             const nome = document.getElementById('edit-nome').value.trim();
             const telefone = document.getElementById('edit-telefone').value.trim();
             const email = document.getElementById('edit-email').value.trim();
-            const endereco = document.getElementById('edit-endereco').value.trim();
+            const cargo = document.getElementById('edit-cargo').value.trim();
 
-            if (!nome || !telefone) {
-                showNotification('Nome e telefone são obrigatórios.', 'error');
+            if (!nome || !telefone || !email || !cargo) {
+                showNotification('Todos os campos são obrigatórios.', 'error');
                 if (!nome) document.getElementById('edit-nome').classList.add('input-error');
                 if (!telefone) document.getElementById('edit-telefone').classList.add('input-error');
+                if (!email) document.getElementById('edit-email').classList.add('input-error');
+                if (!cargo) document.getElementById('edit-cargo').classList.add('input-error');
                 return;
             }
 
@@ -1002,6 +990,8 @@
 
             document.getElementById('edit-nome').classList.remove('input-error');
             document.getElementById('edit-telefone').classList.remove('input-error');
+            document.getElementById('edit-email').classList.remove('input-error');
+            document.getElementById('edit-cargo').classList.remove('input-error');
 
             const telefoneLimpo = cleanPhoneForDatabase(telefone);
 
@@ -1009,18 +999,18 @@
             const csrfName = getCsrfName();
             
             const formData = new FormData();
-            formData.append('bi', bi);
+            formData.append('id', id);
             formData.append('nome', nome);
             formData.append('telefone', telefoneLimpo);
             formData.append('email', email);
-            formData.append('endereco', endereco);
+            formData.append('cargo', cargo);
             formData.append(csrfName, csrfToken);
 
             const btn = document.getElementById('save-edit-btn');
             btn.disabled = true;
             btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-1"></i>Salvando...';
 
-            fetch('<?= site_url('admin/update_patient') ?>', {
+            fetch('<?= site_url('admin/update_secretary') ?>', {
                 method: 'POST',
                 headers: { 'X-Requested-With': 'XMLHttpRequest' },
                 body: formData
@@ -1035,34 +1025,31 @@
                     return;
                 }
 
-                showNotification(data.success || 'Paciente atualizado com sucesso!', 'success');
+                showNotification(data.success || 'Secretário atualizado com sucesso!', 'success');
                 closeModal('edit-modal');
-                loadPatients(document.getElementById('search-input')?.value || '');
+                loadSecretaries(document.getElementById('search-input')?.value || '');
             })
             .catch(error => {
                 console.error('Erro:', error);
                 btn.disabled = false;
                 btn.innerHTML = '<i class="fas fa-save mr-1"></i>Salvar Alterações';
-                showNotification('Erro ao atualizar paciente: ' + error.message, 'error');
+                showNotification('Erro ao atualizar secretário: ' + error.message, 'error');
             });
         }
 
         // ==================== CONFIRM DELETE ====================
-        let deleteBi = null;
-        let deleteName = null;
-
-        function confirmDelete(bi, name) {
-            if (!bi) {
-                showNotification('BI do paciente não encontrado.', 'error');
+        function confirmDelete(id, name) {
+            if (!id) {
+                showNotification('ID do secretário não encontrado.', 'error');
                 return;
             }
-            deleteBi = bi;
+            deleteId = id;
             deleteName = name;
             
             const modal = document.getElementById('confirm-delete-modal');
             const message = document.getElementById('confirm-delete-message');
             message.innerHTML = `
-                <p class="text-gray-600">Tem certeza que deseja excluir o paciente <strong>"${name}"</strong>?</p>
+                <p class="text-gray-600">Tem certeza que deseja excluir o secretário <strong>"${name}"</strong>?</p>
                 <p class="text-sm text-red-500 mt-2"><i class="fas fa-info-circle mr-1"></i>Esta ação não pode ser desfeita.</p>
             `;
             modal.classList.add('show');
@@ -1072,24 +1059,24 @@
         function closeConfirmModal() {
             document.getElementById('confirm-delete-modal').classList.remove('show');
             document.body.style.overflow = 'auto';
-            deleteBi = null;
+            deleteId = null;
             deleteName = null;
         }
 
         document.getElementById('confirm-delete-btn').addEventListener('click', function() {
-            if (!deleteBi) return;
+            if (!deleteId) return;
 
             const csrfToken = getCsrfToken();
             const csrfName = getCsrfName();
             
             const formData = new FormData();
-            formData.append('bi', deleteBi);
+            formData.append('id', deleteId);
             formData.append(csrfName, csrfToken);
 
             this.disabled = true;
             this.innerHTML = '<i class="fas fa-spinner fa-spin mr-1"></i>Excluindo...';
 
-            fetch('<?= site_url('admin/delete_patient') ?>', {
+            fetch('<?= site_url('admin/delete_secretary') ?>', {
                 method: 'POST',
                 headers: { 'X-Requested-With': 'XMLHttpRequest' },
                 body: formData
@@ -1111,99 +1098,155 @@
                     showNotification(data.error, 'error');
                     return;
                 }
-                showNotification(data.success || 'Paciente excluído com sucesso!', 'success');
+                showNotification(data.success || 'Secretário excluído com sucesso!', 'success');
                 closeConfirmModal();
-                loadPatients(document.getElementById('search-input')?.value || '');
+                loadSecretaries(document.getElementById('search-input')?.value || '');
             })
             .catch(error => {
                 console.error('Erro ao excluir:', error);
                 this.disabled = false;
                 this.innerHTML = '<i class="fas fa-trash mr-1"></i>Sim, Excluir';
-                showNotification(error.message || 'Erro ao excluir paciente.', 'error');
+                showNotification(error.message || 'Erro ao excluir secretário.', 'error');
                 closeConfirmModal();
             });
         });
 
-        // ==================== RENDER TABLE ====================
-        function renderTable(patients) {
-            const tableBody = document.getElementById('patients-table');
-            const noResults = document.getElementById('no-results');
-            if (!tableBody) return;
+        // ==================== PAGINATION ====================
+        function renderPagination(totalPages) {
+            const container = document.getElementById('pagination-container');
+            if (!container) return;
 
-            if (!patients || patients.length === 0) {
+            container.innerHTML = '';
+
+            const prevBtn = document.createElement('button');
+            prevBtn.textContent = 'Anterior';
+            prevBtn.disabled = currentPage === 1;
+            prevBtn.addEventListener('click', () => {
+                if (currentPage > 1) {
+                    currentPage--;
+                    renderCurrentList();
+                }
+            });
+            container.appendChild(prevBtn);
+
+            for (let i = 1; i <= totalPages; i++) {
+                const btn = document.createElement('button');
+                btn.textContent = i;
+                btn.classList.toggle('active', i === currentPage);
+                btn.addEventListener('click', () => {
+                    currentPage = i;
+                    renderCurrentList();
+                });
+                container.appendChild(btn);
+            }
+
+            const nextBtn = document.createElement('button');
+            nextBtn.textContent = 'Próxima';
+            nextBtn.disabled = currentPage === totalPages;
+            nextBtn.addEventListener('click', () => {
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    renderCurrentList();
+                }
+            });
+            container.appendChild(nextBtn);
+        }
+
+        // ==================== RENDER TABLE ====================
+        function renderCurrentList() {
+            const secretariesList = isSearching ? filteredSecretaries : allSecretaries;
+            renderTable(secretariesList);
+        }
+
+        function renderTable(secretariesList) {
+            const tableBody = document.getElementById('secretaries-table');
+            const noResults = document.getElementById('no-results');
+            const paginationContainer = document.getElementById('pagination-container');
+            if (!tableBody || !noResults || !paginationContainer) return;
+
+            const startIndex = (currentPage - 1) * secretariesPerPage;
+            const endIndex = startIndex + secretariesPerPage;
+            const paginatedSecretaries = secretariesList.slice(startIndex, endIndex);
+
+            tableBody.innerHTML = '';
+            if (secretariesList.length === 0) {
                 tableBody.innerHTML = `
                     <tr>
-                        <td colspan="7" class="empty-state">
-                            <i class="fas fa-users"></i>
-                            <p class="text-lg font-medium mb-2">Nenhum paciente encontrado</p>
-                            <p class="text-gray-500 mb-4">Tente uma busca diferente ou cadastre um novo paciente.</p>
-                            <a href="<?= site_url('admin/cad_paciente') ?>" class="btn-primary inline-flex">
-                                <i class="fas fa-user-plus mr-2"></i> Cadastrar Paciente
+                        <td colspan="5" class="empty-state">
+                            <i class="fas fa-user-tie"></i>
+                            <p class="text-lg font-medium mb-2">Nenhum secretário encontrado</p>
+                            <p class="text-gray-500 mb-4">Tente uma busca diferente ou cadastre um novo secretário.</p>
+                            <a href="<?= site_url('admin/cad_secretario') ?>" class="btn-primary inline-flex">
+                                <i class="fas fa-user-plus mr-2"></i> Cadastrar Secretário
                             </a>
                         </td>
                     </tr>
                 `;
-                if (noResults) noResults.classList.add('hidden');
+                noResults.classList.add('hidden');
+                paginationContainer.innerHTML = '';
                 return;
             }
 
-            if (noResults) noResults.classList.add('hidden');
-
-            tableBody.innerHTML = patients.map(patient => `
-                <tr>
-                    <td class="font-medium">${patient.name || 'N/A'}</td>
-                    <td>${formatMozambicanPhone(patient.phone)}</td>
-                    <td><span class="font-mono text-sm">${patient.bi || '-'}</span></td>
-                    <td>${patient.email || '-'}</td>
-                    <td>${patient.birthday || '-'}</td>
-                    <td>${patient.gender || '-'}</td>
+            noResults.classList.add('hidden');
+            paginatedSecretaries.forEach(secretary => {
+                const row = document.createElement('tr');
+                row.className = 'border-t';
+                row.innerHTML = `
+                    <td class="font-medium">${secretary.name || 'N/A'}</td>
+                    <td>${formatMozambicanPhone(secretary.phone)}</td>
+                    <td>${secretary.email || '-'}</td>
+                    <td><span class="text-teal-600 font-medium">${secretary.cargo || '-'}</span></td>
                     <td class="text-center">
                         <div class="flex justify-center gap-1">
-                            <button class="btn-sm btn-view view-btn" data-bi="${patient.bi}" title="Ver Detalhes">
+                            <button class="btn-sm btn-view view-btn" data-id="${secretary.id}" title="Ver Detalhes">
                                 <i class="fas fa-eye"></i>
                             </button>
-                            <button class="btn-sm btn-edit edit-btn" data-bi="${patient.bi}" title="Editar">
+                            <button class="btn-sm btn-edit edit-btn" data-id="${secretary.id}" title="Editar">
                                 <i class="fas fa-edit"></i>
                             </button>
                             <button class="btn-sm btn-danger delete-btn" 
-                                    data-bi="${patient.bi}" 
-                                    data-name="${patient.name}"
+                                    data-id="${secretary.id}" 
+                                    data-name="${secretary.name}"
                                     title="Excluir">
                                 <i class="fas fa-trash"></i>
                             </button>
                         </div>
                     </td>
-                </tr>
-            `).join('');
+                `;
+                tableBody.appendChild(row);
+            });
+
+            const totalPages = Math.ceil(secretariesList.length / secretariesPerPage);
+            renderPagination(totalPages);
 
             document.querySelectorAll('.view-btn').forEach(btn => {
                 btn.addEventListener('click', function() {
-                    viewPatient(this.dataset.bi);
+                    viewSecretary(this.dataset.id);
                 });
             });
 
             document.querySelectorAll('.edit-btn').forEach(btn => {
                 btn.addEventListener('click', function() {
-                    editPatient(this.dataset.bi);
+                    editSecretary(this.dataset.id);
                 });
             });
 
             document.querySelectorAll('.delete-btn').forEach(btn => {
                 btn.addEventListener('click', function() {
-                    const bi = this.dataset.bi;
+                    const id = this.dataset.id;
                     const name = this.dataset.name;
-                    confirmDelete(bi, name);
+                    confirmDelete(id, name);
                 });
             });
         }
 
-        // ==================== LOAD PATIENTS ====================
-        async function loadPatients(query = '') {
-            const tableBody = document.getElementById('patients-table');
+        // ==================== LOAD SECRETARIES ====================
+        async function loadSecretaries(query = '') {
+            const tableBody = document.getElementById('secretaries-table');
             if (tableBody) {
                 tableBody.innerHTML = `
                     <tr>
-                        <td colspan="7" class="text-center py-8">
+                        <td colspan="5" class="text-center py-8">
                             <span class="loading-spinner"></span> Carregando...
                         </td>
                     </tr>
@@ -1211,7 +1254,7 @@
             }
 
             try {
-                const url = AJAX_URL + '/admin/get_patients' + (query ? `?query=${encodeURIComponent(query)}` : '');
+                const url = AJAX_URL + '/admin/get_secretaries' + (query ? `?query=${encodeURIComponent(query)}` : '');
                 const response = await fetch(url, {
                     headers: { 'X-Requested-With': 'XMLHttpRequest' }
                 });
@@ -1223,11 +1266,30 @@
                     return;
                 }
 
-                renderTable(data);
+                if (query === '') {
+                    allSecretaries = data;
+                    isSearching = false;
+                } else {
+                    filteredSecretaries = data;
+                    isSearching = true;
+                }
+                currentPage = 1;
+                renderCurrentList();
             } catch (error) {
-                console.error('Erro ao carregar pacientes:', error);
-                showNotification('Erro ao carregar pacientes.', 'error');
+                console.error('Erro ao carregar secretários:', error);
+                showNotification('Erro ao carregar secretários.', 'error');
                 renderTable([]);
+            }
+        }
+
+        // ==================== HANDLE SEARCH ====================
+        function handleSearch(query) {
+            if (query === '') {
+                isSearching = false;
+                currentPage = 1;
+                renderCurrentList();
+            } else {
+                loadSecretaries(query);
             }
         }
 
@@ -1325,7 +1387,14 @@
                 searchInput.addEventListener('input', function() {
                     clearTimeout(timeoutId);
                     timeoutId = setTimeout(() => {
-                        loadPatients(this.value);
+                        const query = this.value.trim();
+                        if (query === '') {
+                            isSearching = false;
+                            currentPage = 1;
+                            renderCurrentList();
+                        } else {
+                            handleSearch(query);
+                        }
                     }, 300);
                 });
             }
@@ -1340,8 +1409,8 @@
                 });
             }
 
-            // Carregar pacientes iniciais
-            loadPatients();
+            // Carregar secretários iniciais
+            loadSecretaries('');
         });
     </script>
 </body>

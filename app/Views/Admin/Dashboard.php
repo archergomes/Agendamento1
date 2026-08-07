@@ -880,46 +880,14 @@
         </div>
         <nav class="sidebar-nav">
             <div class="main-menu">
-                <a href="<?= site_url('admin') ?>" class="active">
-                    <i class="fas fa-chart-pie"></i>
-                    <span class="sidebar-text">Dashboard</span>
-                </a>
-                <a href="<?= site_url('admin/pacientes') ?>">
-                    <i class="fas fa-users"></i>
-                    <span class="sidebar-text">Pacientes</span>
-                </a>
-                <a href="<?= site_url('admin/medicos') ?>">
-                    <i class="fas fa-user-md"></i>
-                    <span class="sidebar-text">Médicos</span>
-                </a>
-                <a href="<?= site_url('admin/secretarios') ?>">
-                    <i class="fas fa-user-tie"></i>
-                    <span class="sidebar-text">Secretários</span>
-                </a>
-                <a href="<?= site_url('admin/agendamentos') ?>">
-                    <i class="fas fa-calendar-check"></i>
-                    <span class="sidebar-text">Agendamentos</span>
-                </a>
-                <a href="<?= site_url('admin/cad_paciente') ?>">
-                    <i class="fas fa-user-plus"></i>
-                    <span class="sidebar-text">Cadastrar Paciente</span>
-                </a>
-                <a href="<?= site_url('admin/cad_secretario') ?>">
-                    <i class="fas fa-user-plus"></i>
-                    <span class="sidebar-text">Cadastrar Secretário</span>
-                </a>
-                <a href="<?= site_url('admin/cad_medico') ?>">
-                    <i class="fas fa-user-plus"></i>
-                    <span class="sidebar-text">Cadastrar Médico</span>
-                </a>
-                <a href="<?= site_url('admin/relatorios') ?>">
-                    <i class="fas fa-chart-bar"></i>
-                    <span class="sidebar-text">Relatórios</span>
-                </a>
-                <a href="<?= site_url('admin/configuracoes') ?>">
-                    <i class="fas fa-cog"></i>
-                    <span class="sidebar-text">Configurações</span>
-                </a>
+                <a href="<?= site_url('admin') ?>" class="active"><i class="fas fa-chart-pie"></i><span class="sidebar-text">Dashboard</span></a>
+                <a href="<?= site_url('admin/pacientes') ?>"><i class="fas fa-users"></i><span class="sidebar-text">Pacientes</span></a>
+                <a href="<?= site_url('admin/medicos') ?>"><i class="fas fa-user-md"></i><span class="sidebar-text">Médicos</span></a>
+                <a href="<?= site_url('admin/secretarios') ?>"><i class="fas fa-user-tie"></i><span class="sidebar-text">Secretários</span></a>
+                <a href="<?= site_url('admin/agendamentos') ?>"><i class="fas fa-calendar-check"></i><span class="sidebar-text">Agendamentos</span></a>
+                <a href="<?= site_url('admin/disponibilidade') ?>"><i class="fas fa-calendar-alt"></i><span class="sidebar-text">Disponibilidade</span></a>
+                <a href="<?= site_url('admin/relatorios') ?>"><i class="fas fa-chart-bar"></i><span class="sidebar-text">Relatórios</span></a>
+                <a href="<?= site_url('admin/configuracoes') ?>"><i class="fas fa-cog"></i><span class="sidebar-text">Configurações</span></a>
             </div>
             <button id="logout-btn" class="logout">
                 <i class="fas fa-sign-out-alt"></i>
@@ -1104,13 +1072,6 @@
                 </div>
             </div>
         </main>
-
-        <!-- Footer -->
-        <footer class="bg-gray-800 text-white py-6">
-            <div class="container mx-auto px-4 text-center text-gray-400 text-sm">
-                <p>© <?= date('Y') ?> Hospital Público de Matlhovele. Todos os direitos reservados.</p>
-            </div>
-        </footer>
     </div>
 
     <!-- ==================== MODAIS ==================== -->

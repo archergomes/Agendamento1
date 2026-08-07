@@ -1,0 +1,480 @@
+DEBUG - 2026-08-03 07:11:48 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 07:19:46 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 07:19:47 --> Login - Tipo de usuário: Admin
+DEBUG - 2026-08-03 07:19:47 --> Login - Sessão: Array
+(
+    [ID_Usuario] => 4
+    [Email] => admin@hospital.com
+    [Tipo_Usuario] => Admin
+    [ID_Referencia] => 0
+    [paciente_id] => 
+    [logged_in] => 1
+    [user_id] => 4
+)
+
+DEBUG - 2026-08-03 07:19:48 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 07:19:50 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 07:19:51 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 07:19:51 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 07:19:51 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 07:19:51 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 07:19:51 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 07:19:59 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 07:20:00 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 07:20:06 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 07:20:11 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2026-08-03 07:20:11 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "admin/cad_paciente.php"
+[Method: GET, Route: admin/cad_paciente]
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 39.
+ 1 SYSTEMPATH\View\View.php(228): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('admin/cad_paciente.php')
+ 2 SYSTEMPATH\Common.php(1268): CodeIgniter\View\View->render('admin/cad_paciente', [], true)
+ 3 APPPATH\Controllers\Admin.php(91): view('admin/cad_paciente', [...])
+ 4 SYSTEMPATH\CodeIgniter.php(974): App\Controllers\Admin->cadPaciente()
+ 5 SYSTEMPATH\CodeIgniter.php(520): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin))
+ 6 SYSTEMPATH\CodeIgniter.php(363): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2026-08-03 07:20:13 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 07:20:14 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 07:20:36 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2026-08-03 07:20:36 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "admin/medicos.php"
+[Method: GET, Route: admin/medicos]
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 39.
+ 1 SYSTEMPATH\View\View.php(228): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('admin/medicos.php')
+ 2 SYSTEMPATH\Common.php(1268): CodeIgniter\View\View->render('admin/medicos', [], true)
+ 3 APPPATH\Controllers\Admin.php(62): view('admin/medicos', [...])
+ 4 SYSTEMPATH\CodeIgniter.php(974): App\Controllers\Admin->medicos()
+ 5 SYSTEMPATH\CodeIgniter.php(520): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin))
+ 6 SYSTEMPATH\CodeIgniter.php(363): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2026-08-03 07:20:38 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 07:20:39 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2026-08-03 07:22:28 --> ErrorException: Cannot redeclare App\Controllers\Admin::updateDoctor()
+[Method: GET, Route: admin/pacientes]
+in APPPATH\Controllers\Admin.php on line 761.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+DEBUG - 2026-08-03 07:23:05 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 07:23:06 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 07:23:10 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 07:23:12 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 07:23:16 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 07:23:19 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 07:23:31 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 07:23:32 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 07:23:34 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 07:23:43 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 07:23:43 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 07:27:12 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 07:27:14 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 07:29:02 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 07:29:04 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 07:29:05 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 07:29:06 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 07:29:11 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 07:29:20 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 07:33:20 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 07:33:21 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 07:33:22 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 07:33:24 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 07:33:31 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 07:33:34 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2026-08-03 07:33:34 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "admin/cad_agendamentos.php"
+[Method: GET, Route: admin/cad_agendamento]
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 39.
+ 1 SYSTEMPATH\View\View.php(228): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('admin/cad_agendamentos.php')
+ 2 SYSTEMPATH\Common.php(1268): CodeIgniter\View\View->render('admin/cad_agendamentos', [], true)
+ 3 APPPATH\Controllers\Admin.php(138): view('admin/cad_agendamentos', [...])
+ 4 SYSTEMPATH\CodeIgniter.php(974): App\Controllers\Admin->cadAgendamento()
+ 5 SYSTEMPATH\CodeIgniter.php(520): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin))
+ 6 SYSTEMPATH\CodeIgniter.php(363): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2026-08-03 07:33:36 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 07:33:37 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 07:33:47 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 07:33:47 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 07:37:59 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 07:38:00 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 07:38:11 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 07:38:11 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 07:41:07 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2026-08-03 07:41:50 --> CSRF token verified.
+DEBUG - 2026-08-03 07:41:50 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2026-08-03 07:41:50 --> Unknown column 'email' in 'field list'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 300.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(300): mysqli->query('INSERT INTO `pacientes` (`Nome`, `Sobrenome`, `Telefone`, `BI`, `email`, `Endereco`, `Data_Nascimento`, `Genero`) VALUES (\'Testando\', \'\', \'+258844343844\', \'837483743s\', \'teste@hospital.com\', \'Matola\', \'2000-01-04\', \'Masculino\')', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(908): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO `pacientes` (`Nome`, `Sobrenome`, `Telefone`, `BI`, `email`, `Endereco`, `Data_Nascimento`, `Genero`) VALUES (\'Testando\', \'\', \'+258844343844\', \'837483743s\', \'teste@hospital.com\', \'Matola\', \'2000-01-04\', \'Masculino\')')
+ 3 SYSTEMPATH\Database\BaseConnection.php(825): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO `pacientes` (`Nome`, `Sobrenome`, `Telefone`, `BI`, `email`, `Endereco`, `Data_Nascimento`, `Genero`) VALUES (\'Testando\', \'\', \'+258844343844\', \'837483743s\', \'teste@hospital.com\', \'Matola\', \'2000-01-04\', \'Masculino\')')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(2355): CodeIgniter\Database\BaseConnection->query('INSERT INTO `pacientes` (`Nome`, `Sobrenome`, `Telefone`, `BI`, `email`, `Endereco`, `Data_Nascimento`, `Genero`) VALUES (:Nome:, :Sobrenome:, :Telefone:, :BI:, :email:, :Endereco:, :Data_Nascimento:, :Genero:)', [...], false)
+ 5 APPPATH\Models\AdminModel.php(818): CodeIgniter\Database\BaseBuilder->insert([...])
+ 6 APPPATH\Controllers\Admin.php(1068): App\Models\AdminModel->createPatient('837483743s', 'Testando', '+258844343844', 'teste@hospital.com', '2000-01-04', 'Masculino', 'Matola')
+ 7 SYSTEMPATH\CodeIgniter.php(974): App\Controllers\Admin->createPatient()
+ 8 SYSTEMPATH\CodeIgniter.php(520): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin))
+ 9 SYSTEMPATH\CodeIgniter.php(363): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+12 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ERROR - 2026-08-03 07:41:50 --> Erro ao cadastrar paciente: Unknown column 'email' in 'field list'
+DEBUG - 2026-08-03 07:53:08 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2026-08-03 07:53:33 --> CSRF token verified.
+DEBUG - 2026-08-03 07:53:33 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 07:53:33 --> createPatient - Dados recebidos: Array
+(
+    [bi] => 837483743s
+    [nome] => Testando
+    [telefone] => +258844343844
+    [email] => teste@hospital.com
+    [data_nascimento] => 2000-01-06
+    [genero] => Masculino
+    [endereco] => Matola
+)
+
+DEBUG - 2026-08-03 07:53:33 --> createPatient - Dados para inserção: Array
+(
+    [Nome] => Testando
+    [Sobrenome] => 
+    [Telefone] => +258844343844
+    [BI] => 837483743s
+    [email] => teste@hospital.com
+    [Endereco] => Matola
+    [Data_Nascimento] => 2000-01-06
+    [Genero] => Masculino
+)
+
+ERROR - 2026-08-03 07:53:33 --> Unknown column 'email' in 'field list'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 300.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(300): mysqli->query('INSERT INTO `pacientes` (`Nome`, `Sobrenome`, `Telefone`, `BI`, `email`, `Endereco`, `Data_Nascimento`, `Genero`) VALUES (\'Testando\', \'\', \'+258844343844\', \'837483743s\', \'teste@hospital.com\', \'Matola\', \'2000-01-06\', \'Masculino\')', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(908): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO `pacientes` (`Nome`, `Sobrenome`, `Telefone`, `BI`, `email`, `Endereco`, `Data_Nascimento`, `Genero`) VALUES (\'Testando\', \'\', \'+258844343844\', \'837483743s\', \'teste@hospital.com\', \'Matola\', \'2000-01-06\', \'Masculino\')')
+ 3 SYSTEMPATH\Database\BaseConnection.php(825): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO `pacientes` (`Nome`, `Sobrenome`, `Telefone`, `BI`, `email`, `Endereco`, `Data_Nascimento`, `Genero`) VALUES (\'Testando\', \'\', \'+258844343844\', \'837483743s\', \'teste@hospital.com\', \'Matola\', \'2000-01-06\', \'Masculino\')')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(2355): CodeIgniter\Database\BaseConnection->query('INSERT INTO `pacientes` (`Nome`, `Sobrenome`, `Telefone`, `BI`, `email`, `Endereco`, `Data_Nascimento`, `Genero`) VALUES (:Nome:, :Sobrenome:, :Telefone:, :BI:, :email:, :Endereco:, :Data_Nascimento:, :Genero:)', [...], false)
+ 5 APPPATH\Models\AdminModel.php(844): CodeIgniter\Database\BaseBuilder->insert([...])
+ 6 APPPATH\Controllers\Admin.php(1116): App\Models\AdminModel->insertPatient([...])
+ 7 SYSTEMPATH\CodeIgniter.php(974): App\Controllers\Admin->createPatient()
+ 8 SYSTEMPATH\CodeIgniter.php(520): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin))
+ 9 SYSTEMPATH\CodeIgniter.php(363): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+12 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ERROR - 2026-08-03 07:53:33 --> Erro ao inserir paciente: Unknown column 'email' in 'field list'
+DEBUG - 2026-08-03 07:59:07 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2026-08-03 07:59:25 --> CSRF token verified.
+DEBUG - 2026-08-03 07:59:25 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 07:59:25 --> createPatient - Dados recebidos: Array
+(
+    [bi] => 837483743s
+    [nome] => Testando
+    [telefone] => +258844343844
+    [email] => teste@hospital.com
+    [data_nascimento] => 2000-01-04
+    [genero] => Masculino
+    [endereco] => Matola
+)
+
+DEBUG - 2026-08-03 07:59:25 --> createPatient - Dados para inserção: Array
+(
+    [Nome] => Testando
+    [Sobrenome] => 
+    [Telefone] => +258844343844
+    [BI] => 837483743s
+    [email] => teste@hospital.com
+    [Endereco] => Matola
+    [Data_Nascimento] => 2000-01-04
+    [Genero] => Masculino
+)
+
+DEBUG - 2026-08-03 07:59:27 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 07:59:28 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 07:59:44 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 07:59:44 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 08:14:03 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 08:14:09 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 08:14:09 --> Login - Tipo de usuário: Admin
+DEBUG - 2026-08-03 08:14:09 --> Login - Sessão: Array
+(
+    [ID_Usuario] => 4
+    [Email] => admin@hospital.com
+    [Tipo_Usuario] => Admin
+    [ID_Referencia] => 0
+    [paciente_id] => 
+    [logged_in] => 1
+    [user_id] => 4
+)
+
+DEBUG - 2026-08-03 08:14:10 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 08:14:11 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 08:14:11 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 08:14:12 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 08:14:12 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 08:14:12 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 08:14:12 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 08:14:14 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2026-08-03 08:17:41 --> ErrorException: Cannot redeclare App\Controllers\Admin::updateSecretary()
+[Method: GET, Route: admin/cad_paciente]
+in APPPATH\Controllers\Admin.php on line 1188.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+DEBUG - 2026-08-03 08:18:08 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 08:18:15 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2026-08-03 08:26:44 --> CSRF token verified.
+DEBUG - 2026-08-03 08:26:44 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 08:26:46 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 08:26:47 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 08:27:12 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 08:34:35 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 08:34:37 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2026-08-03 08:35:10 --> CSRF token verified.
+DEBUG - 2026-08-03 08:35:10 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 08:35:12 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 08:35:14 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 08:35:27 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 08:35:27 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 08:35:29 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 08:35:31 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 08:35:33 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 08:41:12 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2026-08-03 08:41:13 --> CSRF token verified.
+DEBUG - 2026-08-03 08:41:13 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2026-08-03 08:41:19 --> CodeIgniter\Security\Exceptions\SecurityException: The action you requested is not allowed.
+[Method: POST, Route: admin/get_report_data]
+in SYSTEMPATH\Security\Security.php on line 258.
+ 1 SYSTEMPATH\Security\Security.php(258): CodeIgniter\Security\Exceptions\SecurityException::forDisallowedAction()
+ 2 SYSTEMPATH\Filters\CSRF.php(52): CodeIgniter\Security\Security->verify(Object(CodeIgniter\HTTP\IncomingRequest))
+ 3 SYSTEMPATH\Filters\Filters.php(241): CodeIgniter\Filters\CSRF->before(Object(CodeIgniter\HTTP\IncomingRequest), null)
+ 4 SYSTEMPATH\Filters\Filters.php(221): CodeIgniter\Filters\Filters->runBefore([...])
+ 5 SYSTEMPATH\CodeIgniter.php(488): CodeIgniter\Filters\Filters->run('admin/get_report_data', 'before')
+ 6 SYSTEMPATH\CodeIgniter.php(363): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-08-03 08:41:26 --> CodeIgniter\Security\Exceptions\SecurityException: The action you requested is not allowed.
+[Method: POST, Route: admin/get_report_data]
+in SYSTEMPATH\Security\Security.php on line 258.
+ 1 SYSTEMPATH\Security\Security.php(258): CodeIgniter\Security\Exceptions\SecurityException::forDisallowedAction()
+ 2 SYSTEMPATH\Filters\CSRF.php(52): CodeIgniter\Security\Security->verify(Object(CodeIgniter\HTTP\IncomingRequest))
+ 3 SYSTEMPATH\Filters\Filters.php(241): CodeIgniter\Filters\CSRF->before(Object(CodeIgniter\HTTP\IncomingRequest), null)
+ 4 SYSTEMPATH\Filters\Filters.php(221): CodeIgniter\Filters\Filters->runBefore([...])
+ 5 SYSTEMPATH\CodeIgniter.php(488): CodeIgniter\Filters\Filters->run('admin/get_report_data', 'before')
+ 6 SYSTEMPATH\CodeIgniter.php(363): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-08-03 08:41:27 --> CodeIgniter\Security\Exceptions\SecurityException: The action you requested is not allowed.
+[Method: POST, Route: admin/get_report_data]
+in SYSTEMPATH\Security\Security.php on line 258.
+ 1 SYSTEMPATH\Security\Security.php(258): CodeIgniter\Security\Exceptions\SecurityException::forDisallowedAction()
+ 2 SYSTEMPATH\Filters\CSRF.php(52): CodeIgniter\Security\Security->verify(Object(CodeIgniter\HTTP\IncomingRequest))
+ 3 SYSTEMPATH\Filters\Filters.php(241): CodeIgniter\Filters\CSRF->before(Object(CodeIgniter\HTTP\IncomingRequest), null)
+ 4 SYSTEMPATH\Filters\Filters.php(221): CodeIgniter\Filters\Filters->runBefore([...])
+ 5 SYSTEMPATH\CodeIgniter.php(488): CodeIgniter\Filters\Filters->run('admin/get_report_data', 'before')
+ 6 SYSTEMPATH\CodeIgniter.php(363): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2026-08-03 08:42:23 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 08:42:24 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 08:42:25 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 08:42:28 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 08:42:38 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 08:42:40 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 08:42:41 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 08:42:42 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 08:42:42 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 08:42:42 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 08:45:15 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 08:45:16 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 08:45:19 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 08:45:22 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 08:45:28 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 08:45:29 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 08:45:30 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 08:45:31 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 09:01:11 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 09:01:18 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 09:01:24 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2026-08-03 09:01:24 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "admin/config.php"
+[Method: GET, Route: admin/configuracoes]
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 39.
+ 1 SYSTEMPATH\View\View.php(228): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('admin/config.php')
+ 2 SYSTEMPATH\Common.php(1268): CodeIgniter\View\View->render('admin/config', [], true)
+ 3 APPPATH\Controllers\Admin.php(127): view('admin/config', [...])
+ 4 SYSTEMPATH\CodeIgniter.php(974): App\Controllers\Admin->configuracoes()
+ 5 SYSTEMPATH\CodeIgniter.php(520): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin))
+ 6 SYSTEMPATH\CodeIgniter.php(363): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2026-08-03 09:01:25 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 09:02:07 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 09:02:09 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2026-08-03 09:02:09 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "admin/config.php"
+[Method: GET, Route: admin/configuracoes]
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 39.
+ 1 SYSTEMPATH\View\View.php(228): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('admin/config.php')
+ 2 SYSTEMPATH\Common.php(1268): CodeIgniter\View\View->render('admin/config', [], true)
+ 3 APPPATH\Controllers\Admin.php(127): view('admin/config', [...])
+ 4 SYSTEMPATH\CodeIgniter.php(974): App\Controllers\Admin->configuracoes()
+ 5 SYSTEMPATH\CodeIgniter.php(520): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin))
+ 6 SYSTEMPATH\CodeIgniter.php(363): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2026-08-03 09:02:24 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2026-08-03 09:02:36 --> CSRF token verified.
+DEBUG - 2026-08-03 09:02:36 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 09:02:38 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 09:02:45 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2026-08-03 09:08:58 --> ErrorException: Cannot redeclare App\Controllers\Admin::disponibilidade()
+[Method: GET, Route: admin/configuracoes]
+in APPPATH\Controllers\Admin.php on line 1442.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+DEBUG - 2026-08-03 09:10:06 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 09:10:16 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2026-08-03 09:10:16 --> You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ASC, "Segunda" ASC, "Terça" ASC, "Quarta" ASC, "Quinta" ASC, "Sexta" ASC, "Sáb' at line 4
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 300.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(300): mysqli->query('SELECT `h`.*, `m`.`Nome` as `medico_nome`, `m`.`Sobrenome` as `medico_sobrenome`
+FROM `horarios` `h`
+LEFT JOIN `medicos` `m` ON `m`.`ID_Medico` = `h`.`ID_Medico`
+ORDER BY `h`.`ID_Medico` ASC, FIELD(h.Dia_Semana ASC, "Segunda" ASC, "Terça" ASC, "Quarta" ASC, "Quinta" ASC, "Sexta" ASC, "Sábado" ASC, "Domingo") ASC', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(908): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `h`.*, `m`.`Nome` as `medico_nome`, `m`.`Sobrenome` as `medico_sobrenome`
+FROM `horarios` `h`
+LEFT JOIN `medicos` `m` ON `m`.`ID_Medico` = `h`.`ID_Medico`
+ORDER BY `h`.`ID_Medico` ASC, FIELD(h.Dia_Semana ASC, "Segunda" ASC, "Terça" ASC, "Quarta" ASC, "Quinta" ASC, "Sexta" ASC, "Sábado" ASC, "Domingo") ASC')
+ 3 SYSTEMPATH\Database\BaseConnection.php(825): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `h`.*, `m`.`Nome` as `medico_nome`, `m`.`Sobrenome` as `medico_sobrenome`
+FROM `horarios` `h`
+LEFT JOIN `medicos` `m` ON `m`.`ID_Medico` = `h`.`ID_Medico`
+ORDER BY `h`.`ID_Medico` ASC, FIELD(h.Dia_Semana ASC, "Segunda" ASC, "Terça" ASC, "Quarta" ASC, "Quinta" ASC, "Sexta" ASC, "Sábado" ASC, "Domingo") ASC')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(1659): CodeIgniter\Database\BaseConnection->query('SELECT `h`.*, `m`.`Nome` as `medico_nome`, `m`.`Sobrenome` as `medico_sobrenome`
+FROM `horarios` `h`
+LEFT JOIN `medicos` `m` ON `m`.`ID_Medico` = `h`.`ID_Medico`
+ORDER BY `h`.`ID_Medico` ASC, FIELD(h.Dia_Semana ASC, "Segunda" ASC, "Terça" ASC, "Quarta" ASC, "Quinta" ASC, "Sexta" ASC, "Sábado" ASC, "Domingo") ASC', [], false)
+ 5 APPPATH\Models\AdminModel.php(1140): CodeIgniter\Database\BaseBuilder->get()
+ 6 APPPATH\Controllers\Admin.php(1435): App\Models\AdminModel->getHorarios()
+ 7 SYSTEMPATH\CodeIgniter.php(974): App\Controllers\Admin->disponibilidade()
+ 8 SYSTEMPATH\CodeIgniter.php(520): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin))
+ 9 SYSTEMPATH\CodeIgniter.php(363): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+12 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-08-03 09:10:16 --> CodeIgniter\Database\Exceptions\DatabaseException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ASC, "Segunda" ASC, "Terça" ASC, "Quarta" ASC, "Quinta" ASC, "Sexta" ASC, "Sáb' at line 4
+[Method: GET, Route: admin/disponibilidade]
+in SYSTEMPATH\Database\BaseConnection.php on line 863.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(1659): CodeIgniter\Database\BaseConnection->query('SELECT `h`.*, `m`.`Nome` as `medico_nome`, `m`.`Sobrenome` as `medico_sobrenome`
+FROM `horarios` `h`
+LEFT JOIN `medicos` `m` ON `m`.`ID_Medico` = `h`.`ID_Medico`
+ORDER BY `h`.`ID_Medico` ASC, FIELD(h.Dia_Semana ASC, "Segunda" ASC, "Terça" ASC, "Quarta" ASC, "Quinta" ASC, "Sexta" ASC, "Sábado" ASC, "Domingo") ASC', [], false)
+ 2 APPPATH\Models\AdminModel.php(1140): CodeIgniter\Database\BaseBuilder->get()
+ 3 APPPATH\Controllers\Admin.php(1435): App\Models\AdminModel->getHorarios()
+ 4 SYSTEMPATH\CodeIgniter.php(974): App\Controllers\Admin->disponibilidade()
+ 5 SYSTEMPATH\CodeIgniter.php(520): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin))
+ 6 SYSTEMPATH\CodeIgniter.php(363): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-08-03 09:10:16 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ASC, "Segunda" ASC, "Terça" ASC, "Quarta" ASC, "Quinta" ASC, "Sexta" ASC, "Sáb' at line 4
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 310.
+ 1 SYSTEMPATH\Database\BaseConnection.php(908): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `h`.*, `m`.`Nome` as `medico_nome`, `m`.`Sobrenome` as `medico_sobrenome`
+FROM `horarios` `h`
+LEFT JOIN `medicos` `m` ON `m`.`ID_Medico` = `h`.`ID_Medico`
+ORDER BY `h`.`ID_Medico` ASC, FIELD(h.Dia_Semana ASC, "Segunda" ASC, "Terça" ASC, "Quarta" ASC, "Quinta" ASC, "Sexta" ASC, "Sábado" ASC, "Domingo") ASC')
+ 2 SYSTEMPATH\Database\BaseConnection.php(825): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `h`.*, `m`.`Nome` as `medico_nome`, `m`.`Sobrenome` as `medico_sobrenome`
+FROM `horarios` `h`
+LEFT JOIN `medicos` `m` ON `m`.`ID_Medico` = `h`.`ID_Medico`
+ORDER BY `h`.`ID_Medico` ASC, FIELD(h.Dia_Semana ASC, "Segunda" ASC, "Terça" ASC, "Quarta" ASC, "Quinta" ASC, "Sexta" ASC, "Sábado" ASC, "Domingo") ASC')
+ 3 SYSTEMPATH\Database\BaseBuilder.php(1659): CodeIgniter\Database\BaseConnection->query('SELECT `h`.*, `m`.`Nome` as `medico_nome`, `m`.`Sobrenome` as `medico_sobrenome`
+FROM `horarios` `h`
+LEFT JOIN `medicos` `m` ON `m`.`ID_Medico` = `h`.`ID_Medico`
+ORDER BY `h`.`ID_Medico` ASC, FIELD(h.Dia_Semana ASC, "Segunda" ASC, "Terça" ASC, "Quarta" ASC, "Quinta" ASC, "Sexta" ASC, "Sábado" ASC, "Domingo") ASC', [], false)
+ 4 APPPATH\Models\AdminModel.php(1140): CodeIgniter\Database\BaseBuilder->get()
+ 5 APPPATH\Controllers\Admin.php(1435): App\Models\AdminModel->getHorarios()
+ 6 SYSTEMPATH\CodeIgniter.php(974): App\Controllers\Admin->disponibilidade()
+ 7 SYSTEMPATH\CodeIgniter.php(520): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin))
+ 8 SYSTEMPATH\CodeIgniter.php(363): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-08-03 09:10:16 --> [Caused by] mysqli_sql_exception: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ASC, "Segunda" ASC, "Terça" ASC, "Quarta" ASC, "Quinta" ASC, "Sexta" ASC, "Sáb' at line 4
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 300.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(300): mysqli->query('SELECT `h`.*, `m`.`Nome` as `medico_nome`, `m`.`Sobrenome` as `medico_sobrenome`
+FROM `horarios` `h`
+LEFT JOIN `medicos` `m` ON `m`.`ID_Medico` = `h`.`ID_Medico`
+ORDER BY `h`.`ID_Medico` ASC, FIELD(h.Dia_Semana ASC, "Segunda" ASC, "Terça" ASC, "Quarta" ASC, "Quinta" ASC, "Sexta" ASC, "Sábado" ASC, "Domingo") ASC', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(908): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `h`.*, `m`.`Nome` as `medico_nome`, `m`.`Sobrenome` as `medico_sobrenome`
+FROM `horarios` `h`
+LEFT JOIN `medicos` `m` ON `m`.`ID_Medico` = `h`.`ID_Medico`
+ORDER BY `h`.`ID_Medico` ASC, FIELD(h.Dia_Semana ASC, "Segunda" ASC, "Terça" ASC, "Quarta" ASC, "Quinta" ASC, "Sexta" ASC, "Sábado" ASC, "Domingo") ASC')
+ 3 SYSTEMPATH\Database\BaseConnection.php(825): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `h`.*, `m`.`Nome` as `medico_nome`, `m`.`Sobrenome` as `medico_sobrenome`
+FROM `horarios` `h`
+LEFT JOIN `medicos` `m` ON `m`.`ID_Medico` = `h`.`ID_Medico`
+ORDER BY `h`.`ID_Medico` ASC, FIELD(h.Dia_Semana ASC, "Segunda" ASC, "Terça" ASC, "Quarta" ASC, "Quinta" ASC, "Sexta" ASC, "Sábado" ASC, "Domingo") ASC')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(1659): CodeIgniter\Database\BaseConnection->query('SELECT `h`.*, `m`.`Nome` as `medico_nome`, `m`.`Sobrenome` as `medico_sobrenome`
+FROM `horarios` `h`
+LEFT JOIN `medicos` `m` ON `m`.`ID_Medico` = `h`.`ID_Medico`
+ORDER BY `h`.`ID_Medico` ASC, FIELD(h.Dia_Semana ASC, "Segunda" ASC, "Terça" ASC, "Quarta" ASC, "Quinta" ASC, "Sexta" ASC, "Sábado" ASC, "Domingo") ASC', [], false)
+ 5 APPPATH\Models\AdminModel.php(1140): CodeIgniter\Database\BaseBuilder->get()
+ 6 APPPATH\Controllers\Admin.php(1435): App\Models\AdminModel->getHorarios()
+ 7 SYSTEMPATH\CodeIgniter.php(974): App\Controllers\Admin->disponibilidade()
+ 8 SYSTEMPATH\CodeIgniter.php(520): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin))
+ 9 SYSTEMPATH\CodeIgniter.php(363): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+12 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2026-08-03 09:11:37 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 09:18:30 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2026-08-03 09:19:08 --> CSRF token verified.
+DEBUG - 2026-08-03 09:19:08 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2026-08-03 09:19:18 --> CodeIgniter\Security\Exceptions\SecurityException: The action you requested is not allowed.
+[Method: POST, Route: admin/delete_schedule]
+in SYSTEMPATH\Security\Security.php on line 258.
+ 1 SYSTEMPATH\Security\Security.php(258): CodeIgniter\Security\Exceptions\SecurityException::forDisallowedAction()
+ 2 SYSTEMPATH\Filters\CSRF.php(52): CodeIgniter\Security\Security->verify(Object(CodeIgniter\HTTP\IncomingRequest))
+ 3 SYSTEMPATH\Filters\Filters.php(241): CodeIgniter\Filters\CSRF->before(Object(CodeIgniter\HTTP\IncomingRequest), null)
+ 4 SYSTEMPATH\Filters\Filters.php(221): CodeIgniter\Filters\Filters->runBefore([...])
+ 5 SYSTEMPATH\CodeIgniter.php(488): CodeIgniter\Filters\Filters->run('admin/delete_schedule', 'before')
+ 6 SYSTEMPATH\CodeIgniter.php(363): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2026-08-03 09:29:30 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 09:29:31 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 09:30:16 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 09:30:18 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 09:30:19 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 09:30:44 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 09:40:19 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 09:40:20 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 09:40:23 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 09:40:23 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 09:40:24 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 09:40:24 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 09:40:25 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 09:40:25 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 09:40:26 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 09:40:29 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2026-08-03 09:45:55 --> ErrorException: Cannot redeclare App\Controllers\Admin::cadAgendamento()
+[Method: GET, Route: admin/pacientes]
+in APPPATH\Controllers\Admin.php on line 1508.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+DEBUG - 2026-08-03 09:46:16 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 09:46:18 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 09:46:29 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 10:25:45 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 12:14:40 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 12:17:39 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 12:21:38 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 12:21:39 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 12:21:44 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 12:21:45 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 12:21:46 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 12:22:04 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 12:22:05 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 12:22:05 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 12:22:05 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 12:22:05 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 12:22:06 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 12:22:06 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 12:22:06 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 12:22:08 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-08-03 12:22:09 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.

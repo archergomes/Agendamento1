@@ -504,4 +504,700 @@ class AdminModel extends Model
             'created_at' => isset($result->Criado_Em) ? date('d/m/Y H:i', strtotime($result->Criado_Em)) : ''
         ];
     }
+
+    /**
+     * Busca lista de médicos com filtro
+     */
+    public function getDoctorsList($query = '')
+    {
+        $builder = $this->db->table('medicos');
+
+        if (!empty($query)) {
+            $builder->groupStart()
+                ->like('Nome', $query)
+                ->orLike('Sobrenome', $query)
+                ->orLike('Especialidade', $query)
+                ->orLike('Numero_Licenca', $query)
+                ->orLike('Telefone', $query)
+                ->groupEnd();
+        }
+
+        $builder->orderBy('Nome', 'ASC');
+        $results = $builder->get()->getResult();
+
+        $formatted = [];
+        foreach ($results as $d) {
+            $formatted[] = [
+                'bi' => $d->Numero_Licenca ?? '',
+                'name' => trim(($d->Nome ?? '') . ' ' . ($d->Sobrenome ?? '')),
+                'phone' => $d->Telefone ?? '',
+                'email' => $d->Email ?? '',
+                'specialty' => $d->Especialidade ?? '',
+                'licenseNumber' => $d->Numero_Licenca ?? ''
+            ];
+        }
+
+        return $formatted;
+    }
+
+    /**
+     * Busca detalhes completos de um médico por BI (Numero_Licenca)
+     */
+    public function getDoctorDetails($bi)
+    {
+        $builder = $this->db->table('medicos');
+        $builder->where('Numero_Licenca', $bi);
+        $result = $builder->get()->getRow();
+
+        if (!$result) return null;
+
+        return [
+            'bi' => $result->Numero_Licenca ?? '',
+            'name' => trim(($result->Nome ?? '') . ' ' . ($result->Sobrenome ?? '')),
+            'phone' => $result->Telefone ?? '',
+            'email' => $result->Email ?? '',
+            'specialty' => $result->Especialidade ?? '',
+            'licenseNumber' => $result->Numero_Licenca ?? '',
+            'created_at' => isset($result->Criado_Em) ? date('d/m/Y H:i', strtotime($result->Criado_Em)) : ''
+        ];
+    }
+
+    /**
+     * Exclui médico por BI (Numero_Licenca)
+     */
+    public function deleteDoctor($bi)
+    {
+        $builder = $this->db->table('medicos');
+        return $builder->delete(['Numero_Licenca' => $bi]);
+    }
+
+    /**
+     * Atualiza médico com dados completos
+     */
+    public function updateDoctorFull($bi, $nome, $telefone, $email = '', $especialidade = '', $licenca = '')
+    {
+        $nameParts = explode(' ', trim($nome), 2);
+        $nomePart = $nameParts[0] ?? '';
+        $sobrenomePart = $nameParts[1] ?? '';
+
+        $data = [
+            'Nome' => $nomePart,
+            'Sobrenome' => $sobrenomePart,
+            'Telefone' => $telefone,
+            'Email' => $email,
+            'Especialidade' => $especialidade
+        ];
+
+        if (!empty($licenca)) {
+            $data['Numero_Licenca'] = $licenca;
+        }
+
+        $builder = $this->db->table('medicos');
+        return $builder->update($data, ['Numero_Licenca' => $bi]);
+    }
+
+    /**
+     * Busca lista de secretários com filtro
+     */
+    public function getSecretariesList($query = '')
+    {
+        $builder = $this->db->table('secretarios');
+
+        if (!empty($query)) {
+            $builder->groupStart()
+                ->like('Nome', $query)
+                ->orLike('Sobrenome', $query)
+                ->orLike('Email', $query)
+                ->orLike('Telefone', $query)
+                ->groupEnd();
+        }
+
+        $builder->orderBy('Nome', 'ASC');
+        $results = $builder->get()->getResult();
+
+        $formatted = [];
+        foreach ($results as $s) {
+            $formatted[] = [
+                'id' => $s->ID_Secretario ?? '',
+                'name' => trim(($s->Nome ?? '') . ' ' . ($s->Sobrenome ?? '')),
+                'phone' => $s->Telefone ?? '',
+                'email' => $s->Email ?? '',
+                'cargo' => $s->Cargo ?? 'Secretário'
+            ];
+        }
+
+        return $formatted;
+    }
+
+    /**
+     * Busca detalhes completos de um secretário por ID
+     */
+    public function getSecretaryDetails($id)
+    {
+        $builder = $this->db->table('secretarios');
+        $builder->where('ID_Secretario', $id);
+        $result = $builder->get()->getRow();
+
+        if (!$result) return null;
+
+        return [
+            'id' => $result->ID_Secretario ?? '',
+            'name' => trim(($result->Nome ?? '') . ' ' . ($result->Sobrenome ?? '')),
+            'phone' => $result->Telefone ?? '',
+            'email' => $result->Email ?? '',
+            'cargo' => $result->Cargo ?? 'Secretário',
+            'created_at' => isset($result->Criado_Em) ? date('d/m/Y H:i', strtotime($result->Criado_Em)) : ''
+        ];
+    }
+
+    /**
+     * Exclui secretário por ID
+     */
+    public function deleteSecretary($id)
+    {
+        $builder = $this->db->table('secretarios');
+        return $builder->delete(['ID_Secretario' => $id]);
+    }
+
+    /**
+     * Atualiza secretário com dados completos
+     */
+    public function updateSecretaryFull($id, $nome, $telefone, $email, $cargo)
+    {
+        $nameParts = explode(' ', trim($nome), 2);
+        $nomePart = $nameParts[0] ?? '';
+        $sobrenomePart = $nameParts[1] ?? '';
+
+        $data = [
+            'Nome' => $nomePart,
+            'Sobrenome' => $sobrenomePart,
+            'Telefone' => $telefone,
+            'Email' => $email,
+            'Cargo' => $cargo
+        ];
+
+        $builder = $this->db->table('secretarios');
+        return $builder->update($data, ['ID_Secretario' => $id]);
+    }
+
+    /**
+     * Busca lista de agendamentos com filtro
+     */
+    public function getAppointmentsList($query = '')
+    {
+        $builder = $this->db->table('agendamentos a');
+        $builder->select('
+        a.ID_Agendamento as id,
+        CONCAT(p.Nome, " ", p.Sobrenome) as paciente,
+        CONCAT(m.Nome, " ", m.Sobrenome) as medico,
+        a.Data_Agendamento as data,
+        a.Hora_Agendamento as hora,
+        a.Status as status,
+        a.Motivo as motivo,
+        a.Criado_Em as criado_em
+    ');
+        $builder->join('pacientes p', 'p.ID_Paciente = a.ID_Paciente', 'left');
+        $builder->join('medicos m', 'm.ID_Medico = a.ID_Medico', 'left');
+
+        if (!empty($query)) {
+            $builder->groupStart()
+                ->like('p.Nome', $query)
+                ->orLike('p.Sobrenome', $query)
+                ->orLike('m.Nome', $query)
+                ->orLike('m.Sobrenome', $query)
+                ->orLike('a.Status', $query)
+                ->groupEnd();
+        }
+
+        $builder->orderBy('a.Data_Agendamento', 'DESC');
+        $results = $builder->get()->getResult();
+
+        $formatted = [];
+        foreach ($results as $a) {
+            $formatted[] = [
+                'id' => $a->id,
+                'paciente' => $a->paciente ?? 'N/A',
+                'medico' => $a->medico ?? 'N/A',
+                'data' => date('d/m/Y', strtotime($a->data)),
+                'hora' => substr($a->hora, 0, 5),
+                'status' => $a->status ?? 'Pendente',
+                'motivo' => $a->motivo ?? '',
+                'criado_em' => isset($a->criado_em) ? date('d/m/Y H:i', strtotime($a->criado_em)) : ''
+            ];
+        }
+
+        return $formatted;
+    }
+
+    /**
+     * Busca detalhes de um agendamento por ID
+     */
+    public function getAppointmentDetails($id)
+    {
+        $builder = $this->db->table('agendamentos a');
+        $builder->select('
+        a.*,
+        CONCAT(p.Nome, " ", p.Sobrenome) as paciente,
+        CONCAT(m.Nome, " ", m.Sobrenome) as medico,
+        e.Nome as especialidade
+    ');
+        $builder->join('pacientes p', 'p.ID_Paciente = a.ID_Paciente', 'left');
+        $builder->join('medicos m', 'm.ID_Medico = a.ID_Medico', 'left');
+        $builder->join('especialidades e', 'e.ID_Especialidade = m.ID_Especialidade', 'left');
+        $builder->where('a.ID_Agendamento', $id);
+        $result = $builder->get()->getRow();
+
+        if (!$result) return null;
+
+        return [
+            'id' => $result->ID_Agendamento,
+            'paciente' => $result->paciente ?? 'N/A',
+            'medico' => $result->medico ?? 'N/A',
+            'especialidade' => $result->especialidade ?? 'N/A',
+            'data' => $result->Data_Agendamento,
+            'data_formatada' => date('d/m/Y', strtotime($result->Data_Agendamento)),
+            'hora' => substr($result->Hora_Agendamento, 0, 5),
+            'status' => $result->Status ?? 'Pendente',
+            'motivo' => $result->Motivo ?? '',
+            'criado_em' => isset($result->Criado_Em) ? date('d/m/Y H:i', strtotime($result->Criado_Em)) : ''
+        ];
+    }
+
+    /**
+     * Atualiza agendamento
+     */
+    public function updateAppointment($id, $data, $hora, $status, $motivo)
+    {
+        $updateData = [
+            'Data_Agendamento' => $data,
+            'Hora_Agendamento' => $hora,
+            'Status' => $status,
+            'Motivo' => !empty($motivo) ? $motivo : null
+        ];
+
+        $builder = $this->db->table('agendamentos');
+        return $builder->update($updateData, ['ID_Agendamento' => $id]);
+    }
+
+    /**
+     * Cria um novo paciente
+     */
+    public function createPatient($bi, $nome, $telefone, $email = '', $dataNascimento = '', $genero = '', $endereco = '')
+    {
+        try {
+            // Verificar se BI já existe
+            $builder = $this->db->table('pacientes');
+            $existing = $builder->where('BI', $bi)->get()->getRow();
+
+            if ($existing) {
+                return false;
+            }
+
+            // Separar nome e sobrenome
+            $nameParts = explode(' ', trim($nome), 2);
+            $nomePart = $nameParts[0] ?? '';
+            $sobrenomePart = $nameParts[1] ?? '';
+
+            $data = [
+                'Nome' => $nomePart,
+                'Sobrenome' => $sobrenomePart,
+                'Telefone' => $telefone,
+                'BI' => $bi,
+                'email' => $email,
+                'Endereco' => $endereco
+            ];
+
+            if (!empty($dataNascimento)) {
+                $data['Data_Nascimento'] = $dataNascimento;
+            }
+
+            if (!empty($genero)) {
+                $data['Genero'] = $genero;
+            }
+
+            $builder = $this->db->table('pacientes');
+            return $builder->insert($data);
+        } catch (\Exception $e) {
+            log_message('error', 'Erro em createPatient: ' . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Verifica se um paciente existe pelo BI
+     */
+    public function checkPatientExists($bi)
+    {
+        $builder = $this->db->table('pacientes');
+        $builder->where('BI', $bi);
+        $result = $builder->get()->getRow();
+        return $result !== null;
+    }
+
+    /**
+     * Insere um novo paciente
+     */
+    public function insertPatient($data)
+    {
+        try {
+            $builder = $this->db->table('pacientes');
+            $result = $builder->insert($data);
+            return $result;
+        } catch (\Exception $e) {
+            log_message('error', 'Erro ao inserir paciente: ' . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Cria um novo secretário
+     */
+    public function createSecretary($bi, $nome, $telefone, $email, $senha)
+    {
+        try {
+            // Separar nome e sobrenome
+            $nameParts = explode(' ', trim($nome), 2);
+            $nomePart = $nameParts[0] ?? '';
+            $sobrenomePart = $nameParts[1] ?? '';
+
+            // Verificar se BI já existe
+            $builder = $this->db->table('secretarios');
+            $existing = $builder->where('ID_Secretario', $bi)->get()->getRow();
+
+            if ($existing) {
+                return false;
+            }
+
+            // Inserir secretário
+            $data = [
+                'ID_Secretario' => $bi,
+                'Nome' => $nomePart,
+                'Sobrenome' => $sobrenomePart,
+                'Telefone' => $telefone,
+                'Email' => $email
+            ];
+
+            $builder = $this->db->table('secretarios');
+            $result = $builder->insert($data);
+
+            if (!$result) {
+                return false;
+            }
+
+            // Criar usuário para o secretário
+            $senhaHash = password_hash($senha, PASSWORD_DEFAULT);
+            $usuarioData = [
+                'Email' => $email,
+                'Senha' => $senhaHash,
+                'Tipo_Usuario' => 'Secretario',
+                'ID_Referencia' => $bi
+            ];
+
+            $builder = $this->db->table('usuarios');
+            return $builder->insert($usuarioData);
+        } catch (\Exception $e) {
+            log_message('error', 'Erro em createSecretary: ' . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Atualiza um secretário
+     */
+    public function updateSecretary($bi, $nome, $telefone, $email)
+    {
+        try {
+            // Separar nome e sobrenome
+            $nameParts = explode(' ', trim($nome), 2);
+            $nomePart = $nameParts[0] ?? '';
+            $sobrenomePart = $nameParts[1] ?? '';
+
+            $data = [
+                'Nome' => $nomePart,
+                'Sobrenome' => $sobrenomePart,
+                'Telefone' => $telefone,
+                'Email' => $email
+            ];
+
+            // Atualizar secretário
+            $builder = $this->db->table('secretarios');
+            $result = $builder->update($data, ['ID_Secretario' => $bi]);
+
+            // Atualizar usuário
+            $builder = $this->db->table('usuarios');
+            $builder->where('Email', $email);
+            $builder->update(['Email' => $email]);
+
+            return $result;
+        } catch (\Exception $e) {
+            log_message('error', 'Erro em updateSecretary: ' . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Cria um novo médico
+     */
+    public function createDoctor($bi, $nome, $telefone, $email, $especialidade, $licenca)
+    {
+        try {
+            // Separar nome e sobrenome
+            $nameParts = explode(' ', trim($nome), 2);
+            $nomePart = $nameParts[0] ?? '';
+            $sobrenomePart = $nameParts[1] ?? '';
+
+            // Verificar se já existe médico com este BI ou licença
+            $builder = $this->db->table('medicos');
+            $existing = $builder->where('Numero_Licenca', $licenca)
+                ->orWhere('Email', $email)
+                ->get()
+                ->getRow();
+
+            if ($existing) {
+                return false;
+            }
+
+            // Buscar ID da especialidade
+            $espBuilder = $this->db->table('especialidades');
+            $espBuilder->where('Nome', $especialidade);
+            $especialidadeRow = $espBuilder->get()->getRow();
+            $idEspecialidade = $especialidadeRow ? $especialidadeRow->ID_Especialidade : 1;
+
+            // Inserir médico
+            $data = [
+                'Nome' => $nomePart,
+                'Sobrenome' => $sobrenomePart,
+                'Telefone' => $telefone,
+                'Email' => $email,
+                'Especialidade' => $especialidade,
+                'ID_Especialidade' => $idEspecialidade,
+                'Numero_Licenca' => $licenca
+            ];
+
+            $builder = $this->db->table('medicos');
+            return $builder->insert($data);
+        } catch (\Exception $e) {
+            log_message('error', 'Erro em createDoctor: ' . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Busca dados para relatórios
+     */
+    public function getReportData($type, $dateFrom, $dateTo, $doctorId, $status)
+    {
+        $db = \Config\Database::connect();
+        $data = [];
+
+        if ($type === 'overview') {
+            // Total appointments
+            $builder = $db->table('agendamentos');
+            if ($dateFrom) $builder->where('Data_Agendamento >=', $dateFrom);
+            if ($dateTo) $builder->where('Data_Agendamento <=', $dateTo);
+            $data['total_appointments'] = $builder->countAllResults();
+
+            // Total patients
+            $builder = $db->table('pacientes');
+            $data['total_patients'] = $builder->countAll();
+
+            // Total doctors
+            $builder = $db->table('medicos');
+            $data['total_doctors'] = $builder->countAll();
+
+            // Occupancy rate
+            $totalSlots = 0;
+            $usedSlots = 0;
+            $builder = $db->table('horarios');
+            $totalSlots = $builder->countAll();
+            $builder = $db->table('agendamentos');
+            if ($dateFrom) $builder->where('Data_Agendamento >=', $dateFrom);
+            if ($dateTo) $builder->where('Data_Agendamento <=', $dateTo);
+            $usedSlots = $builder->countAll();
+            $data['occupancy_rate'] = $totalSlots > 0 ? round(($usedSlots / $totalSlots) * 100) : 0;
+
+            // Appointments by doctor
+            $builder = $db->table('agendamentos a');
+            $builder->select('CONCAT(m.Nome, " ", m.Sobrenome) as medico, COUNT(a.ID_Agendamento) as total');
+            $builder->join('medicos m', 'm.ID_Medico = a.ID_Medico', 'left');
+            if ($dateFrom) $builder->where('a.Data_Agendamento >=', $dateFrom);
+            if ($dateTo) $builder->where('a.Data_Agendamento <=', $dateTo);
+            $builder->groupBy('a.ID_Medico');
+            $builder->orderBy('total', 'DESC');
+            $builder->limit(10);
+            $results = $builder->get()->getResult();
+
+            $data['doctor_labels'] = array_column($results, 'medico');
+            $data['doctor_data'] = array_column($results, 'total');
+
+            // Appointments by status
+            $builder = $db->table('agendamentos');
+            if ($dateFrom) $builder->where('Data_Agendamento >=', $dateFrom);
+            if ($dateTo) $builder->where('Data_Agendamento <=', $dateTo);
+            $statuses = ['Pendente', 'Confirmado', 'Cancelado', 'Concluido'];
+            $data['status_labels'] = $statuses;
+            $data['status_values'] = [];
+            foreach ($statuses as $s) {
+                $builder = $db->table('agendamentos');
+                if ($dateFrom) $builder->where('Data_Agendamento >=', $dateFrom);
+                if ($dateTo) $builder->where('Data_Agendamento <=', $dateTo);
+                $builder->where('Status', $s);
+                $data['status_values'][] = $builder->countAllResults();
+            }
+        } elseif ($type === 'appointments') {
+            $builder = $db->table('agendamentos a');
+            $builder->select('
+            CONCAT(p.Nome, " ", p.Sobrenome) as paciente,
+            CONCAT(m.Nome, " ", m.Sobrenome) as medico,
+            DATE_FORMAT(a.Data_Agendamento, "%d/%m/%Y") as data,
+            SUBSTRING(a.Hora_Agendamento, 1, 5) as hora,
+            a.Status as status
+        ');
+            $builder->join('pacientes p', 'p.ID_Paciente = a.ID_Paciente', 'left');
+            $builder->join('medicos m', 'm.ID_Medico = a.ID_Medico', 'left');
+            if ($dateFrom) $builder->where('a.Data_Agendamento >=', $dateFrom);
+            if ($dateTo) $builder->where('a.Data_Agendamento <=', $dateTo);
+            if ($doctorId) $builder->where('a.ID_Medico', $doctorId);
+            if ($status) $builder->where('a.Status', $status);
+            $builder->orderBy('a.Data_Agendamento', 'DESC');
+            $results = $builder->get()->getResult();
+            $data = $results;
+        } elseif ($type === 'doctors') {
+            $builder = $db->table('medicos m');
+            $builder->select('
+            CONCAT(m.Nome, " ", m.Sobrenome) as name,
+            m.Especialidade as specialty,
+            COUNT(a.ID_Agendamento) as appointments,
+            CONCAT(ROUND((COUNT(a.ID_Agendamento) / (SELECT COUNT(*) FROM horarios WHERE ID_Medico = m.ID_Medico)) * 100), "%") as occupancy
+        ');
+            $builder->join('agendamentos a', 'a.ID_Medico = m.ID_Medico AND a.Status != "Cancelado" AND a.Data_Agendamento BETWEEN "' . $dateFrom . '" AND "' . $dateTo . '"', 'left');
+            $builder->groupBy('m.ID_Medico');
+            $builder->orderBy('appointments', 'DESC');
+            $results = $builder->get()->getResult();
+            $data = $results;
+        } elseif ($type === 'patients') {
+            $builder = $db->table('pacientes p');
+            $builder->select('
+            CONCAT(p.Nome, " ", p.Sobrenome) as name,
+            COUNT(a.ID_Agendamento) as visits,
+            MAX(a.Data_Agendamento) as last_visit,
+            CASE 
+                WHEN COUNT(a.ID_Agendamento) = 0 THEN "Sem consultas"
+                WHEN COUNT(a.ID_Agendamento) <= 2 THEN "Baixa frequência"
+                WHEN COUNT(a.ID_Agendamento) <= 5 THEN "Média frequência"
+                ELSE "Alta frequência"
+            END as avg_status
+        ');
+            $builder->join('agendamentos a', 'a.ID_Paciente = p.ID_Paciente AND a.Status != "Cancelado" AND a.Data_Agendamento BETWEEN "' . $dateFrom . '" AND "' . $dateTo . '"', 'left');
+            $builder->groupBy('p.ID_Paciente');
+            $builder->orderBy('visits', 'DESC');
+            $builder->limit(20);
+            $results = $builder->get()->getResult();
+            $data = $results;
+        }
+
+        return $data;
+    }
+
+    /**
+     * Salva configurações
+     */
+    public function saveConfig($data)
+    {
+        try {
+            $builder = $this->db->table('configuracoes');
+
+            foreach ($data as $key => $value) {
+                // Verificar se a configuração já existe
+                $existing = $builder->where('Chave', $key)->get()->getRow();
+
+                if ($existing) {
+                    // Atualizar
+                    $builder->where('Chave', $key)->update(['Valor' => $value]);
+                } else {
+                    // Inserir
+                    $builder->insert(['Chave' => $key, 'Valor' => $value]);
+                }
+            }
+
+            return true;
+        } catch (\Exception $e) {
+            log_message('error', 'Erro ao salvar configurações: ' . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Busca horários com dados dos médicos - VERSÃO SIMPLIFICADA
+     */
+    public function getHorarios()
+    {
+        $builder = $this->db->table('horarios h');
+        $builder->select('h.*, m.Nome as medico_nome, m.Sobrenome as medico_sobrenome');
+        $builder->join('medicos m', 'm.ID_Medico = h.ID_Medico', 'left');
+        $builder->orderBy('h.ID_Medico', 'ASC');
+        $builder->orderBy('h.Dia_Semana', 'ASC');
+        return $builder->get()->getResult();
+    }
+
+    /**
+     * Cria um novo horário
+     */
+    public function createSchedule($doctorId, $day, $start, $end, $status = 'ativo')
+    {
+        $data = [
+            'ID_Medico' => $doctorId,
+            'Dia_Semana' => $day,
+            'Hora_Inicio' => $start,
+            'Hora_Fim' => $end,
+            'Status' => $status
+        ];
+
+        $builder = $this->db->table('horarios');
+        return $builder->insert($data);
+    }
+
+    /**
+     * Atualiza um horário
+     */
+    public function updateSchedule($id, $doctorId, $day, $start, $end, $status)
+    {
+        $data = [
+            'ID_Medico' => $doctorId,
+            'Dia_Semana' => $day,
+            'Hora_Inicio' => $start,
+            'Hora_Fim' => $end,
+            'Status' => $status
+        ];
+
+        $builder = $this->db->table('horarios');
+        return $builder->update($data, ['ID_Horario' => $id]);
+    }
+
+    /**
+     * Exclui um horário
+     */
+    public function deleteSchedule($id)
+    {
+        $builder = $this->db->table('horarios');
+        return $builder->delete(['ID_Horario' => $id]);
+    }
+
+    /**
+     * Cria um novo agendamento
+     */
+    public function createAppointment($pacienteId, $medicoId, $data, $hora, $status = 'Pendente', $motivo = null)
+    {
+        $insertData = [
+            'ID_Paciente' => $pacienteId,
+            'ID_Medico' => $medicoId,
+            'Data_Agendamento' => $data,
+            'Hora_Agendamento' => $hora,
+            'Status' => $status,
+            'Motivo' => $motivo
+        ];
+
+        $builder = $this->db->table('agendamentos');
+        return $builder->insert($insertData);
+    }
 }
