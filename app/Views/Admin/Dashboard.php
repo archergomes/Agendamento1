@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Administrador - Hospital Matlhovele</title>
-    <meta name="description" content="Dashboard de administração do Hospital Público de Matlhovele">
+    <title>Dashboard - Administrador - Centro de Saúde Da Matola II</title>
+    <meta name="description" content="Dashboard de administração do Centro de Saúde Da Matola II">
     <meta name="csrf-token" content="<?= csrf_hash(); ?>">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
@@ -63,37 +63,15 @@
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
         }
 
-        #notification.error {
-            background-color: #ef4444;
-        }
-
-        #notification.success {
-            background-color: #0d9488;
-        }
-
-        #notification.info {
-            background-color: #3b82f6;
-        }
-
-        #notification.warning {
-            background-color: #f59e0b;
-        }
-
-        #notification.show {
-            display: block;
-            animation: slideIn 0.3s ease-out;
-        }
+        #notification.error { background-color: #ef4444; }
+        #notification.success { background-color: #0d9488; }
+        #notification.info { background-color: #3b82f6; }
+        #notification.warning { background-color: #f59e0b; }
+        #notification.show { display: block; animation: slideIn 0.3s ease-out; }
 
         @keyframes slideIn {
-            from {
-                transform: translateX(110%);
-                opacity: 0;
-            }
-
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
+            from { transform: translateX(110%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
         }
 
         /* ---------- Sidebar ---------- */
@@ -111,51 +89,17 @@
             flex-direction: column;
         }
 
-        .sidebar.show {
-            transform: translateX(0);
-        }
-
-        .sidebar.desktop {
-            transform: translateX(0);
-        }
-
-        .sidebar.desktop.expanded {
-            width: 260px;
-        }
-
-        .sidebar.desktop .sidebar-text {
-            display: none;
-        }
-
-        .sidebar.desktop.expanded .sidebar-text {
-            display: inline;
-        }
-
-        .sidebar.desktop .sidebar-header {
-            justify-content: center;
-            padding: 1rem;
-        }
-
-        .sidebar.desktop.expanded .sidebar-header {
-            justify-content: space-between;
-            padding: 1rem 1.25rem;
-        }
-
-        .sidebar-header {
-            border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-        }
-
-        .sidebar-header h2 {
-            color: white;
-        }
-
-        .sidebar-header button {
-            color: rgba(255, 255, 255, 0.85);
-        }
-
-        .sidebar-header button:hover {
-            color: white;
-        }
+        .sidebar.show { transform: translateX(0); }
+        .sidebar.desktop { transform: translateX(0); }
+        .sidebar.desktop.expanded { width: 260px; }
+        .sidebar.desktop .sidebar-text { display: none; }
+        .sidebar.desktop.expanded .sidebar-text { display: inline; }
+        .sidebar.desktop .sidebar-header { justify-content: center; padding: 1rem; }
+        .sidebar.desktop.expanded .sidebar-header { justify-content: space-between; padding: 1rem 1.25rem; }
+        .sidebar-header { border-bottom: 1px solid rgba(255, 255, 255, 0.12); }
+        .sidebar-header h2 { color: white; }
+        .sidebar-header button { color: rgba(255, 255, 255, 0.85); }
+        .sidebar-header button:hover { color: white; }
 
         header {
             position: relative;
@@ -174,17 +118,9 @@
             flex-direction: column;
         }
 
-        .page-wrapper.expanded {
-            margin-left: 260px;
-            width: calc(100% - 260px);
-        }
+        .page-wrapper.expanded { margin-left: 260px; width: calc(100% - 260px); }
 
-        .main-content {
-            flex: 1;
-            width: 100%;
-            padding: 1rem;
-            min-height: calc(100vh - 80px);
-        }
+        .main-content { flex: 1; width: 100%; padding: 1rem; min-height: calc(100vh - 80px); }
 
         .sidebar-overlay {
             display: none;
@@ -197,125 +133,44 @@
             z-index: 899;
         }
 
-        .sidebar-overlay.show {
-            display: block;
-        }
+        .sidebar-overlay.show { display: block; }
 
         @media (min-width: 768px) {
-            #mobile-menu-btn {
-                display: none;
-            }
-
-            .sidebar.desktop {
-                display: flex;
-            }
+            #mobile-menu-btn { display: none; }
+            .sidebar.desktop { display: flex; }
         }
 
         @media (max-width: 767px) {
-            .sidebar.desktop {
-                display: none;
-            }
-
-            .sidebar {
-                transform: translateX(-100%);
-                width: 260px;
-            }
-
-            .sidebar.show {
-                transform: translateX(0);
-            }
-
-            .page-wrapper {
-                margin-left: 0 !important;
-                width: 100% !important;
-            }
-
-            .page-wrapper.expanded {
-                margin-left: 0 !important;
-                width: 100% !important;
-            }
+            .sidebar.desktop { display: none; }
+            .sidebar { transform: translateX(-100%); width: 260px; }
+            .sidebar.show { transform: translateX(0); }
+            .page-wrapper { margin-left: 0 !important; width: 100% !important; }
+            .page-wrapper.expanded { margin-left: 0 !important; width: 100% !important; }
         }
 
-        .sidebar-nav {
-            display: flex;
-            flex-direction: column;
-            height: calc(100% - 64px);
-            padding: 0.5rem;
-        }
+        .sidebar-nav { display: flex; flex-direction: column; height: calc(100% - 64px); padding: 0.5rem; }
+        .main-menu { overflow-y: auto; flex-grow: 1; scrollbar-width: thin; scrollbar-color: rgba(255, 255, 255, 0.35) transparent; }
+        .main-menu::-webkit-scrollbar { width: 6px; }
+        .main-menu::-webkit-scrollbar-track { background: transparent; }
+        .main-menu::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.35); border-radius: 3px; }
 
-        .main-menu {
-            overflow-y: auto;
-            flex-grow: 1;
-            scrollbar-width: thin;
-            scrollbar-color: rgba(255, 255, 255, 0.35) transparent;
-        }
-
-        .main-menu::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .main-menu::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        .main-menu::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.35);
-            border-radius: 3px;
-        }
-
-        .sidebar-nav a,
-        .sidebar-nav button {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 11px 16px;
-            margin-bottom: 2px;
+        .sidebar-nav a, .sidebar-nav button {
+            display: flex; align-items: center; gap: 10px;
+            padding: 11px 16px; margin-bottom: 2px;
             border-radius: 0.5rem;
             color: rgba(255, 255, 255, 0.8);
             transition: background-color 0.2s, color 0.2s;
             font-size: 0.92rem;
-            width: 100%;
-            text-align: left;
-            border: none;
-            background: none;
-            cursor: pointer;
+            width: 100%; text-align: left;
+            border: none; background: none; cursor: pointer;
         }
 
-        .sidebar-nav a:hover,
-        .sidebar-nav button:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-            color: white;
-        }
-
-        .sidebar-nav a.active {
-            background: rgba(255, 255, 255, 0.16);
-            color: white;
-            box-shadow: inset 3px 0 0 var(--teal-500);
-        }
-
-        .sidebar-nav i {
-            font-size: 1.3rem;
-            width: 26px;
-            text-align: center;
-        }
-
-        .sidebar.desktop .sidebar-nav a,
-        .sidebar.desktop .sidebar-nav button {
-            justify-content: center;
-            padding: 11px;
-        }
-
-        .sidebar.desktop.expanded .sidebar-nav a,
-        .sidebar.desktop.expanded .sidebar-nav button {
-            justify-content: flex-start;
-            padding: 11px 16px;
-        }
-
-        .sidebar-nav .logout {
-            margin-top: 0.5rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.12);
-            padding-top: 0.5rem;
-        }
+        .sidebar-nav a:hover, .sidebar-nav button:hover { background-color: rgba(255, 255, 255, 0.1); color: white; }
+        .sidebar-nav a.active { background: rgba(255, 255, 255, 0.16); color: white; box-shadow: inset 3px 0 0 var(--teal-500); }
+        .sidebar-nav i { font-size: 1.3rem; width: 26px; text-align: center; }
+        .sidebar.desktop .sidebar-nav a, .sidebar.desktop .sidebar-nav button { justify-content: center; padding: 11px; }
+        .sidebar.desktop.expanded .sidebar-nav a, .sidebar.desktop.expanded .sidebar-nav button { justify-content: flex-start; padding: 11px 16px; }
+        .sidebar-nav .logout { margin-top: 0.5rem; border-top: 1px solid rgba(255, 255, 255, 0.12); padding-top: 0.5rem; }
 
         /* ---------- Metric cards ---------- */
         .metric-card {
@@ -330,10 +185,15 @@
             border: 1px solid #eef1f6;
         }
 
-        .metric-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 24px rgba(17, 24, 39, 0.08);
+        .metric-card:hover { transform: translateY(-3px); box-shadow: 0 12px 24px rgba(17, 24, 39, 0.08); }
+
+        .metric-card--clickable { cursor: pointer; }
+        .metric-card--clickable:focus-visible { outline: 2px solid var(--brand-500); outline-offset: 2px; }
+        .metric-card--clickable .metric-arrow {
+            margin-left: auto; color: #cbd5e1; font-size: 0.85rem; align-self: center;
+            transition: transform 0.2s, color 0.2s;
         }
+        .metric-card--clickable:hover .metric-arrow { color: var(--brand-500); transform: translateX(2px); }
 
         .metric-card .icon-wrap {
             width: 52px;
@@ -346,42 +206,13 @@
             flex-shrink: 0;
         }
 
-        .metric-card p.value {
-            font-size: 1.9rem;
-            font-weight: 700;
-            line-height: 1.1;
-            font-family: 'Outfit', sans-serif;
-        }
+        .metric-card p.value { font-size: 1.9rem; font-weight: 700; line-height: 1.1; font-family: 'Outfit', sans-serif; }
+        .metric-card h3 { font-size: 0.8rem; color: var(--ink-500); font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em; margin-bottom: 0.15rem; }
 
-        .metric-card h3 {
-            font-size: 0.8rem;
-            color: var(--ink-500);
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.03em;
-            margin-bottom: 0.15rem;
-        }
-
-        .metric-trend {
-            font-size: 0.72rem;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            gap: 3px;
-            margin-top: 2px;
-        }
-
-        .metric-trend.up {
-            color: #0d9488;
-        }
-
-        .metric-trend.down {
-            color: #ef4444;
-        }
-
-        .metric-trend.flat {
-            color: var(--ink-500);
-        }
+        .metric-trend { font-size: 0.72rem; font-weight: 600; display: inline-flex; align-items: center; gap: 3px; margin-top: 2px; }
+        .metric-trend.up { color: #0d9488; }
+        .metric-trend.down { color: #ef4444; }
+        .metric-trend.flat { color: var(--ink-500); }
 
         /* ---------- Chart cards ---------- */
         .chart-card {
@@ -394,24 +225,9 @@
             flex-direction: column;
         }
 
-        .chart-card .chart-title {
-            font-family: 'Outfit', sans-serif;
-            font-weight: 600;
-            font-size: 1rem;
-            color: var(--ink-900);
-        }
-
-        .chart-card .chart-sub {
-            font-size: 0.78rem;
-            color: var(--ink-500);
-            margin-bottom: 0.5rem;
-        }
-
-        .chart-canvas-wrap {
-            position: relative;
-            flex: 1;
-            min-height: 230px;
-        }
+        .chart-card .chart-title { font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 1rem; color: var(--ink-900); }
+        .chart-card .chart-sub { font-size: 0.78rem; color: var(--ink-500); margin-bottom: 0.5rem; }
+        .chart-canvas-wrap { position: relative; flex: 1; min-height: 230px; }
 
         .chart-empty {
             display: none;
@@ -426,18 +242,35 @@
             gap: 0.4rem;
         }
 
-        .legend-dot {
-            width: 9px;
-            height: 9px;
-            border-radius: 50%;
-            display: inline-block;
+        .legend-dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
+
+        /* Period toggle (7/14/30 dias) — mesma linguagem visual do view-toggle usado noutras views */
+        .period-toggle { display: inline-flex; border: 1.5px solid #e5e7eb; border-radius: 0.5rem; overflow: hidden; }
+        .period-toggle button {
+            padding: 0.3rem 0.65rem; border: none; background: white; color: var(--ink-500);
+            font-size: 0.7rem; font-weight: 700; cursor: pointer;
         }
+        .period-toggle button.active { background: var(--brand-500); color: white; }
+        .period-toggle button + button { border-left: 1.5px solid #e5e7eb; }
+
+        /* Live toggle */
+        .live-toggle {
+            display: inline-flex; align-items: center; gap: 0.4rem;
+            background: white; border: 1px solid #d8dee8; border-radius: 0.55rem;
+            padding: 0.5rem 0.9rem; font-size: 0.8rem; font-weight: 600; color: var(--ink-700);
+            cursor: pointer; transition: all 0.2s;
+        }
+        .live-toggle:hover { background: #f8fafc; }
+        .live-dot { width: 8px; height: 8px; border-radius: 50%; background: #cbd5e1; flex-shrink: 0; }
+        .live-toggle.live .live-dot { background: #10b981; animation: livePulse 1.6s ease-in-out infinite; }
+        @keyframes livePulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(16,185,129,0.5); }
+            50% { box-shadow: 0 0 0 5px rgba(16,185,129,0); }
+        }
+        @media (prefers-reduced-motion: reduce) { .live-toggle.live .live-dot { animation: none; } }
 
         /* ---------- Search ---------- */
-        .search-box {
-            position: relative;
-        }
-
+        .search-box { position: relative; }
         .search-box input {
             padding: 0.6rem 0.9rem 0.6rem 2.6rem;
             border: 1px solid #d8dee8;
@@ -447,32 +280,12 @@
             background: white;
             transition: all 0.2s;
         }
-
-        .search-box input:focus {
-            outline: none;
-            border-color: var(--brand-500);
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
-        }
-
-        .search-box i {
-            position: absolute;
-            left: 0.9rem;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #9ca3af;
-        }
+        .search-box input:focus { outline: none; border-color: var(--brand-500); box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12); }
+        .search-box i { position: absolute; left: 0.9rem; top: 50%; transform: translateY(-50%); color: #9ca3af; }
 
         /* ---------- Table ---------- */
-        .table-container {
-            overflow-x: auto;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.875rem;
-        }
-
+        .table-container { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
         thead th {
             background-color: #f3f5f9;
             padding: 0.75rem 1rem;
@@ -483,16 +296,8 @@
             text-transform: uppercase;
             letter-spacing: 0.03em;
         }
-
-        tbody td {
-            padding: 0.8rem 1rem;
-            border-bottom: 1px solid #eef1f6;
-            vertical-align: middle;
-        }
-
-        tbody tr:hover {
-            background-color: #f9fafc;
-        }
+        tbody td { padding: 0.8rem 1rem; border-bottom: 1px solid #eef1f6; vertical-align: middle; }
+        tbody tr:hover { background-color: #f9fafc; }
 
         .btn-sm {
             padding: 0.3rem 0.8rem;
@@ -506,37 +311,13 @@
             gap: 0.3rem;
             font-weight: 500;
         }
-
-        .btn-sm:hover {
-            transform: scale(1.05);
-        }
-
-        .btn-edit {
-            background-color: var(--brand-500);
-            color: white;
-        }
-
-        .btn-edit:hover {
-            background-color: var(--brand-600);
-        }
-
-        .btn-danger {
-            background-color: #ef4444;
-            color: white;
-        }
-
-        .btn-danger:hover {
-            background-color: #dc2626;
-        }
-
-        .btn-success {
-            background-color: var(--teal-500);
-            color: white;
-        }
-
-        .btn-success:hover {
-            background-color: var(--teal-600);
-        }
+        .btn-sm:hover { transform: scale(1.05); }
+        .btn-edit { background-color: var(--brand-500); color: white; }
+        .btn-edit:hover { background-color: var(--brand-600); }
+        .btn-danger { background-color: #ef4444; color: white; }
+        .btn-danger:hover { background-color: #dc2626; }
+        .btn-success { background-color: var(--teal-500); color: white; }
+        .btn-success:hover { background-color: var(--teal-600); }
 
         .status-badge {
             padding: 0.3rem 0.75rem;
@@ -547,51 +328,24 @@
             align-items: center;
             gap: 0.3rem;
         }
-
-        .status-badge.pendente {
-            background-color: #fef3c7;
-            color: #92400e;
-        }
-
-        .status-badge.confirmado {
-            background-color: #ccfbf1;
-            color: #0f766e;
-        }
-
-        .status-badge.cancelado {
-            background-color: #fee2e2;
-            color: #991b1b;
-        }
+        .status-badge.pendente { background-color: #fef3c7; color: #92400e; }
+        .status-badge.confirmado { background-color: #ccfbf1; color: #0f766e; }
+        .status-badge.cancelado { background-color: #fee2e2; color: #991b1b; }
 
         /* ---------- Modal ---------- */
         .modal-overlay {
             display: none;
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
             background-color: rgba(15, 23, 42, 0.55);
             z-index: 950;
             justify-content: center;
             align-items: center;
             padding: 1rem;
         }
-
-        .modal-overlay.show {
-            display: flex;
-            animation: fadeIn 0.3s ease-out;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
-        }
+        .modal-overlay.show { display: flex; animation: fadeIn 0.3s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
         .modal-content {
             background-color: white;
@@ -604,18 +358,7 @@
             max-height: 90vh;
             overflow-y: auto;
         }
-
-        @keyframes slideUp {
-            from {
-                transform: translateY(30px);
-                opacity: 0;
-            }
-
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
+        @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
         .modal-header {
             display: flex;
@@ -625,234 +368,91 @@
             padding-bottom: 1rem;
             margin-bottom: 1.5rem;
         }
-
-        .modal-header h3 {
-            font-size: 1.15rem;
-            font-weight: 600;
-            color: #1f2937;
-        }
-
+        .modal-header h3 { font-size: 1.15rem; font-weight: 600; color: #1f2937; }
         .modal-close {
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            color: #6b7280;
-            cursor: pointer;
-            transition: color 0.2s;
-            padding: 0.25rem 0.5rem;
-            border-radius: 0.25rem;
+            background: none; border: none; font-size: 1.5rem; color: #6b7280; cursor: pointer;
+            transition: color 0.2s; padding: 0.25rem 0.5rem; border-radius: 0.25rem;
         }
+        .modal-close:hover { color: #1f2937; background-color: #f3f4f6; }
 
-        .modal-close:hover {
-            color: #1f2937;
-            background-color: #f3f4f6;
-        }
+        .modal-body { margin-bottom: 1.5rem; }
+        .modal-footer { display: flex; gap: 0.75rem; justify-content: flex-end; border-top: 2px solid #f3f4f6; padding-top: 1rem; flex-wrap: wrap; }
 
-        .modal-body {
-            margin-bottom: 1.5rem;
+        .form-group { margin-bottom: 1rem; }
+        .form-group label { display: block; font-weight: 500; color: #374151; margin-bottom: 0.25rem; font-size: 0.875rem; }
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%; padding: 0.55rem 0.75rem; border: 1px solid #d1d5db; border-radius: 0.5rem;
+            transition: border-color 0.2s; font-size: 0.875rem;
         }
-
-        .modal-footer {
-            display: flex;
-            gap: 0.75rem;
-            justify-content: flex-end;
-            border-top: 2px solid #f3f4f6;
-            padding-top: 1rem;
-            flex-wrap: wrap;
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+            outline: none; border-color: var(--brand-500); box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
         }
-
-        .form-group {
-            margin-bottom: 1rem;
-        }
-
-        .form-group label {
-            display: block;
-            font-weight: 500;
-            color: #374151;
-            margin-bottom: 0.25rem;
-            font-size: 0.875rem;
-        }
-
-        .form-group input,
-        .form-group textarea,
-        .form-group select {
-            width: 100%;
-            padding: 0.55rem 0.75rem;
-            border: 1px solid #d1d5db;
-            border-radius: 0.5rem;
-            transition: border-color 0.2s;
-            font-size: 0.875rem;
-        }
-
-        .form-group input:focus,
-        .form-group textarea:focus,
-        .form-group select:focus {
-            outline: none;
-            border-color: var(--brand-500);
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-        }
-
-        .form-group .input-error {
-            border-color: #ef4444;
-        }
-
-        .form-group .input-error:focus {
-            border-color: #ef4444;
-            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
-        }
+        .form-group .input-error { border-color: #ef4444; }
+        .form-group .input-error:focus { border-color: #ef4444; box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1); }
 
         .btn {
-            padding: 0.65rem 1.25rem;
-            border-radius: 0.55rem;
-            font-weight: 500;
-            border: none;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
+            padding: 0.65rem 1.25rem; border-radius: 0.55rem; font-weight: 500; border: none;
+            cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 0.5rem;
+            font-size: 0.85rem;
         }
+        .btn-primary { background-color: var(--brand-500); color: white; }
+        .btn-primary:hover { background-color: var(--brand-600); transform: translateY(-1px); }
+        .btn-secondary { background-color: #e5e7eb; color: #374151; }
+        .btn-secondary:hover { background-color: #d1d5db; }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none !important; }
 
-        .btn-primary {
-            background-color: var(--brand-500);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background-color: var(--brand-600);
-            transform: translateY(-1px);
-        }
-
-        .btn-secondary {
-            background-color: #e5e7eb;
-            color: #374151;
-        }
-
-        .btn-secondary:hover {
-            background-color: #d1d5db;
-        }
-
-        .btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none !important;
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 2rem 1rem;
-            color: #6b7280;
-        }
-
-        .empty-state i {
-            font-size: 2rem;
-            color: #d1d5db;
-            margin-bottom: 0.5rem;
-        }
+        .empty-state { text-align: center; padding: 2rem 1rem; color: #6b7280; }
+        .empty-state i { font-size: 2rem; color: #d1d5db; margin-bottom: 0.5rem; }
 
         .loading-spinner {
-            display: inline-block;
-            width: 1.3rem;
-            height: 1.3rem;
-            border: 3px solid #e5e7eb;
-            border-top-color: var(--brand-500);
-            border-radius: 50%;
+            display: inline-block; width: 1.3rem; height: 1.3rem;
+            border: 3px solid #e5e7eb; border-top-color: var(--brand-500); border-radius: 50%;
             animation: spin 0.8s linear infinite;
         }
-
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
-        }
+        @keyframes spin { to { transform: rotate(360deg); } }
 
         .card-panel {
-            background-color: white;
-            border-radius: 0.75rem;
-            border: 1px solid #eef1f6;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
-            padding: 1.5rem;
+            background-color: white; border-radius: 0.75rem; border: 1px solid #eef1f6;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06); padding: 1.5rem;
         }
 
-        .pulse-line {
-            width: 120px;
-            height: 34px;
-            opacity: 0.9;
-        }
-
-        .pulse-path {
-            stroke-dasharray: 300;
-            stroke-dashoffset: 300;
-            animation: draw-pulse 3.2s ease-in-out infinite;
-        }
-
+        .pulse-line { width: 120px; height: 34px; opacity: 0.9; }
+        .pulse-path { stroke-dasharray: 300; stroke-dashoffset: 300; animation: draw-pulse 3.2s ease-in-out infinite; }
         @keyframes draw-pulse {
-            0% {
-                stroke-dashoffset: 300;
-            }
-
-            55% {
-                stroke-dashoffset: 0;
-            }
-
-            100% {
-                stroke-dashoffset: -300;
-            }
+            0% { stroke-dashoffset: 300; }
+            55% { stroke-dashoffset: 0; }
+            100% { stroke-dashoffset: -300; }
         }
+        @media (prefers-reduced-motion: reduce) { .pulse-path { animation: none; stroke-dashoffset: 0; } }
 
-        @media (prefers-reduced-motion: reduce) {
-            .pulse-path {
-                animation: none;
-                stroke-dashoffset: 0;
-            }
-        }
-
-        /* Loading skeleton para métricas */
         .metric-loading {
-            display: inline-block;
-            width: 40px;
-            height: 28px;
+            display: inline-block; width: 40px; height: 28px;
             background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-            background-size: 200% 100%;
-            animation: shimmer 1.5s infinite;
-            border-radius: 4px;
+            background-size: 200% 100%; animation: shimmer 1.5s infinite; border-radius: 4px;
         }
+        @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
 
-        @keyframes shimmer {
-            0% {
-                background-position: -200% 0;
-            }
-
-            100% {
-                background-position: 200% 0;
-            }
+        /* ---------- Impressão ---------- */
+        #print-area { display: none; }
+        @media print {
+            body * { visibility: hidden; }
+            #print-area, #print-area * { visibility: visible; }
+            #print-area { display: block; position: absolute; top: 0; left: 0; width: 100%; padding: 20px; }
+            #print-area table { width: 100%; border-collapse: collapse; font-size: 12px; margin-bottom: 16px; }
+            #print-area th, #print-area td { border: 1px solid #999; padding: 6px 8px; text-align: left; }
+            #print-area .print-metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 18px; }
+            #print-area .print-metric { border: 1px solid #ccc; border-radius: 6px; padding: 8px 10px; }
+            #print-area .print-metric .label { font-size: 10px; text-transform: uppercase; color: #666; }
+            #print-area .print-metric .value { font-size: 18px; font-weight: 700; }
         }
 
         @media (max-width: 640px) {
-            .metric-card {
-                padding: 0.9rem 1rem;
-            }
-
-            .metric-card p.value {
-                font-size: 1.5rem;
-            }
-
-            .main-content {
-                padding: 0.5rem;
-            }
-
-            table {
-                font-size: 0.75rem;
-            }
-
-            thead th,
-            tbody td {
-                padding: 0.55rem;
-            }
-
-            .pulse-line {
-                display: none;
-            }
+            .metric-card { padding: 0.9rem 1rem; }
+            .metric-card p.value { font-size: 1.5rem; }
+            .main-content { padding: 0.5rem; }
+            table { font-size: 0.75rem; }
+            thead th, tbody td { padding: 0.55rem; }
+            .pulse-line { display: none; }
         }
     </style>
 </head>
@@ -902,9 +502,9 @@
         <header class="text-white shadow-lg">
             <div class="container mx-auto px-4 py-4 flex justify-between items-center">
                 <div class="flex items-center gap-3">
-                    <i class="fas fa-hospital-alt text-2xl" aria-label="Ícone do Hospital Matlhovele"></i>
+                    <i class="fas fa-hospital-alt text-2xl" aria-label="Ícone do Centro de Saúde Da Matola II"></i>
                     <div>
-                        <h1 class="text-xl font-bold leading-tight">Hospital Matlhovele</h1>
+                        <h1 class="text-xl font-bold leading-tight">Centro de Saúde Da Matola II</h1>
                         <p class="text-xs text-blue-100 opacity-90">Painel de Administração</p>
                     </div>
                 </div>
@@ -922,71 +522,96 @@
         <!-- Main Content -->
         <main class="main-content">
             <div class="container mx-auto px-4 py-8">
-                <div class="mb-6 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3">
+                <div class="mb-6 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-3">
                     <div>
                         <h2 class="text-2xl font-semibold text-gray-800 mb-1">Visão Geral</h2>
                         <p class="text-gray-500 text-sm" id="current-date"></p>
                     </div>
-                    <button onclick="refreshData()" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition flex items-center gap-2 text-sm">
-                        <i class="fas fa-sync-alt"></i> Atualizar
-                    </button>
+                    <div class="flex flex-wrap items-center gap-2">
+                        <button id="live-toggle-btn" class="live-toggle live">
+                            <span class="live-dot"></span>
+                            <span id="live-toggle-label">Ao vivo</span>
+                        </button>
+                        <button onclick="refreshData()" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition flex items-center gap-2 text-sm">
+                            <i class="fas fa-sync-alt"></i> Atualizar
+                        </button>
+                        <button id="export-summary-btn" class="bg-white border border-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-50 transition flex items-center gap-2 text-sm">
+                            <i class="fas fa-print"></i> Exportar Resumo
+                        </button>
+                    </div>
                 </div>
 
                 <!-- Metrics -->
                 <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4 mb-8" id="metrics-grid">
-                    <div class="metric-card">
+                    <div class="metric-card metric-card--clickable" data-href="<?= site_url('admin/pacientes') ?>" tabindex="0" role="button" aria-label="Ver lista de pacientes">
                         <div class="icon-wrap" style="background:#dbeafe; color:#2563eb;"><i class="fas fa-users"></i></div>
                         <div>
                             <h3>Pacientes</h3>
                             <p id="total-patients" class="value">0</p>
                         </div>
+                        <i class="fas fa-chevron-right metric-arrow"></i>
                     </div>
-                    <div class="metric-card">
+                    <div class="metric-card metric-card--clickable" data-href="<?= site_url('admin/medicos') ?>" tabindex="0" role="button" aria-label="Ver lista de médicos">
                         <div class="icon-wrap" style="background:#ccfbf1; color:#0d9488;"><i class="fas fa-user-md"></i></div>
                         <div>
                             <h3>Médicos</h3>
                             <p id="total-doctors" class="value">0</p>
                         </div>
+                        <i class="fas fa-chevron-right metric-arrow"></i>
                     </div>
-                    <div class="metric-card">
+                    <div class="metric-card metric-card--clickable" data-href="<?= site_url('admin/secretarios') ?>" tabindex="0" role="button" aria-label="Ver lista de secretários">
                         <div class="icon-wrap" style="background:#fde7d5; color:#c2410c;"><i class="fas fa-user-tie"></i></div>
                         <div>
                             <h3>Secretários</h3>
                             <p id="total-secretaries" class="value">0</p>
                         </div>
+                        <i class="fas fa-chevron-right metric-arrow"></i>
                     </div>
-                    <div class="metric-card">
+                    <div class="metric-card metric-card--clickable" data-href="<?= site_url('admin/agendamentos') ?>?date=<?= date('Y-m-d') ?>" tabindex="0" role="button" aria-label="Ver agendamentos de hoje">
                         <div class="icon-wrap" style="background:#ede9fe; color:#7c3aed;"><i class="fas fa-calendar-day"></i></div>
                         <div>
                             <h3>Hoje</h3>
                             <p id="appointments-today" class="value">0</p>
                         </div>
+                        <i class="fas fa-chevron-right metric-arrow"></i>
                     </div>
-                    <div class="metric-card">
+                    <div class="metric-card metric-card--clickable" data-href="<?= site_url('admin/agendamentos') ?>?filter=upcoming" tabindex="0" role="button" aria-label="Ver agendamentos futuros">
                         <div class="icon-wrap" style="background:#dbeafe; color:#1d4ed8;"><i class="fas fa-calendar-check"></i></div>
                         <div>
                             <h3>Futuros</h3>
                             <p id="upcoming-appointments" class="value">0</p>
                         </div>
+                        <i class="fas fa-chevron-right metric-arrow"></i>
                     </div>
-                    <div class="metric-card">
+                    <div class="metric-card metric-card--clickable" data-href="<?= site_url('admin/agendamentos') ?>?status=Cancelado" tabindex="0" role="button" aria-label="Ver agendamentos cancelados">
                         <div class="icon-wrap" style="background:#fee2e2; color:#dc2626;"><i class="fas fa-calendar-times"></i></div>
                         <div>
                             <h3>Cancelados</h3>
                             <p id="cancelled-appointments" class="value">0</p>
                         </div>
+                        <i class="fas fa-chevron-right metric-arrow"></i>
                     </div>
                 </div>
+                <p class="text-xs text-gray-400 -mt-6 mb-8">
+                    <i class="fas fa-info-circle mr-1"></i>Os parâmetros de filtro (<code>?date=</code>, <code>?status=</code>, <code>?filter=</code>) devem corresponder ao que a view de Agendamentos do admin aceita — ajusta se os nomes forem diferentes.
+                </p>
 
                 <!-- Charts -->
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-5 mb-8">
                     <div class="chart-card lg:col-span-2">
-                        <div class="flex items-center justify-between">
+                        <div class="flex items-center justify-between flex-wrap gap-2">
                             <div>
-                                <div class="chart-title">Agendamentos — últimos 14 dias</div>
+                                <div class="chart-title">Agendamentos — tendência</div>
                                 <div class="chart-sub">Volume diário de consultas marcadas</div>
                             </div>
-                            <span class="text-xs font-semibold text-teal-700 bg-teal-50 px-2 py-1 rounded-full" id="trend-badge">—</span>
+                            <div class="flex items-center gap-2">
+                                <span class="text-xs font-semibold text-teal-700 bg-teal-50 px-2 py-1 rounded-full" id="trend-badge">—</span>
+                                <div class="period-toggle" id="trend-period-toggle">
+                                    <button data-days="7">7d</button>
+                                    <button data-days="14" class="active">14d</button>
+                                    <button data-days="30">30d</button>
+                                </div>
+                            </div>
                         </div>
                         <div class="chart-canvas-wrap">
                             <canvas id="chart-appointments-trend"></canvas>
@@ -1074,6 +699,9 @@
         </main>
     </div>
 
+    <!-- Área usada apenas para impressão -->
+    <div id="print-area"></div>
+
     <!-- ==================== MODAIS ==================== -->
 
     <!-- Modal de Edição de Paciente -->
@@ -1156,6 +784,44 @@
         </div>
     </div>
 
+    <!-- Modal de Edição de Secretário (faltava — botão Editar não fazia nada) -->
+    <div id="edit-secretary-modal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-user-tie text-orange-500 mr-2"></i>Editar Secretário</h3>
+                <button class="modal-close" onclick="closeModal('edit-secretary-modal')">&times;</button>
+            </div>
+            <form id="edit-secretary-form" onsubmit="saveSecretary(event)">
+                <input type="hidden" id="edit-secretary-bi" name="bi">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="edit-secretary-name">Nome Completo <span class="text-red-500">*</span></label>
+                        <input type="text" id="edit-secretary-name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-secretary-phone">Telefone <span class="text-red-500">*</span></label>
+                        <input type="tel" id="edit-secretary-phone" name="phone" required placeholder="+258 8X XXXXXXX">
+                        <p class="text-xs text-gray-500 mt-1">Formato: +258 8X XXXXXXX</p>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-secretary-email">Email</label>
+                        <input type="email" id="edit-secretary-email" name="email" placeholder="exemplo@email.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-secretary-bi-display">BI</label>
+                        <input type="text" id="edit-secretary-bi-display" readonly class="bg-gray-100">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('edit-secretary-modal')">Cancelar</button>
+                    <button type="submit" class="btn btn-primary" id="save-secretary-btn" style="background-color:#c2410c;">
+                        <i class="fas fa-save mr-1"></i>Salvar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <script>
         // ==================== VERIFICAR CHART.JS ====================
         if (typeof Chart === 'undefined') {
@@ -1168,7 +834,7 @@
             };
             document.head.appendChild(script);
         }
-        
+
         // ==================== FUNÇÕES UTILITÁRIAS ====================
 
         function getCsrfToken() {
@@ -1188,9 +854,7 @@
             if (!notification || !messageEl) return;
             messageEl.innerHTML = message;
             notification.className = `show ${type}`;
-            setTimeout(() => {
-                notification.classList.remove('show');
-            }, 5000);
+            setTimeout(() => { notification.classList.remove('show'); }, 5000);
         }
 
         function closeModal(modalId) {
@@ -1203,38 +867,43 @@
             document.body.style.overflow = 'hidden';
         }
 
+        function escapeHtml(str) {
+            if (str === null || str === undefined) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
         function setDateHeader() {
             const el = document.getElementById('current-date');
             if (!el) return;
             const now = new Date();
             const formatted = now.toLocaleDateString('pt-PT', {
-                weekday: 'long',
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
+                weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
             });
             el.textContent = formatted.charAt(0).toUpperCase() + formatted.slice(1);
         }
 
         async function fetchJSON(url) {
-            const response = await fetch(url, {
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest'
-                }
-            });
+            const response = await fetch(url, { headers: { 'X-Requested-With': 'XMLHttpRequest' } });
             if (!response.ok) throw new Error('HTTP ' + response.status);
             return response.json();
         }
 
         // ==================== REFRESH DATA ====================
-        function refreshData() {
+        function refreshData(silent = false) {
             renderMetrics();
             renderAllCharts();
             renderActivity(document.getElementById('search-input')?.value || '');
-            showNotification('Dados atualizados com sucesso!', 'success');
+            if (!silent) showNotification('Dados atualizados com sucesso!', 'success');
         }
 
         // ==================== MÉTRICAS ====================
+        let lastMetrics = {};
+
         async function renderMetrics() {
             const fields = {
                 total_patients: 'total-patients',
@@ -1256,6 +925,7 @@
                     const el = document.getElementById(id);
                     if (el) el.textContent = (data[key] !== undefined && data[key] !== null) ? data[key] : 0;
                 });
+                lastMetrics = data;
             } catch (error) {
                 console.error('Erro ao buscar métricas:', error);
                 showNotification('Erro ao carregar métricas.', 'error');
@@ -1268,18 +938,15 @@
 
         // ==================== GRÁFICOS ====================
         const CHART_COLORS = {
-            brand: '#2563eb',
-            brandFill: 'rgba(37, 99, 235, 0.12)',
-            teal: '#0d9488',
-            amber: '#f59e0b',
-            rose: '#ef4444',
-            slate: '#94a3b8'
+            brand: '#2563eb', brandFill: 'rgba(37, 99, 235, 0.12)',
+            teal: '#0d9488', amber: '#f59e0b', rose: '#ef4444', slate: '#94a3b8'
         };
         Chart.defaults.font.family = "'Roboto', sans-serif";
         Chart.defaults.color = '#6b7280';
         Chart.defaults.plugins.legend.labels.usePointStyle = true;
 
         let trendChart, statusChart, specialtyChart, patientsMonthlyChart;
+        let trendDays = 14;
 
         function toggleEmptyState(emptyId, isEmpty) {
             const el = document.getElementById(emptyId);
@@ -1292,7 +959,8 @@
             if (!ctx) return;
 
             try {
-                const data = await fetchJSON(AJAX_URL + '/admin/chart_appointments_trend');
+                // TODO API: o endpoint precisa de aceitar ?days= (7/14/30); ajustar no controller se ainda não aceitar.
+                const data = await fetchJSON(AJAX_URL + '/admin/chart_appointments_trend?days=' + trendDays);
                 const labels = data.labels || [];
                 const values = data.data || [];
                 const total = values.reduce((a, b) => a + Number(b || 0), 0);
@@ -1319,36 +987,16 @@
                             data: values,
                             borderColor: CHART_COLORS.brand,
                             backgroundColor: CHART_COLORS.brandFill,
-                            fill: true,
-                            tension: 0.35,
-                            pointRadius: 3,
-                            pointBackgroundColor: CHART_COLORS.brand,
-                            borderWidth: 2.5
+                            fill: true, tension: 0.35, pointRadius: 3,
+                            pointBackgroundColor: CHART_COLORS.brand, borderWidth: 2.5
                         }]
                     },
                     options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: {
-                                display: false
-                            }
-                        },
+                        responsive: true, maintainAspectRatio: false,
+                        plugins: { legend: { display: false } },
                         scales: {
-                            y: {
-                                beginAtZero: true,
-                                ticks: {
-                                    precision: 0
-                                },
-                                grid: {
-                                    color: '#f1f5f9'
-                                }
-                            },
-                            x: {
-                                grid: {
-                                    display: false
-                                }
-                            }
+                            y: { beginAtZero: true, ticks: { precision: 0 }, grid: { color: '#f1f5f9' } },
+                            x: { grid: { display: false } }
                         }
                     }
                 });
@@ -1362,6 +1010,15 @@
             }
         }
 
+        document.getElementById('trend-period-toggle').addEventListener('click', function(e) {
+            const btn = e.target.closest('button[data-days]');
+            if (!btn) return;
+            this.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            trendDays = parseInt(btn.dataset.days, 10);
+            renderAppointmentsTrend();
+        });
+
         async function renderStatusChart() {
             const ctx = document.getElementById('chart-status');
             const legendEl = document.getElementById('status-legend');
@@ -1370,18 +1027,9 @@
             try {
                 const data = await fetchJSON(AJAX_URL + '/admin/chart_appointments_status');
                 const map = {
-                    pendente: {
-                        label: 'Pendente',
-                        color: CHART_COLORS.amber
-                    },
-                    confirmado: {
-                        label: 'Confirmado',
-                        color: CHART_COLORS.teal
-                    },
-                    cancelado: {
-                        label: 'Cancelado',
-                        color: CHART_COLORS.rose
-                    }
+                    pendente: { label: 'Pendente', color: CHART_COLORS.amber },
+                    confirmado: { label: 'Confirmado', color: CHART_COLORS.teal },
+                    cancelado: { label: 'Cancelado', color: CHART_COLORS.rose }
                 };
                 const keys = Object.keys(map);
                 const values = keys.map(k => Number(data[k] || 0));
@@ -1400,23 +1048,9 @@
                     type: 'doughnut',
                     data: {
                         labels: keys.map(k => map[k].label),
-                        datasets: [{
-                            data: values,
-                            backgroundColor: keys.map(k => map[k].color),
-                            borderWidth: 2,
-                            borderColor: '#ffffff'
-                        }]
+                        datasets: [{ data: values, backgroundColor: keys.map(k => map[k].color), borderWidth: 2, borderColor: '#ffffff' }]
                     },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        cutout: '68%',
-                        plugins: {
-                            legend: {
-                                display: false
-                            }
-                        }
-                    }
+                    options: { responsive: true, maintainAspectRatio: false, cutout: '68%', plugins: { legend: { display: false } } }
                 });
             } catch (error) {
                 console.error('Erro ao buscar status de agendamentos:', error);
@@ -1437,40 +1071,13 @@
                 if (specialtyChart) specialtyChart.destroy();
                 specialtyChart = new Chart(ctx, {
                     type: 'bar',
-                    data: {
-                        labels: labels,
-                        datasets: [{
-                            label: 'Médicos',
-                            data: values,
-                            backgroundColor: CHART_COLORS.teal,
-                            borderRadius: 6,
-                            maxBarThickness: 34
-                        }]
-                    },
+                    data: { labels: labels, datasets: [{ label: 'Médicos', data: values, backgroundColor: CHART_COLORS.teal, borderRadius: 6, maxBarThickness: 34 }] },
                     options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        indexAxis: 'y',
-                        plugins: {
-                            legend: {
-                                display: false
-                            }
-                        },
+                        responsive: true, maintainAspectRatio: false, indexAxis: 'y',
+                        plugins: { legend: { display: false } },
                         scales: {
-                            x: {
-                                beginAtZero: true,
-                                ticks: {
-                                    precision: 0
-                                },
-                                grid: {
-                                    color: '#f1f5f9'
-                                }
-                            },
-                            y: {
-                                grid: {
-                                    display: false
-                                }
-                            }
+                            x: { beginAtZero: true, ticks: { precision: 0 }, grid: { color: '#f1f5f9' } },
+                            y: { grid: { display: false } }
                         }
                     }
                 });
@@ -1494,39 +1101,13 @@
                 if (patientsMonthlyChart) patientsMonthlyChart.destroy();
                 patientsMonthlyChart = new Chart(ctx, {
                     type: 'bar',
-                    data: {
-                        labels: labels,
-                        datasets: [{
-                            label: 'Novos pacientes',
-                            data: values,
-                            backgroundColor: CHART_COLORS.brand,
-                            borderRadius: 6,
-                            maxBarThickness: 40
-                        }]
-                    },
+                    data: { labels: labels, datasets: [{ label: 'Novos pacientes', data: values, backgroundColor: CHART_COLORS.brand, borderRadius: 6, maxBarThickness: 40 }] },
                     options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: {
-                                display: false
-                            }
-                        },
+                        responsive: true, maintainAspectRatio: false,
+                        plugins: { legend: { display: false } },
                         scales: {
-                            y: {
-                                beginAtZero: true,
-                                ticks: {
-                                    precision: 0
-                                },
-                                grid: {
-                                    color: '#f1f5f9'
-                                }
-                            },
-                            x: {
-                                grid: {
-                                    display: false
-                                }
-                            }
+                            y: { beginAtZero: true, ticks: { precision: 0 }, grid: { color: '#f1f5f9' } },
+                            x: { grid: { display: false } }
                         }
                     }
                 });
@@ -1544,6 +1125,8 @@
         }
 
         // ==================== ATIVIDADES ====================
+        let lastActivities = [];
+
         async function renderActivity(searchQuery = '') {
             const list = document.getElementById('activity-list');
             const countEl = document.getElementById('activity-count');
@@ -1552,6 +1135,7 @@
             try {
                 const url = AJAX_URL + '/admin/activity' + (searchQuery ? `?query=${encodeURIComponent(searchQuery)}` : '');
                 const activities = await fetchJSON(url);
+                lastActivities = activities || [];
 
                 if (countEl) countEl.textContent = activities.length ? `${activities.length} registo(s)` : '';
 
@@ -1565,40 +1149,37 @@
 
                 list.innerHTML = activities.map(activity => {
                     const typeIcon = {
-                        patient: 'fa-user',
-                        doctor: 'fa-user-md',
-                        appointment: 'fa-calendar-check',
-                        secretary: 'fa-user-tie'
-                    } [activity.type] || 'fa-circle';
+                        patient: 'fa-user', doctor: 'fa-user-md', appointment: 'fa-calendar-check', secretary: 'fa-user-tie'
+                    }[activity.type] || 'fa-circle';
 
                     const typeColor = {
-                        patient: 'text-blue-500',
-                        doctor: 'text-teal-600',
-                        appointment: 'text-purple-500',
-                        secretary: 'text-orange-500'
-                    } [activity.type] || 'text-gray-500';
+                        patient: 'text-blue-500', doctor: 'text-teal-600', appointment: 'text-purple-500', secretary: 'text-orange-500'
+                    }[activity.type] || 'text-gray-500';
 
                     let statusBadge = '';
                     if (activity.status) {
                         const statusKey = String(activity.status).toLowerCase();
-                        statusBadge = ` <span class="status-badge ${statusKey}">${activity.status}</span>`;
+                        statusBadge = ` <span class="status-badge ${statusKey}">${escapeHtml(activity.status)}</span>`;
                     }
+
+                    // Botões de ação passam a usar data-attributes + listener delegado em vez de
+                    // onclick com string interpolada (evita quebrar com aspas no BI/nome e permite
+                    // cobrir o tipo "secretary", que antes não tinha modal nenhum associado).
+                    const editBtn = (activity.action_type && activity.bi)
+                        ? `<button class="btn-sm btn-edit action-edit-btn" data-type="${escapeHtml(activity.action_type)}" data-bi="${escapeHtml(activity.bi)}">
+                                <i class="fas fa-edit"></i> Editar
+                           </button>`
+                        : '-';
 
                     return `
                         <tr>
                             <td>
                                 <i class="fas ${typeIcon} ${typeColor} mr-2"></i>
-                                <span class="capitalize">${activity.type}</span>
+                                <span class="capitalize">${escapeHtml(activity.type)}</span>
                             </td>
-                            <td>${activity.details || '—'}${statusBadge}</td>
+                            <td>${escapeHtml(activity.details) || '—'}${statusBadge}</td>
                             <td>${activity.date ? new Date(activity.date).toLocaleString('pt-PT') : '—'}</td>
-                            <td class="text-center">
-                                ${activity.action_type && activity.action_type !== 'appointment' ? `
-                                    <button class="btn-sm btn-edit" onclick="showEditModal('${activity.action_type}', '${activity.bi}')">
-                                        <i class="fas fa-edit"></i> Editar
-                                    </button>
-                                ` : '-'}
-                            </td>
+                            <td class="text-center">${editBtn}</td>
                         </tr>
                     `;
                 }).join('');
@@ -1609,20 +1190,26 @@
             }
         }
 
+        // Listener delegado para os botões "Editar" da tabela de atividade
+        document.getElementById('activity-list').addEventListener('click', function(e) {
+            const btn = e.target.closest('.action-edit-btn');
+            if (!btn) return;
+            showEditModal(btn.dataset.type, btn.dataset.bi);
+        });
+
         // ==================== MODAIS DE EDIÇÃO ====================
 
         function showEditModal(type, bi) {
             if (type === 'patient') showEditPatientModal(bi);
             else if (type === 'doctor') showEditDoctorModal(bi);
+            else if (type === 'secretary') showEditSecretaryModal(bi);
+            else showNotification('Este tipo de registo não tem edição rápida disponível aqui.', 'info');
         }
 
         async function showEditPatientModal(bi) {
             try {
                 const data = await fetchJSON(AJAX_URL + `/admin/patient/${bi}`);
-                if (data.error) {
-                    showNotification(data.error, 'error');
-                    return;
-                }
+                if (data.error) { showNotification(data.error, 'error'); return; }
 
                 document.getElementById('edit-patient-bi').value = bi;
                 document.getElementById('edit-patient-name').value = data.name || '';
@@ -1640,10 +1227,7 @@
         async function showEditDoctorModal(bi) {
             try {
                 const data = await fetchJSON(AJAX_URL + `/admin/doctor/${bi}`);
-                if (data.error) {
-                    showNotification(data.error, 'error');
-                    return;
-                }
+                if (data.error) { showNotification(data.error, 'error'); return; }
 
                 document.getElementById('edit-doctor-bi').value = bi;
                 document.getElementById('edit-doctor-name').value = data.name || '';
@@ -1659,34 +1243,48 @@
             }
         }
 
+        async function showEditSecretaryModal(bi) {
+            try {
+                // TODO API: GET /admin/secretary/{bi} — mesmo padrão de /admin/patient/{bi} e /admin/doctor/{bi}
+                const data = await fetchJSON(AJAX_URL + `/admin/secretary/${bi}`);
+                if (data.error) { showNotification(data.error, 'error'); return; }
+
+                document.getElementById('edit-secretary-bi').value = bi;
+                document.getElementById('edit-secretary-name').value = data.name || '';
+                document.getElementById('edit-secretary-phone').value = data.phone || '';
+                document.getElementById('edit-secretary-email').value = data.email || '';
+                document.getElementById('edit-secretary-bi-display').value = bi;
+
+                openModal('edit-secretary-modal');
+            } catch (error) {
+                console.error('Erro ao buscar secretário:', error);
+                showNotification('Erro ao carregar dados do secretário.', 'error');
+            }
+        }
+
         // ==================== SALVAR EDIÇÕES ====================
+
+        function validatePhone(phone) {
+            const phoneRegex = /^\+258\s*[8][0-9]{8}$/;
+            return phoneRegex.test(phone.replace(/\s/g, ''));
+        }
 
         async function savePatient(event) {
             event.preventDefault();
-
             const bi = document.getElementById('edit-patient-bi').value;
             const name = document.getElementById('edit-patient-name').value.trim();
             const phone = document.getElementById('edit-patient-phone').value.trim();
             const email = document.getElementById('edit-patient-email').value.trim();
 
-            if (!name || !phone) {
-                showNotification('Nome e telefone são obrigatórios.', 'error');
-                return;
-            }
+            if (!name || !phone) { showNotification('Nome e telefone são obrigatórios.', 'error'); return; }
+            if (!validatePhone(phone)) { showNotification('Número de telefone inválido. Use o formato +258 8X XXXXXXX', 'error'); return; }
 
-            const phoneRegex = /^\+258\s*[8][0-9]{8}$/;
-            if (!phoneRegex.test(phone.replace(/\s/g, ''))) {
-                showNotification('Número de telefone inválido. Use o formato +258 8X XXXXXXX', 'error');
-                return;
-            }
-
-            const csrfToken = getCsrfToken();
             const formData = new FormData();
             formData.append('bi', bi);
             formData.append('name', name);
             formData.append('phone', phone);
             formData.append('email', email);
-            formData.append('csrf_test_name', csrfToken);
+            formData.append('csrf_test_name', getCsrfToken());
 
             const btn = document.getElementById('save-patient-btn');
             btn.disabled = true;
@@ -1694,26 +1292,16 @@
 
             try {
                 const response = await fetch(AJAX_URL + '/admin/update_patient', {
-                    method: 'POST',
-                    headers: {
-                        'X-Requested-With': 'XMLHttpRequest'
-                    },
-                    body: formData
+                    method: 'POST', headers: { 'X-Requested-With': 'XMLHttpRequest' }, body: formData
                 });
                 const result = await response.json();
-
-                if (result.error) {
-                    showNotification(result.error, 'error');
-                    return;
-                }
+                if (result.error) { showNotification(result.error, 'error'); return; }
 
                 showNotification(result.success || 'Paciente atualizado com sucesso!', 'success');
                 closeModal('edit-patient-modal');
-
                 renderActivity(document.getElementById('search-input')?.value || '');
                 renderMetrics();
                 renderPatientsMonthlyChart();
-
             } catch (error) {
                 console.error('Erro ao atualizar paciente:', error);
                 showNotification('Erro ao atualizar paciente.', 'error');
@@ -1725,32 +1313,22 @@
 
         async function saveDoctor(event) {
             event.preventDefault();
-
             const bi = document.getElementById('edit-doctor-bi').value;
             const name = document.getElementById('edit-doctor-name').value.trim();
             const specialty = document.getElementById('edit-doctor-specialty').value.trim();
             const phone = document.getElementById('edit-doctor-phone').value.trim();
             const email = document.getElementById('edit-doctor-email').value.trim();
 
-            if (!name || !specialty || !phone) {
-                showNotification('Nome, especialidade e telefone são obrigatórios.', 'error');
-                return;
-            }
+            if (!name || !specialty || !phone) { showNotification('Nome, especialidade e telefone são obrigatórios.', 'error'); return; }
+            if (!validatePhone(phone)) { showNotification('Número de telefone inválido. Use o formato +258 8X XXXXXXX', 'error'); return; }
 
-            const phoneRegex = /^\+258\s*[8][0-9]{8}$/;
-            if (!phoneRegex.test(phone.replace(/\s/g, ''))) {
-                showNotification('Número de telefone inválido. Use o formato +258 8X XXXXXXX', 'error');
-                return;
-            }
-
-            const csrfToken = getCsrfToken();
             const formData = new FormData();
             formData.append('bi', bi);
             formData.append('name', name);
             formData.append('specialty', specialty);
             formData.append('phone', phone);
             formData.append('email', email);
-            formData.append('csrf_test_name', csrfToken);
+            formData.append('csrf_test_name', getCsrfToken());
 
             const btn = document.getElementById('save-doctor-btn');
             btn.disabled = true;
@@ -1758,26 +1336,16 @@
 
             try {
                 const response = await fetch(AJAX_URL + '/admin/update_doctor', {
-                    method: 'POST',
-                    headers: {
-                        'X-Requested-With': 'XMLHttpRequest'
-                    },
-                    body: formData
+                    method: 'POST', headers: { 'X-Requested-With': 'XMLHttpRequest' }, body: formData
                 });
                 const result = await response.json();
-
-                if (result.error) {
-                    showNotification(result.error, 'error');
-                    return;
-                }
+                if (result.error) { showNotification(result.error, 'error'); return; }
 
                 showNotification(result.success || 'Médico atualizado com sucesso!', 'success');
                 closeModal('edit-doctor-modal');
-
                 renderActivity(document.getElementById('search-input')?.value || '');
                 renderMetrics();
                 renderSpecialtyChart();
-
             } catch (error) {
                 console.error('Erro ao atualizar médico:', error);
                 showNotification('Erro ao atualizar médico.', 'error');
@@ -1787,9 +1355,117 @@
             }
         }
 
+        async function saveSecretary(event) {
+            event.preventDefault();
+            const bi = document.getElementById('edit-secretary-bi').value;
+            const name = document.getElementById('edit-secretary-name').value.trim();
+            const phone = document.getElementById('edit-secretary-phone').value.trim();
+            const email = document.getElementById('edit-secretary-email').value.trim();
+
+            if (!name || !phone) { showNotification('Nome e telefone são obrigatórios.', 'error'); return; }
+            if (!validatePhone(phone)) { showNotification('Número de telefone inválido. Use o formato +258 8X XXXXXXX', 'error'); return; }
+
+            const formData = new FormData();
+            formData.append('bi', bi);
+            formData.append('name', name);
+            formData.append('phone', phone);
+            formData.append('email', email);
+            formData.append('csrf_test_name', getCsrfToken());
+
+            const btn = document.getElementById('save-secretary-btn');
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-1"></i>Salvando...';
+
+            try {
+                // TODO API: POST /admin/update_secretary — mesmo padrão de update_patient / update_doctor
+                const response = await fetch(AJAX_URL + '/admin/update_secretary', {
+                    method: 'POST', headers: { 'X-Requested-With': 'XMLHttpRequest' }, body: formData
+                });
+                const result = await response.json();
+                if (result.error) { showNotification(result.error, 'error'); return; }
+
+                showNotification(result.success || 'Secretário atualizado com sucesso!', 'success');
+                closeModal('edit-secretary-modal');
+                renderActivity(document.getElementById('search-input')?.value || '');
+                renderMetrics();
+            } catch (error) {
+                console.error('Erro ao atualizar secretário:', error);
+                showNotification('Erro ao atualizar secretário.', 'error');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-save mr-1"></i>Salvar';
+            }
+        }
+
+        // ==================== ACTUALIZAÇÃO AO VIVO ====================
+        let liveMode = true;
+        let liveInterval = null;
+        const LIVE_INTERVAL_MS = 45000;
+
+        function startLive() {
+            stopLive();
+            liveInterval = setInterval(() => refreshData(true), LIVE_INTERVAL_MS);
+        }
+        function stopLive() {
+            if (liveInterval) { clearInterval(liveInterval); liveInterval = null; }
+        }
+        function updateLiveButton() {
+            const btn = document.getElementById('live-toggle-btn');
+            const label = document.getElementById('live-toggle-label');
+            btn.classList.toggle('live', liveMode);
+            label.textContent = liveMode ? 'Ao vivo' : 'Pausado';
+        }
+
+        document.getElementById('live-toggle-btn').addEventListener('click', function() {
+            liveMode = !liveMode;
+            updateLiveButton();
+            if (liveMode) { startLive(); showNotification('Actualização automática retomada.', 'info'); }
+            else { stopLive(); showNotification('Actualização automática pausada.', 'info'); }
+        });
+
+        // ==================== EXPORTAR / IMPRIMIR RESUMO ====================
+        function exportSummary() {
+            const metricsHtml = `
+                <div class="print-metrics">
+                    <div class="print-metric"><div class="label">Pacientes</div><div class="value">${lastMetrics.total_patients ?? 0}</div></div>
+                    <div class="print-metric"><div class="label">Médicos</div><div class="value">${lastMetrics.total_doctors ?? 0}</div></div>
+                    <div class="print-metric"><div class="label">Secretários</div><div class="value">${lastMetrics.total_secretaries ?? 0}</div></div>
+                    <div class="print-metric"><div class="label">Agendamentos hoje</div><div class="value">${lastMetrics.appointments_today ?? 0}</div></div>
+                    <div class="print-metric"><div class="label">Agendamentos futuros</div><div class="value">${lastMetrics.upcoming_appointments ?? 0}</div></div>
+                    <div class="print-metric"><div class="label">Cancelados</div><div class="value">${lastMetrics.cancelled_appointments ?? 0}</div></div>
+                </div>`;
+
+            const rows = (lastActivities || []).map(a => `
+                <tr>
+                    <td>${escapeHtml(a.type)}</td>
+                    <td>${escapeHtml(a.details)}${a.status ? ' — ' + escapeHtml(a.status) : ''}</td>
+                    <td>${a.date ? new Date(a.date).toLocaleString('pt-PT') : ''}</td>
+                </tr>`).join('');
+
+            document.getElementById('print-area').innerHTML = `
+                <h2>Centro de Saúde Da Matola II — Resumo do Dashboard</h2>
+                <p>Gerado em ${new Date().toLocaleString('pt-PT')}</p>
+                ${metricsHtml}
+                <h3 style="font-family:sans-serif;">Atividade Recente</h3>
+                <table>
+                    <thead><tr><th>Tipo</th><th>Detalhes</th><th>Data</th></tr></thead>
+                    <tbody>${rows || '<tr><td colspan="3">Sem registos.</td></tr>'}</tbody>
+                </table>`;
+            window.print();
+        }
+        document.getElementById('export-summary-btn').addEventListener('click', exportSummary);
+
+        // ==================== CARTÕES DE MÉTRICA CLICÁVEIS ====================
+        document.querySelectorAll('.metric-card--clickable').forEach(card => {
+            const go = () => { if (card.dataset.href) window.location.href = card.dataset.href; };
+            card.addEventListener('click', go);
+            card.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(); }
+            });
+        });
+
         // ==================== INICIALIZAÇÃO ====================
         document.addEventListener('DOMContentLoaded', function() {
-            // Fechar notificação
             document.getElementById('notification-close').addEventListener('click', function() {
                 document.getElementById('notification').classList.remove('show');
             });
@@ -1839,7 +1515,6 @@
                 });
             }
 
-            // Fechar sidebar ao clicar fora (mobile)
             document.addEventListener('click', function(e) {
                 const isClickInsideSidebar = sidebarMenu.contains(e.target);
                 const isClickOnMenuBtn = mobileMenuBtn.contains(e.target);
@@ -1859,9 +1534,7 @@
                 let timeoutId;
                 searchInput.addEventListener('input', function() {
                     clearTimeout(timeoutId);
-                    timeoutId = setTimeout(() => {
-                        renderActivity(this.value);
-                    }, 300);
+                    timeoutId = setTimeout(() => { renderActivity(this.value); }, 300);
                 });
             }
 
@@ -1877,14 +1550,11 @@
 
             // Inicialização
             setDateHeader();
+            updateLiveButton();
             renderMetrics();
             renderActivity();
             renderAllCharts();
-
-            // Atualiza a cada 60 segundos
-            setInterval(() => {
-                renderMetrics();
-            }, 60000);
+            if (liveMode) startLive();
         });
     </script>
 </body>

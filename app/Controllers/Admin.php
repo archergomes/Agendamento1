@@ -1184,10 +1184,18 @@ class Admin extends Controller
         $especialidade = $this->request->getPost('especialidade');
         $licenca = $this->request->getPost('licenca');
 
-        if (!$bi || !$nome || !$telefone || !$especialidade || !$licenca) {
+        // Validar campos obrigatórios
+        if (!$bi || !$nome || !$telefone || !$email || !$especialidade || !$licenca) {
             return $this->response
                 ->setStatusCode(400)
-                ->setJSON(['error' => 'Dados incompletos']);
+                ->setJSON(['error' => 'Dados incompletos. Todos os campos são obrigatórios.']);
+        }
+
+        // Validar formato do email
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            return $this->response
+                ->setStatusCode(400)
+                ->setJSON(['error' => 'Email inválido.']);
         }
 
         try {
@@ -1195,18 +1203,18 @@ class Admin extends Controller
 
             if ($result) {
                 return $this->response->setJSON([
-                    'success' => 'Médico cadastrado com sucesso'
+                    'success' => 'Médico cadastrado com sucesso! Senha padrão: 123456'
                 ]);
             } else {
                 return $this->response
                     ->setStatusCode(500)
-                    ->setJSON(['error' => 'Erro ao cadastrar médico']);
+                    ->setJSON(['error' => 'Erro ao cadastrar médico. Verifique se o email ou licença já estão cadastrados.']);
             }
         } catch (\Exception $e) {
             log_message('error', 'Erro ao cadastrar médico: ' . $e->getMessage());
             return $this->response
                 ->setStatusCode(500)
-                ->setJSON(['error' => 'Erro interno do servidor']);
+                ->setJSON(['error' => 'Erro interno do servidor: ' . $e->getMessage()]);
         }
     }
 
@@ -1431,35 +1439,109 @@ class Admin extends Controller
      */
     public function saveSchedule()
     {
+        // Verifica se é AJAX
         if (!$this->request->isAJAX()) {
-            return $this->response->setStatusCode(405)->setJSON(['error' => 'Método não permitido']);
+            return $this->response
+                ->setStatusCode(405)
+                ->setJSON(['error' => 'Método não permitido']);
         }
 
+        // Verifica se é POST
+        if (strtolower($this->request->getMethod()) !== 'post') {
+            return $this->response
+                ->setStatusCode(405)
+                ->setJSON(['error' => 'Método não permitido']);
+        }
+
+        // Obtém os dados do POST
         $id = $this->request->getPost('id');
         $doctorId = $this->request->getPost('doctor_id');
         $day = $this->request->getPost('day');
         $start = $this->request->getPost('start');
         $end = $this->request->getPost('end');
-        $status = $this->request->getPost('status');
+        $breakStart = $this->request->getPost('break_start');
+        $breakEnd = $this->request->getPost('break_end');
+        $room = $this->request->getPost('room');
+        $duration = $this->request->getPost('duration');
+        $startDate = $this->request->getPost('start_date');
+        $endDate = $this->request->getPost('end_date');
+        $notes = $this->request->getPost('notes');
+        $status = $this->request->getPost('status') ?? 'ativo';
 
+        // Log para debug
+        log_message('debug', 'saveSchedule - Dados recebidos: ' . print_r([
+            'id' => $id,
+            'doctor_id' => $doctorId,
+            'day' => $day,
+            'start' => $start,
+            'end' => $end,
+            'break_start' => $breakStart,
+            'break_end' => $breakEnd,
+            'room' => $room,
+            'duration' => $duration,
+            'start_date' => $startDate,
+            'end_date' => $endDate,
+            'notes' => $notes,
+            'status' => $status
+        ], true));
+
+        // Validação
         if (!$doctorId || !$day || !$start || !$end) {
-            return $this->response->setStatusCode(400)->setJSON(['error' => 'Dados incompletos']);
+            return $this->response
+                ->setStatusCode(400)
+                ->setJSON(['error' => 'Dados incompletos. Preencha todos os campos obrigatórios.']);
+        }
+
+        if ($start >= $end) {
+            return $this->response
+                ->setStatusCode(400)
+                ->setJSON(['error' => 'Horário de início deve ser menor que o horário de fim.']);
         }
 
         try {
+            // Preparar dados para inserção/atualização
+            $data = [
+                'ID_Medico' => $doctorId,
+                'Dia_Semana' => $day,
+                'Hora_Inicio' => $start,
+                'Hora_Fim' => $end,
+                'Intervalo_Inicio' => !empty($breakStart) ? $breakStart : null,
+                'Intervalo_Fim' => !empty($breakEnd) ? $breakEnd : null,
+                'Sala' => !empty($room) ? $room : null,
+                'Duracao_Consulta' => !empty($duration) ? (int) $duration : 30,
+                'Data_Inicio_Vigencia' => !empty($startDate) ? $startDate : null,
+                'Data_Fim_Vigencia' => !empty($endDate) ? $endDate : null,
+                'Observacoes' => !empty($notes) ? $notes : null,
+                'Status' => $status
+            ];
+
+            log_message('debug', 'saveSchedule - Dados preparados: ' . print_r($data, true));
+
             if ($id) {
-                $result = $this->adminModel->updateSchedule($id, $doctorId, $day, $start, $end, $status);
+                // Atualizar horário existente
+                $result = $this->adminModel->updateSchedule($id, $data);
+                $message = 'Horário atualizado com sucesso!';
             } else {
-                $result = $this->adminModel->createSchedule($doctorId, $day, $start, $end, $status);
+                // Criar novo horário
+                $result = $this->adminModel->createSchedule($data);
+                $message = 'Horário criado com sucesso!';
             }
 
             if ($result) {
-                return $this->response->setJSON(['success' => 'Horário salvo com sucesso!']);
+                return $this->response->setJSON([
+                    'success' => $message
+                ]);
             } else {
-                return $this->response->setStatusCode(500)->setJSON(['error' => 'Erro ao salvar horário']);
+                return $this->response
+                    ->setStatusCode(500)
+                    ->setJSON(['error' => 'Erro ao salvar horário no banco de dados.']);
             }
         } catch (\Exception $e) {
-            return $this->response->setStatusCode(500)->setJSON(['error' => 'Erro interno do servidor']);
+            log_message('error', 'Erro ao salvar horário: ' . $e->getMessage());
+            log_message('error', 'Trace: ' . $e->getTraceAsString());
+            return $this->response
+                ->setStatusCode(500)
+                ->setJSON(['error' => 'Erro interno do servidor: ' . $e->getMessage()]);
         }
     }
 

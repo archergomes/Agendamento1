@@ -225,10 +225,10 @@ class Auth extends Controller
                 $redirectUrl = 'admin';
                 break;
             case 'Medico':
-                $redirectUrl = 'medico/dashboard';
+                $redirectUrl = 'medico';
                 break;
             case 'Secretario':
-                $redirectUrl = 'secretario/dashboard';
+                $redirectUrl = 'secretario';
                 break;
             case 'Paciente':
             default:
@@ -252,5 +252,198 @@ class Auth extends Controller
     {
         $this->session->destroy();
         return redirect()->to('auth/login');
+    }
+
+    /**
+     * Página de recuperação de senha
+     */
+    public function recuperar_senha()
+    {
+        $data['title'] = 'Recuperar Senha';
+        return view('auth/recuperar_senha', $data);
+    }
+
+    /**
+     * AJAX: Enviar link de recuperação
+     */
+    public function enviar_link_recuperacao()
+    {
+        if (!$this->request->isAJAX()) {
+            return $this->response->setJSON([
+                'status' => 'error',
+                'message' => 'Requisição inválida'
+            ]);
+        }
+
+        $email = $this->request->getPost('email');
+
+        // Validar email
+        if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            return $this->response->setJSON([
+                'status' => 'error',
+                'message' => 'Digite um email válido.'
+            ]);
+        }
+
+        try {
+            // Verificar se o email existe no sistema
+            $usuario = $this->authModel->getUserByEmail($email);
+
+            if (!$usuario) {
+                // Por segurança, não informamos que o email não existe
+                return $this->response->setJSON([
+                    'status' => 'success',
+                    'message' => 'Se o email estiver cadastrado, você receberá um link de recuperação.'
+                ]);
+            }
+
+            // Gerar token de recuperação
+            $token = bin2hex(random_bytes(32));
+            $expiracao = date('Y-m-d H:i:s', strtotime('+1 hour'));
+
+            // Salvar token no banco
+            $this->authModel->saveRecoveryToken($usuario->ID_Usuario, $token, $expiracao);
+
+            // Enviar email com link de recuperação
+            $link = base_url("auth/redefinir_senha/$token");
+
+            // Aqui você deve enviar o email
+            // Usando CodeIgniter Email Library ou PHPMailer
+
+            // Exemplo simples de envio de email
+            $emailService = \Config\Services::email();
+            $emailService->setFrom('noreply@hospitalmatlhovele.com', 'Hospital Matlhovele');
+            $emailService->setTo($email);
+            $emailService->setSubject('Recuperação de Senha - Hospital Matlhovele');
+            $emailService->setMessage("
+            <h2>Recuperação de Senha</h2>
+            <p>Olá {$usuario->Nome},</p>
+            <p>Recebemos uma solicitação para redefinir sua senha no Hospital Matlhovele.</p>
+            <p>Clique no link abaixo para redefinir sua senha:</p>
+            <p><a href='{$link}'>Redefinir Senha</a></p>
+            <p>Este link é válido por 1 hora.</p>
+            <p>Se você não solicitou esta alteração, ignore este email.</p>
+            <br>
+            <p>Atenciosamente,</p>
+            <p><strong>Hospital Matlhovele</strong></p>
+        ");
+
+            if ($emailService->send()) {
+                return $this->response->setJSON([
+                    'status' => 'success',
+                    'message' => 'Link de recuperação enviado com sucesso! Verifique seu email.'
+                ]);
+            } else {
+                log_message('error', 'Erro ao enviar email: ' . $emailService->printDebugger(['headers']));
+                return $this->response->setJSON([
+                    'status' => 'error',
+                    'message' => 'Erro ao enviar email. Tente novamente mais tarde.'
+                ]);
+            }
+        } catch (\Exception $e) {
+            log_message('error', 'Erro ao recuperar senha: ' . $e->getMessage());
+            return $this->response->setJSON([
+                'status' => 'error',
+                'message' => 'Erro interno do servidor. Tente novamente.'
+            ]);
+        }
+    }
+
+    /**
+     * Página para redefinir a senha com token
+     */
+    public function redefinir_senha($token = null)
+    {
+        if (!$token) {
+            return redirect()->to('auth/login');
+        }
+
+        // Verificar se o token é válido
+        $tokenData = $this->authModel->getTokenData($token);
+
+        if (!$tokenData || strtotime($tokenData->Expiracao) < time()) {
+            session()->setFlashdata('error', 'Link de recuperação inválido ou expirado.');
+            return redirect()->to('auth/login');
+        }
+
+        $data['token'] = $token;
+        $data['usuario_id'] = $tokenData->ID_Usuario;
+        return view('auth/senha', $data);
+    }
+
+    /**
+     * AJAX: Redefinir senha
+     */
+    public function atualizar_senha()
+    {
+        if (!$this->request->isAJAX()) {
+            return $this->response->setJSON([
+                'status' => 'error',
+                'message' => 'Requisição inválida'
+            ]);
+        }
+
+        $usuario_id = $this->request->getPost('usuario_id');
+        $token = $this->request->getPost('token');
+        $senha = $this->request->getPost('senha');
+        $confirmar_senha = $this->request->getPost('confirmar_senha');
+
+        // Validar dados
+        if (empty($usuario_id) || empty($token) || empty($senha) || empty($confirmar_senha)) {
+            return $this->response->setJSON([
+                'status' => 'error',
+                'message' => 'Preencha todos os campos.'
+            ]);
+        }
+
+        if ($senha !== $confirmar_senha) {
+            return $this->response->setJSON([
+                'status' => 'error',
+                'message' => 'As senhas não coincidem.'
+            ]);
+        }
+
+        if (strlen($senha) < 6) {
+            return $this->response->setJSON([
+                'status' => 'error',
+                'message' => 'A senha deve ter pelo menos 6 caracteres.'
+            ]);
+        }
+
+        // Verificar token novamente
+        $tokenData = $this->authModel->getTokenData($token);
+        if (!$tokenData || $tokenData->ID_Usuario != $usuario_id || strtotime($tokenData->Expiracao) < time()) {
+            return $this->response->setJSON([
+                'status' => 'error',
+                'message' => 'Token inválido ou expirado.'
+            ]);
+        }
+
+        try {
+            // Atualizar senha
+            $senhaHash = password_hash($senha, PASSWORD_DEFAULT);
+            $result = $this->authModel->updatePassword($usuario_id, $senhaHash);
+
+            if ($result) {
+                // Remover token usado
+                $this->authModel->deleteToken($token);
+
+                return $this->response->setJSON([
+                    'status' => 'success',
+                    'message' => 'Senha redefinida com sucesso!'
+                ]);
+            } else {
+                return $this->response->setJSON([
+                    'status' => 'error',
+                    'message' => 'Erro ao redefinir senha.'
+                ]);
+            }
+        } catch (\Exception $e) {
+            log_message('error', 'Erro ao redefinir senha: ' . $e->getMessage());
+            return $this->response->setJSON([
+                'status' => 'error',
+                'message' => 'Erro interno do servidor.'
+            ]);
+        }
     }
 }

@@ -558,42 +558,103 @@ class AdminModel extends Model
             'email' => $result->Email ?? '',
             'specialty' => $result->Especialidade ?? '',
             'licenseNumber' => $result->Numero_Licenca ?? '',
+            'id_usuario' => $result->ID_Usuario ?? null,
             'created_at' => isset($result->Criado_Em) ? date('d/m/Y H:i', strtotime($result->Criado_Em)) : ''
         ];
     }
 
     /**
-     * Exclui médico por BI (Numero_Licenca)
+     * Exclui médico por BI (Numero_Licenca) e seu usuário
      */
     public function deleteDoctor($bi)
     {
-        $builder = $this->db->table('medicos');
-        return $builder->delete(['Numero_Licenca' => $bi]);
+        try {
+            // Buscar médico para obter ID_Usuario
+            $builder = $this->db->table('medicos');
+            $medico = $builder->where('Numero_Licenca', $bi)->get()->getRow();
+
+            if (!$medico) {
+                return false;
+            }
+
+            $idUsuario = $medico->ID_Usuario;
+            $idMedico = $medico->ID_Medico;
+
+            // Excluir médico
+            $builder = $this->db->table('medicos');
+            $result = $builder->delete(['Numero_Licenca' => $bi]);
+
+            // Excluir usuário associado
+            if ($result && $idUsuario) {
+                $builder = $this->db->table('usuarios');
+                $builder->delete(['ID_Usuario' => $idUsuario]);
+            }
+
+            return $result;
+        } catch (\Exception $e) {
+            log_message('error', 'deleteDoctor - Erro: ' . $e->getMessage());
+            return false;
+        }
     }
 
     /**
-     * Atualiza médico com dados completos
+     * Atualiza médico com dados completos (incluindo usuário)
      */
-    public function updateDoctorFull($bi, $nome, $telefone, $email = '', $especialidade = '', $licenca = '')
+    public function updateDoctorFull($bi, $nome, $telefone, $email, $especialidade, $licenca)
     {
-        $nameParts = explode(' ', trim($nome), 2);
-        $nomePart = $nameParts[0] ?? '';
-        $sobrenomePart = $nameParts[1] ?? '';
+        try {
+            // Iniciar transação
+            $this->db->transBegin();
 
-        $data = [
-            'Nome' => $nomePart,
-            'Sobrenome' => $sobrenomePart,
-            'Telefone' => $telefone,
-            'Email' => $email,
-            'Especialidade' => $especialidade
-        ];
+            // Separar nome e sobrenome
+            $nameParts = explode(' ', trim($nome), 2);
+            $nomePart = $nameParts[0] ?? '';
+            $sobrenomePart = $nameParts[1] ?? '';
 
-        if (!empty($licenca)) {
-            $data['Numero_Licenca'] = $licenca;
+            // Buscar médico atual
+            $builder = $this->db->table('medicos');
+            $medicoAtual = $builder->where('Numero_Licenca', $bi)->get()->getRow();
+
+            if (!$medicoAtual) {
+                $this->db->transRollback();
+                return false;
+            }
+
+            // Dados do médico
+            $medicoData = [
+                'Nome' => $nomePart,
+                'Sobrenome' => $sobrenomePart,
+                'Telefone' => $telefone,
+                'Email' => $email,
+                'Especialidade' => $especialidade
+            ];
+
+            if (!empty($licenca) && $licenca !== $bi) {
+                $medicoData['Numero_Licenca'] = $licenca;
+            }
+
+            // Atualizar médico
+            $builder = $this->db->table('medicos');
+            $medicoResult = $builder->update($medicoData, ['Numero_Licenca' => $bi]);
+
+            // Atualizar usuário (se tiver ID_Usuario)
+            if ($medicoAtual->ID_Usuario) {
+                $usuarioBuilder = $this->db->table('usuarios');
+                $usuarioBuilder->update(
+                    ['Email' => $email],
+                    ['ID_Usuario' => $medicoAtual->ID_Usuario]
+                );
+            }
+
+            $this->db->transCommit();
+
+            log_message('debug', 'updateDoctorFull - Médico e usuário atualizados');
+            return true;
+        } catch (\Exception $e) {
+            $this->db->transRollback();
+            log_message('error', 'updateDoctorFull - Erro: ' . $e->getMessage());
+            return false;
         }
-
-        $builder = $this->db->table('medicos');
-        return $builder->update($data, ['Numero_Licenca' => $bi]);
     }
 
     /**
@@ -936,24 +997,54 @@ class AdminModel extends Model
     }
 
     /**
-     * Cria um novo médico
+     * Cria um novo médico com usuário
      */
     public function createDoctor($bi, $nome, $telefone, $email, $especialidade, $licenca)
     {
         try {
+            log_message('debug', 'createDoctor - INICIANDO');
+
+            // Iniciar transação
+            $this->db->transBegin();
+
             // Separar nome e sobrenome
             $nameParts = explode(' ', trim($nome), 2);
             $nomePart = $nameParts[0] ?? '';
             $sobrenomePart = $nameParts[1] ?? '';
 
-            // Verificar se já existe médico com este BI ou licença
+            // Verificar se já existe médico com esta licença
             $builder = $this->db->table('medicos');
-            $existing = $builder->where('Numero_Licenca', $licenca)
-                ->orWhere('Email', $email)
-                ->get()
-                ->getRow();
+            $builder->where('Numero_Licenca', $licenca);
+            $existingLicenca = $builder->get()->getRow();
 
-            if ($existing) {
+            if ($existingLicenca) {
+                $this->lastError = 'Já existe um médico com este número de licença.';
+                $this->db->transRollback();
+                log_message('error', 'createDoctor - Licença já existe: ' . $licenca);
+                return false;
+            }
+
+            // Verificar se email já existe na tabela medicos
+            $builder = $this->db->table('medicos');
+            $builder->where('Email', $email);
+            $existingEmail = $builder->get()->getRow();
+
+            if ($existingEmail) {
+                $this->lastError = 'Este email já está cadastrado como médico.';
+                $this->db->transRollback();
+                log_message('error', 'createDoctor - Email já existe na tabela medicos: ' . $email);
+                return false;
+            }
+
+            // Verificar se email já existe na tabela usuarios
+            $builder = $this->db->table('usuarios');
+            $builder->where('Email', $email);
+            $existingUser = $builder->get()->getRow();
+
+            if ($existingUser) {
+                $this->lastError = 'Este email já está cadastrado no sistema.';
+                $this->db->transRollback();
+                log_message('error', 'createDoctor - Email já existe na tabela usuarios: ' . $email);
                 return false;
             }
 
@@ -962,22 +1053,84 @@ class AdminModel extends Model
             $espBuilder->where('Nome', $especialidade);
             $especialidadeRow = $espBuilder->get()->getRow();
             $idEspecialidade = $especialidadeRow ? $especialidadeRow->ID_Especialidade : 1;
+            log_message('debug', 'createDoctor - ID_Especialidade: ' . $idEspecialidade);
 
-            // Inserir médico
-            $data = [
+            // 1. CRIAR USUÁRIO PRIMEIRO
+            $senhaPadrao = '123456';
+            $senhaHash = password_hash($senhaPadrao, PASSWORD_DEFAULT);
+
+            // CORREÇÃO: Inserir primeiro para pegar o ID_Usuario
+            $usuarioData = [
+                'Email' => $email,
+                'Senha' => $senhaHash,
+                'Tipo_Usuario' => 'Medico',
+                'ID_Referencia' => 0, // Valor temporário, será atualizado depois
+                'Criado_Em' => date('Y-m-d H:i:s')
+            ];
+
+            log_message('debug', 'createDoctor - Dados do usuário: ' . print_r($usuarioData, true));
+
+            $usuarioBuilder = $this->db->table('usuarios');
+            $usuarioResult = $usuarioBuilder->insert($usuarioData);
+
+            if (!$usuarioResult) {
+                $this->lastError = 'Falha ao criar usuário no sistema.';
+                $this->db->transRollback();
+                log_message('error', 'createDoctor - Falha ao criar usuário');
+                log_message('error', 'createDoctor - Último erro DB: ' . print_r($this->db->error(), true));
+                return false;
+            }
+
+            $idUsuario = $this->db->insertID();
+            log_message('debug', 'createDoctor - ID_Usuario criado: ' . $idUsuario);
+
+            // 2. CRIAR MÉDICO COM O ID_USUARIO
+            $medicoData = [
                 'Nome' => $nomePart,
                 'Sobrenome' => $sobrenomePart,
                 'Telefone' => $telefone,
                 'Email' => $email,
                 'Especialidade' => $especialidade,
                 'ID_Especialidade' => $idEspecialidade,
-                'Numero_Licenca' => $licenca
+                'Numero_Licenca' => $licenca,
+                'ID_Usuario' => $idUsuario,
+                'Criado_Em' => date('Y-m-d H:i:s')
             ];
 
-            $builder = $this->db->table('medicos');
-            return $builder->insert($data);
+            log_message('debug', 'createDoctor - Dados do médico: ' . print_r($medicoData, true));
+
+            $medicoBuilder = $this->db->table('medicos');
+            $medicoResult = $medicoBuilder->insert($medicoData);
+
+            if (!$medicoResult) {
+                $this->lastError = 'Falha ao criar médico no sistema.';
+                $this->db->transRollback();
+                log_message('error', 'createDoctor - Falha ao criar médico');
+                log_message('error', 'createDoctor - Último erro DB: ' . print_r($this->db->error(), true));
+
+                // Remover usuário criado
+                $this->db->table('usuarios')->delete(['ID_Usuario' => $idUsuario]);
+                return false;
+            }
+
+            // 3. ATUALIZAR O ID_Referencia do usuário com o ID_Medico criado
+            $idMedico = $this->db->insertID();
+            $usuarioBuilder = $this->db->table('usuarios');
+            $usuarioBuilder->update(
+                ['ID_Referencia' => $idMedico],
+                ['ID_Usuario' => $idUsuario]
+            );
+
+            // Commit da transação
+            $this->db->transCommit();
+
+            log_message('debug', 'createDoctor - MÉDICO E USUÁRIO CRIADOS COM SUCESSO! ID_Medico: ' . $idMedico . ', ID_Usuario: ' . $idUsuario);
+            return true;
         } catch (\Exception $e) {
-            log_message('error', 'Erro em createDoctor: ' . $e->getMessage());
+            $this->db->transRollback();
+            $this->lastError = 'Erro interno: ' . $e->getMessage();
+            log_message('error', 'createDoctor - EXCEÇÃO: ' . $e->getMessage());
+            log_message('error', 'createDoctor - TRACE: ' . $e->getTraceAsString());
             return false;
         }
     }
@@ -1128,51 +1281,97 @@ class AdminModel extends Model
     }
 
     /**
-     * Busca horários com dados dos médicos - VERSÃO SIMPLIFICADA
+     * Busca horários com dados dos médicos
      */
     public function getHorarios()
     {
-        $builder = $this->db->table('horarios h');
-        $builder->select('h.*, m.Nome as medico_nome, m.Sobrenome as medico_sobrenome');
-        $builder->join('medicos m', 'm.ID_Medico = h.ID_Medico', 'left');
-        $builder->orderBy('h.ID_Medico', 'ASC');
-        $builder->orderBy('h.Dia_Semana', 'ASC');
-        return $builder->get()->getResult();
+        try {
+            $builder = $this->db->table('horarios h');
+            $builder->select('
+            h.*,
+            m.Nome as medico_nome,
+            m.Sobrenome as medico_sobrenome,
+            m.Especialidade,
+            e.Nome as especialidade
+        ');
+            $builder->join('medicos m', 'm.ID_Medico = h.ID_Medico', 'left');
+            $builder->join('especialidades e', 'e.ID_Especialidade = m.ID_Especialidade', 'left');
+            $builder->orderBy('h.Dia_Semana', 'ASC');
+            $builder->orderBy('h.Hora_Inicio', 'ASC');
+
+            $results = $builder->get()->getResult();
+
+            // Log para debug
+            log_message('debug', 'getHorarios - Encontrados: ' . count($results));
+
+            return $results;
+        } catch (\Exception $e) {
+            log_message('error', 'getHorarios - Erro: ' . $e->getMessage());
+            return [];
+        }
     }
 
     /**
-     * Cria um novo horário
+     * Cria um novo horário - CORRIGIDO
      */
-    public function createSchedule($doctorId, $day, $start, $end, $status = 'ativo')
+    public function createSchedule($data)
     {
-        $data = [
-            'ID_Medico' => $doctorId,
-            'Dia_Semana' => $day,
-            'Hora_Inicio' => $start,
-            'Hora_Fim' => $end,
-            'Status' => $status
-        ];
+        try {
+            $builder = $this->db->table('horarios');
+            $result = $builder->insert($data);
 
-        $builder = $this->db->table('horarios');
-        return $builder->insert($data);
+            if ($result) {
+                log_message('debug', 'createSchedule - Horário criado com sucesso');
+                return $this->db->insertID();
+            }
+
+            log_message('error', 'createSchedule - Falha ao criar horário');
+            return false;
+        } catch (\Exception $e) {
+            log_message('error', 'createSchedule - Erro: ' . $e->getMessage());
+            return false;
+        }
     }
 
     /**
      * Atualiza um horário
      */
-    public function updateSchedule($id, $doctorId, $day, $start, $end, $status)
+    public function updateSchedule($id, $data)
     {
-        $data = [
-            'ID_Medico' => $doctorId,
-            'Dia_Semana' => $day,
-            'Hora_Inicio' => $start,
-            'Hora_Fim' => $end,
-            'Status' => $status
-        ];
+        try {
+            $builder = $this->db->table('horarios');
+            $builder->where('ID_Horario', $id);
+            $result = $builder->update($data);
 
-        $builder = $this->db->table('horarios');
-        return $builder->update($data, ['ID_Horario' => $id]);
+            if ($result) {
+                log_message('debug', 'updateSchedule - Horário ID ' . $id . ' atualizado');
+                return true;
+            }
+
+            log_message('error', 'updateSchedule - Falha ao atualizar horário ID ' . $id);
+            return false;
+        } catch (\Exception $e) {
+            log_message('error', 'updateSchedule - Erro: ' . $e->getMessage());
+            return false;
+        }
     }
+
+    // /**
+    //  * Atualiza um horário
+    //  */
+    // public function updateSchedule($id, $doctorId, $day, $start, $end, $status)
+    // {
+    //     $data = [
+    //         'ID_Medico' => $doctorId,
+    //         'Dia_Semana' => $day,
+    //         'Hora_Inicio' => $start,
+    //         'Hora_Fim' => $end,
+    //         'Status' => $status
+    //     ];
+
+    //     $builder = $this->db->table('horarios');
+    //     return $builder->update($data, ['ID_Horario' => $id]);
+    // }
 
     /**
      * Exclui um horário

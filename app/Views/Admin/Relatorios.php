@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Relatórios - Administrador - Hospital Matlhovele</title>
-    <meta name="description" content="Gerar e visualizar relatórios no Hospital Público de Matlhovele">
+    <title>Relatórios - Administrador - Centro de Saúde Da Matola II</title>
+    <meta name="description" content="Gerar e visualizar relatórios no Centro de Saúde Da Matola II">
     <meta name="csrf-token" content="<?= csrf_hash(); ?>">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
@@ -421,9 +421,9 @@
         <header class="text-white shadow-lg">
             <div class="container mx-auto px-4 py-4 flex justify-between items-center">
                 <div class="flex items-center gap-3">
-                    <i class="fas fa-hospital-alt text-2xl" aria-label="Ícone do Hospital Matlhovele"></i>
+                    <i class="fas fa-hospital-alt text-2xl" aria-label="Ícone do Centro de Saúde Da Matola II"></i>
                     <div>
-                        <h1 class="text-xl font-bold leading-tight">Hospital Matlhovele</h1>
+                        <h1 class="text-xl font-bold leading-tight">Centro de Saúde Da Matola II</h1>
                         <p class="text-xs text-blue-100 opacity-90">Painel de Administração</p>
                     </div>
                 </div>
@@ -640,13 +640,6 @@
                 </div>
             </div>
         </main>
-
-        <!-- Footer -->
-        <footer class="bg-gray-800 text-white py-6">
-            <div class="container mx-auto px-4 text-center text-gray-400 text-sm">
-                <p>© <?= date('Y') ?> Hospital Público de Matlhovele. Todos os direitos reservados.</p>
-            </div>
-        </footer>
     </div>
 
     <script>

@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Médico - Hospital Matlhovele</title>
-    <meta name="description" content="Dashboard do médico no Hospital Público de Matlhovele">
+    <title>Dashboard - Médico - Centro de Saúde Da Matola II</title>
+    <meta name="description" content="Dashboard do médico no Centro de Saúde Da Matola II">
     <meta name="csrf-token" content="<?= csrf_hash(); ?>">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
@@ -100,9 +100,14 @@
         .sidebar.desktop.expanded .sidebar-profile { justify-content: flex-start; padding: 0.9rem 1.1rem; }
         .sidebar-profile .avatar {
             width: 38px; height: 38px; border-radius: 50%;
-            background: rgba(255,255,255,0.15); color: white;
-            display: flex; align-items: center; justify-content: center;
-            font-weight: 700; font-size: 0.9rem; flex-shrink: 0;
+            background: rgba(255,255,255,0.15);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+            flex-shrink: 0;
             border: 2px solid rgba(255,255,255,0.3);
         }
         .sidebar-profile .info { color: white; overflow: hidden; }
@@ -193,20 +198,25 @@
             border-radius: 0.75rem;
             box-shadow: 0 1px 3px rgba(0,0,0,0.06);
             padding: 1.1rem 1.3rem;
-            display: flex; align-items: center; gap: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.9rem;
             border: 1px solid #eef1f6;
             transition: transform 0.2s, box-shadow 0.2s;
         }
         .metric-card:hover { transform: translateY(-2px); box-shadow: 0 10px 22px rgba(17,24,39,0.07); }
         .metric-card .icon-wrap {
             width: 46px; height: 46px; border-radius: 0.6rem;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.2rem; flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
         }
         .metric-card p.value { font-size: 1.55rem; font-weight: 700; line-height: 1.1; font-family: 'Outfit', sans-serif; }
         .metric-card h3 { font-size: 0.75rem; color: var(--ink-500); font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em; margin-bottom: 0.1rem; }
 
-        /* Next appointment spotlight */
+        /* Next appointment */
         .next-appt-card {
             background: linear-gradient(120deg, #123a80 0%, #1d4ed8 55%, #0d9488 130%);
             border-radius: 0.9rem;
@@ -215,6 +225,7 @@
             box-shadow: 0 12px 30px rgba(29,78,216,0.25);
             position: relative;
             overflow: hidden;
+            min-height: 160px;
         }
         .next-appt-card::after {
             content: '';
@@ -225,7 +236,19 @@
         .next-appt-empty {
             background: white; border: 1px dashed #d8dee8; border-radius: 0.9rem;
             padding: 2rem; text-align: center; color: var(--ink-500);
+            min-height: 160px;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
         }
+
+        .btn {
+            padding: 0.6rem 1.1rem; border-radius: 0.55rem; font-weight: 500;
+            border: none; cursor: pointer; transition: all 0.2s; font-size: 0.85rem;
+            display: inline-flex; align-items: center; gap: 0.5rem;
+        }
+        .btn-primary { background-color: white; color: var(--brand-700); }
+        .btn-primary:hover { background-color: #f1f5f9; transform: translateY(-1px); }
+        .btn-outline-light { background: rgba(255,255,255,0.15); color: white; border: 1px solid rgba(255,255,255,0.4); }
+        .btn-outline-light:hover { background: rgba(255,255,255,0.25); }
 
         /* Timeline */
         .timeline { position: relative; padding-left: 1.6rem; }
@@ -242,12 +265,46 @@
         }
         .timeline-item.done .timeline-dot { border-color: var(--teal-500); }
         .timeline-item.cancelled .timeline-dot { border-color: var(--rose-500); }
-        .timeline-item.missed .timeline-dot { border-color: var(--amber-500); }
         .timeline-time { font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 0.95rem; color: var(--ink-900); }
         .timeline-card {
             background: #f9fafc; border: 1px solid #eef1f6; border-radius: 0.6rem;
             padding: 0.75rem 1rem; margin-top: 0.35rem;
         }
+
+        .patient-cell { display: flex; align-items: center; gap: 0.6rem; }
+        .patient-avatar {
+            width: 32px; height: 32px; border-radius: 50%;
+            background: var(--brand-100); color: var(--brand-700);
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700; font-size: 0.75rem; flex-shrink: 0;
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.72rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        .status-badge.pendente { background-color: #fef3c7; color: #92400e; }
+        .status-badge.confirmado { background-color: #dbeafe; color: #1e40af; }
+        .status-badge.concluido { background-color: #d1fae5; color: #065f46; }
+        .status-badge.cancelado { background-color: #fee2e2; color: #991b1b; }
+
+        .btn-sm {
+            padding: 0.3rem 0.65rem; font-size: 0.75rem; border-radius: 0.4rem;
+            border: none; cursor: pointer; transition: all 0.2s;
+            display: inline-flex; align-items: center; gap: 0.3rem;
+        }
+        .btn-sm:hover { transform: scale(1.05); }
+        .btn-view { background-color: var(--brand-500); color: white; }
+        .btn-view:hover { background-color: var(--brand-600); }
+        .btn-complete { background-color: var(--teal-500); color: white; }
+        .btn-complete:hover { background-color: var(--teal-600); }
+        .btn-cancel-appt { background-color: #f1f5f9; color: var(--rose-500); }
+        .btn-cancel-appt:hover { background-color: #fee2e2; }
 
         .search-box { position: relative; }
         .search-box input {
@@ -265,11 +322,11 @@
         }
         .search-box i { position: absolute; left: 0.9rem; top: 50%; transform: translateY(-50%); color: #9ca3af; }
 
-        .form-select, .form-input {
+        .form-input, .form-select {
             padding: 0.55rem 0.75rem; border: 1px solid #d1d5db; border-radius: 0.5rem;
             font-size: 0.85rem; background: white;
         }
-        .form-select:focus, .form-input:focus {
+        .form-input:focus, .form-select:focus {
             outline: none; border-color: var(--brand-500); box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
         }
 
@@ -283,60 +340,6 @@
         }
         tbody td { padding: 0.8rem 1rem; border-bottom: 1px solid #eef1f6; vertical-align: middle; }
         tbody tr:hover { background-color: #f9fafc; }
-
-        .patient-cell { display: flex; align-items: center; gap: 0.6rem; }
-        .patient-avatar {
-            width: 32px; height: 32px; border-radius: 50%;
-            background: var(--brand-100); color: var(--brand-700);
-            display: flex; align-items: center; justify-content: center;
-            font-weight: 700; font-size: 0.75rem; flex-shrink: 0;
-        }
-
-        .type-tag {
-            font-size: 0.72rem; font-weight: 600; padding: 0.15rem 0.55rem; border-radius: 0.4rem;
-        }
-        .type-tag.primeira { background: #ede9fe; color: #6d28d9; }
-        .type-tag.retorno { background: #e0f2fe; color: #0369a1; }
-
-        .status-badge {
-            padding: 0.25rem 0.75rem;
-            border-radius: 1rem;
-            font-size: 0.72rem;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.3rem;
-        }
-        .status-badge.pendente { background-color: #fef3c7; color: #92400e; }
-        .status-badge.confirmado { background-color: #dbeafe; color: #1e40af; }
-        .status-badge.concluido { background-color: #d1fae5; color: #065f46; }
-        .status-badge.cancelado { background-color: #fee2e2; color: #991b1b; }
-        .status-badge.faltou { background-color: #fef3c7; color: #b45309; }
-
-        .btn-sm {
-            padding: 0.3rem 0.65rem; font-size: 0.75rem; border-radius: 0.4rem;
-            border: none; cursor: pointer; transition: all 0.2s;
-            display: inline-flex; align-items: center; gap: 0.3rem;
-        }
-        .btn-sm:hover { transform: scale(1.05); }
-        .btn-view { background-color: var(--brand-500); color: white; }
-        .btn-view:hover { background-color: var(--brand-600); }
-        .btn-complete { background-color: var(--teal-500); color: white; }
-        .btn-complete:hover { background-color: var(--teal-600); }
-        .btn-cancel-appt { background-color: #f1f5f9; color: var(--rose-500); }
-        .btn-cancel-appt:hover { background-color: #fee2e2; }
-
-        .btn {
-            padding: 0.6rem 1.1rem; border-radius: 0.55rem; font-weight: 500;
-            border: none; cursor: pointer; transition: all 0.2s; font-size: 0.85rem;
-            display: inline-flex; align-items: center; gap: 0.5rem;
-        }
-        .btn-primary { background-color: white; color: var(--brand-700); }
-        .btn-primary:hover { background-color: #f1f5f9; transform: translateY(-1px); }
-        .btn-outline-light { background: rgba(255,255,255,0.15); color: white; border: 1px solid rgba(255,255,255,0.4); }
-        .btn-outline-light:hover { background: rgba(255,255,255,0.25); }
-        .btn-secondary { background-color: #e5e7eb; color: #374151; }
-        .btn-secondary:hover { background-color: #d1d5db; }
 
         .chart-card {
             background: white; border-radius: 0.75rem; border: 1px solid #eef1f6;
@@ -372,7 +375,7 @@
         }
         @media (prefers-reduced-motion: reduce) { .pulse-path { animation: none; stroke-dashoffset: 0; } }
 
-        /* Modal (ficha do paciente) */
+        /* Modal */
         .modal-overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: rgba(15, 23, 42, 0.55);
@@ -393,8 +396,6 @@
         .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem; margin-bottom: 1rem; }
         .info-item .label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.03em; color: var(--ink-500); font-weight: 600; }
         .info-item .val { font-size: 0.92rem; color: var(--ink-900); margin-top: 0.1rem; }
-        .history-list { max-height: 220px; overflow-y: auto; border-top: 1px solid #f3f4f6; padding-top: 0.8rem; }
-        .history-row { display: flex; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px dashed #eef1f6; font-size: 0.82rem; }
 
         @media (max-width: 640px) {
             .metric-card { padding: 0.9rem 1rem; }
@@ -437,14 +438,35 @@
         </div>
         <nav class="sidebar-nav">
             <div class="main-menu">
-                <a href="<?= site_url('medico') ?>" class="active"><i class="fas fa-chart-pie"></i><span class="sidebar-text">Dashboard</span></a>
-                <a href="<?= site_url('medico/agenda') ?>"><i class="fas fa-calendar-alt"></i><span class="sidebar-text">Minha Agenda</span></a>
-                <a href="<?= site_url('medico/pacientes') ?>"><i class="fas fa-users"></i><span class="sidebar-text">Meus Pacientes</span></a>
-                <a href="<?= site_url('medico/disponibilidade') ?>"><i class="fas fa-clock"></i><span class="sidebar-text">Disponibilidade</span></a>
-                <a href="<?= site_url('medico/historico') ?>"><i class="fas fa-history"></i><span class="sidebar-text">Histórico de Consultas</span></a>
-                <a href="<?= site_url('medico/perfil') ?>"><i class="fas fa-user-circle"></i><span class="sidebar-text">Meu Perfil</span></a>
+                <a href="<?= site_url('medico') ?>" class="active">
+                    <i class="fas fa-chart-pie"></i>
+                    <span class="sidebar-text">Dashboard</span>
+                </a>
+                <a href="<?= site_url('medico/agenda') ?>">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span class="sidebar-text">Minha Agenda</span>
+                </a>
+                <a href="<?= site_url('medico/pacientes') ?>">
+                    <i class="fas fa-users"></i>
+                    <span class="sidebar-text">Meus Pacientes</span>
+                </a>
+                <a href="<?= site_url('medico/disponibilidade') ?>">
+                    <i class="fas fa-clock"></i>
+                    <span class="sidebar-text">Disponibilidade</span>
+                </a>
+                <a href="<?= site_url('medico/historico') ?>">
+                    <i class="fas fa-history"></i>
+                    <span class="sidebar-text">Histórico</span>
+                </a>
+                <a href="<?= site_url('medico/perfil') ?>">
+                    <i class="fas fa-user-circle"></i>
+                    <span class="sidebar-text">Meu Perfil</span>
+                </a>
             </div>
-            <button id="logout-btn" class="logout"><i class="fas fa-sign-out-alt"></i><span class="sidebar-text">Sair</span></button>
+            <button id="logout-btn" class="logout">
+                <i class="fas fa-sign-out-alt"></i>
+                <span class="sidebar-text">Sair</span>
+            </button>
         </nav>
     </div>
 
@@ -455,7 +477,7 @@
                 <div class="flex items-center gap-3">
                     <i class="fas fa-hospital-alt text-2xl"></i>
                     <div>
-                        <h1 class="text-xl font-bold leading-tight">Hospital Matlhovele</h1>
+                        <h1 class="text-xl font-bold leading-tight">Centro de Saúde Da Matola II</h1>
                         <p class="text-xs text-blue-100 opacity-90">Área do Médico</p>
                     </div>
                 </div>
@@ -490,8 +512,12 @@
                                 <div class="text-sm opacity-90" id="next-appt-patient">—</div>
                                 <div class="text-xs opacity-70 mt-1" id="next-appt-room">—</div>
                                 <div class="flex gap-2 mt-4">
-                                    <button class="btn btn-primary" id="next-appt-view-btn"><i class="fas fa-file-medical mr-1"></i>Ver Ficha</button>
-                                    <button class="btn btn-outline-light" id="next-appt-complete-btn"><i class="fas fa-check mr-1"></i>Concluir</button>
+                                    <button class="btn btn-primary" id="next-appt-view-btn">
+                                        <i class="fas fa-file-medical mr-1"></i>Ver Ficha
+                                    </button>
+                                    <button class="btn btn-outline-light" id="next-appt-complete-btn">
+                                        <i class="fas fa-check mr-1"></i>Concluir
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -504,28 +530,36 @@
 
                     <div class="lg:col-span-2 grid grid-cols-2 gap-4">
                         <div class="metric-card">
-                            <div class="icon-wrap" style="background:#dbeafe; color:#2563eb;"><i class="fas fa-calendar-day"></i></div>
+                            <div class="icon-wrap" style="background:#dbeafe; color:#2563eb;">
+                                <i class="fas fa-calendar-day"></i>
+                            </div>
                             <div>
                                 <h3>Consultas Hoje</h3>
                                 <p class="value" id="metric-today"><span class="loading-spinner"></span></p>
                             </div>
                         </div>
                         <div class="metric-card">
-                            <div class="icon-wrap" style="background:#ccfbf1; color:#0d9488;"><i class="fas fa-calendar-week"></i></div>
+                            <div class="icon-wrap" style="background:#ccfbf1; color:#0d9488;">
+                                <i class="fas fa-calendar-week"></i>
+                            </div>
                             <div>
                                 <h3>Esta Semana</h3>
                                 <p class="value" id="metric-week"><span class="loading-spinner"></span></p>
                             </div>
                         </div>
                         <div class="metric-card">
-                            <div class="icon-wrap" style="background:#ede9fe; color:#7c3aed;"><i class="fas fa-user-friends"></i></div>
+                            <div class="icon-wrap" style="background:#ede9fe; color:#7c3aed;">
+                                <i class="fas fa-user-friends"></i>
+                            </div>
                             <div>
                                 <h3>Pacientes Ativos</h3>
                                 <p class="value" id="metric-patients"><span class="loading-spinner"></span></p>
                             </div>
                         </div>
                         <div class="metric-card">
-                            <div class="icon-wrap" style="background:#fee2e2; color:#dc2626;"><i class="fas fa-percentage"></i></div>
+                            <div class="icon-wrap" style="background:#fee2e2; color:#dc2626;">
+                                <i class="fas fa-percentage"></i>
+                            </div>
                             <div>
                                 <h3>Taxa de Comparecimento</h3>
                                 <p class="value" id="metric-attendance"><span class="loading-spinner"></span></p>
@@ -601,7 +635,6 @@
                                 <option value="confirmado">Confirmado</option>
                                 <option value="concluido">Concluído</option>
                                 <option value="cancelado">Cancelado</option>
-                                <option value="faltou">Faltou</option>
                             </select>
                             <div class="search-box" style="width:220px;">
                                 <i class="fas fa-search"></i>
@@ -628,13 +661,16 @@
                                     <th>Paciente</th>
                                     <th>Data</th>
                                     <th>Hora</th>
-                                    <th>Tipo</th>
                                     <th>Status</th>
                                     <th class="text-center">Ações</th>
                                 </tr>
                             </thead>
                             <tbody id="upcoming-list">
-                                <tr><td colspan="6" class="text-center py-4 text-gray-500"><span class="loading-spinner"></span> Carregando...</td></tr>
+                                <tr>
+                                    <td colspan="5" class="text-center py-4 text-gray-500">
+                                        <span class="loading-spinner"></span> Carregando...
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -644,7 +680,7 @@
 
         <footer class="bg-gray-800 text-white py-6">
             <div class="container mx-auto px-4 text-center text-gray-400 text-sm">
-                <p>© <?= date('Y') ?> Hospital Público de Matlhovele. Todos os direitos reservados.</p>
+                <p>© <?= date('Y') ?> Centro de Saúde Da Matola II. Todos os direitos reservados.</p>
             </div>
         </footer>
     </div>
@@ -746,7 +782,15 @@
         }
 
         // ==================== GRÁFICOS ====================
-        const COLORS = { brand: '#2563eb', brandFill: 'rgba(37,99,235,0.12)', teal: '#0d9488', amber: '#f59e0b', rose: '#ef4444', purple: '#7c3aed', slate: '#94a3b8' };
+        const COLORS = {
+            brand: '#2563eb',
+            brandFill: 'rgba(37,99,235,0.12)',
+            teal: '#0d9488',
+            amber: '#f59e0b',
+            rose: '#ef4444',
+            purple: '#7c3aed',
+            slate: '#94a3b8'
+        };
         Chart.defaults.font.family = "'Roboto', sans-serif";
         Chart.defaults.color = '#6b7280';
 
@@ -768,11 +812,27 @@
                 if (trendChart) trendChart.destroy();
                 trendChart = new Chart(document.getElementById('chart-trend'), {
                     type: 'line',
-                    data: { labels, datasets: [{ data: values, borderColor: COLORS.brand, backgroundColor: COLORS.brandFill, fill: true, tension: 0.35, pointRadius: 3, pointBackgroundColor: COLORS.brand, borderWidth: 2.5 }] },
+                    data: {
+                        labels,
+                        datasets: [{
+                            data: values,
+                            borderColor: COLORS.brand,
+                            backgroundColor: COLORS.brandFill,
+                            fill: true,
+                            tension: 0.35,
+                            pointRadius: 3,
+                            pointBackgroundColor: COLORS.brand,
+                            borderWidth: 2.5
+                        }]
+                    },
                     options: {
-                        responsive: true, maintainAspectRatio: false,
+                        responsive: true,
+                        maintainAspectRatio: false,
                         plugins: { legend: { display: false } },
-                        scales: { y: { beginAtZero: true, ticks: { precision: 0 }, grid: { color: '#f1f5f9' } }, x: { grid: { display: false } } }
+                        scales: {
+                            y: { beginAtZero: true, ticks: { precision: 0 }, grid: { color: '#f1f5f9' } },
+                            x: { grid: { display: false } }
+                        }
                     }
                 });
             } catch (e) { console.error(e); toggleEmpty('empty-trend', true); }
@@ -785,24 +845,41 @@
                     pendente: { label: 'Pendente', color: COLORS.amber },
                     confirmado: { label: 'Confirmado', color: COLORS.brand },
                     concluido: { label: 'Concluído', color: COLORS.teal },
-                    cancelado: { label: 'Cancelado', color: COLORS.rose },
-                    faltou: { label: 'Faltou', color: COLORS.slate }
+                    cancelado: { label: 'Cancelado', color: COLORS.rose }
                 };
-                const keys = Object.keys(map);
+                const keys = ['pendente', 'confirmado', 'concluido', 'cancelado'];
                 const values = keys.map(k => Number(data[k] || 0));
                 const total = values.reduce((a, b) => a + b, 0);
                 toggleEmpty('empty-status', total === 0);
 
                 const legendEl = document.getElementById('status-legend');
                 if (legendEl) {
-                    legendEl.innerHTML = keys.map((k, i) => `<span class="inline-flex items-center gap-1"><span class="legend-dot" style="background:${map[k].color}"></span>${map[k].label} (${values[i]})</span>`).join('');
+                    legendEl.innerHTML = keys.map((k, i) =>
+                        `<span class="inline-flex items-center gap-1">
+                            <span class="legend-dot" style="background:${map[k].color}"></span>
+                            ${map[k].label} (${values[i]})
+                        </span>`
+                    ).join('');
                 }
 
                 if (statusChart) statusChart.destroy();
                 statusChart = new Chart(document.getElementById('chart-status'), {
                     type: 'doughnut',
-                    data: { labels: keys.map(k => map[k].label), datasets: [{ data: values, backgroundColor: keys.map(k => map[k].color), borderWidth: 2, borderColor: '#fff' }] },
-                    options: { responsive: true, maintainAspectRatio: false, cutout: '68%', plugins: { legend: { display: false } } }
+                    data: {
+                        labels: keys.map(k => map[k].label),
+                        datasets: [{
+                            data: values,
+                            backgroundColor: keys.map(k => map[k].color),
+                            borderWidth: 2,
+                            borderColor: '#fff'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        cutout: '68%',
+                        plugins: { legend: { display: false } }
+                    }
                 });
             } catch (e) { console.error(e); toggleEmpty('empty-status', true); }
         }
@@ -817,8 +894,26 @@
                 if (newReturnChart) newReturnChart.destroy();
                 newReturnChart = new Chart(document.getElementById('chart-new-return'), {
                     type: 'doughnut',
-                    data: { labels: ['Primeira vez', 'Retorno'], datasets: [{ data: values, backgroundColor: [COLORS.purple, COLORS.brand], borderWidth: 2, borderColor: '#fff' }] },
-                    options: { responsive: true, maintainAspectRatio: false, cutout: '60%', plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, padding: 12 } } } }
+                    data: {
+                        labels: ['Primeira vez', 'Retorno'],
+                        datasets: [{
+                            data: values,
+                            backgroundColor: [COLORS.purple, COLORS.brand],
+                            borderWidth: 2,
+                            borderColor: '#fff'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        cutout: '60%',
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: { boxWidth: 10, padding: 12 }
+                            }
+                        }
+                    }
                 });
             } catch (e) { console.error(e); toggleEmpty('empty-new-return', true); }
         }
@@ -833,11 +928,23 @@
                 if (ageChart) ageChart.destroy();
                 ageChart = new Chart(document.getElementById('chart-age'), {
                     type: 'bar',
-                    data: { labels, datasets: [{ data: values, backgroundColor: COLORS.teal, borderRadius: 6, maxBarThickness: 40 }] },
+                    data: {
+                        labels,
+                        datasets: [{
+                            data: values,
+                            backgroundColor: COLORS.teal,
+                            borderRadius: 6,
+                            maxBarThickness: 40
+                        }]
+                    },
                     options: {
-                        responsive: true, maintainAspectRatio: false,
+                        responsive: true,
+                        maintainAspectRatio: false,
                         plugins: { legend: { display: false } },
-                        scales: { y: { beginAtZero: true, ticks: { precision: 0 }, grid: { color: '#f1f5f9' } }, x: { grid: { display: false } } }
+                        scales: {
+                            y: { beginAtZero: true, ticks: { precision: 0 }, grid: { color: '#f1f5f9' } },
+                            x: { grid: { display: false } }
+                        }
                     }
                 });
             } catch (e) { console.error(e); toggleEmpty('empty-age', true); }
@@ -895,7 +1002,13 @@
 
         // ==================== AGENDA DO DIA ====================
         function statusIcon(status) {
-            return { pendente: 'fa-hourglass-half', confirmado: 'fa-check-circle', concluido: 'fa-check-double', cancelado: 'fa-times-circle', faltou: 'fa-user-clock' }[status] || 'fa-circle';
+            const icons = {
+                pendente: 'fa-hourglass-half',
+                confirmado: 'fa-check-circle',
+                concluido: 'fa-check-double',
+                cancelado: 'fa-times-circle'
+            };
+            return icons[status] || 'fa-circle';
         }
 
         async function renderAgenda() {
@@ -918,7 +1031,11 @@
                 if (search) url += `&query=${encodeURIComponent(search)}`;
 
                 const appointments = await fetchJSON(url);
-                if (appointments.error) { showNotification(appointments.error, 'error'); container.innerHTML = `<div class="empty-state">Erro ao carregar agenda.</div>`; return; }
+                if (appointments.error) {
+                    showNotification(appointments.error, 'error');
+                    container.innerHTML = `<div class="empty-state">Erro ao carregar agenda.</div>`;
+                    return;
+                }
 
                 if (!appointments || appointments.length === 0) {
                     container.innerHTML = `<div class="empty-state"><i class="fas fa-calendar-day"></i><p>Nenhuma consulta para este dia.</p></div>`;
@@ -927,15 +1044,16 @@
 
                 container.innerHTML = `<div class="timeline">${appointments.map(a => {
                     const st = (a.status || 'pendente').toLowerCase();
-                    const typeClass = (a.type === 'primeira') ? 'primeira' : 'retorno';
-                    const typeLabel = (a.type === 'primeira') ? 'Primeira vez' : 'Retorno';
                     const canAct = st !== 'concluido' && st !== 'cancelado';
                     return `
-                        <div class="timeline-item ${st === 'concluido' ? 'done' : ''} ${st === 'cancelado' ? 'cancelled' : ''} ${st === 'faltou' ? 'missed' : ''}">
+                        <div class="timeline-item ${st === 'concluido' ? 'done' : ''} ${st === 'cancelado' ? 'cancelled' : ''}">
                             <div class="timeline-dot"></div>
                             <div class="flex items-center justify-between flex-wrap gap-2">
                                 <span class="timeline-time">${a.time || '--:--'}</span>
-                                <span class="status-badge ${st}"><i class="fas ${statusIcon(st)}" style="font-size:0.65rem;"></i> ${a.status_label || a.status || ''}</span>
+                                <span class="status-badge ${st}">
+                                    <i class="fas ${statusIcon(st)}" style="font-size:0.65rem;"></i>
+                                    ${a.status_label || a.status || ''}
+                                </span>
                             </div>
                             <div class="timeline-card">
                                 <div class="flex items-center justify-between flex-wrap gap-2">
@@ -943,14 +1061,20 @@
                                         <div class="patient-avatar">${(a.patient_name || '?').charAt(0).toUpperCase()}</div>
                                         <div>
                                             <div class="font-medium">${a.patient_name || 'Paciente'}</div>
-                                            <div class="text-xs text-gray-500">${a.room ? '<i class="fas fa-door-open mr-1"></i>' + a.room : ''} <span class="type-tag ${typeClass} ml-1">${typeLabel}</span></div>
+                                            <div class="text-xs text-gray-500">${a.room ? '<i class="fas fa-door-open mr-1"></i>' + a.room : ''}</div>
                                         </div>
                                     </div>
                                     <div class="flex gap-1">
-                                        <button class="btn-sm btn-view" onclick="showPatientModal('${a.patient_bi}')" title="Ver ficha"><i class="fas fa-file-medical"></i></button>
+                                        <button class="btn-sm btn-view" onclick="showPatientModal('${a.patient_bi}')" title="Ver ficha">
+                                            <i class="fas fa-file-medical"></i>
+                                        </button>
                                         ${canAct ? `
-                                            <button class="btn-sm btn-complete" onclick="updateAppointmentStatus('${a.id}', 'concluido')" title="Concluir"><i class="fas fa-check"></i></button>
-                                            <button class="btn-sm btn-cancel-appt" onclick="updateAppointmentStatus('${a.id}', 'cancelado')" title="Cancelar"><i class="fas fa-times"></i></button>
+                                            <button class="btn-sm btn-complete" onclick="updateAppointmentStatus('${a.id}', 'concluido')" title="Concluir">
+                                                <i class="fas fa-check"></i>
+                                            </button>
+                                            <button class="btn-sm btn-cancel-appt" onclick="updateAppointmentStatus('${a.id}', 'cancelado')" title="Cancelar">
+                                                <i class="fas fa-times"></i>
+                                            </button>
                                         ` : ''}
                                     </div>
                                 </div>
@@ -971,19 +1095,26 @@
             const countEl = document.getElementById('upcoming-count');
             try {
                 const appointments = await fetchJSON(AJAX_URL + '/medico/proximas_consultas');
-                if (appointments.error) { showNotification(appointments.error, 'error'); list.innerHTML = `<tr><td colspan="6" class="py-4 text-center text-gray-500">Erro ao carregar.</td></tr>`; return; }
+                if (appointments.error) {
+                    showNotification(appointments.error, 'error');
+                    list.innerHTML = `<tr><td colspan="5" class="py-4 text-center text-gray-500">Erro ao carregar.</td></tr>`;
+                    return;
+                }
 
                 if (countEl) countEl.textContent = appointments.length ? `${appointments.length} registo(s)` : '';
 
                 if (!appointments || appointments.length === 0) {
-                    list.innerHTML = `<tr><td colspan="6" class="py-4 text-center text-gray-500"><i class="fas fa-inbox text-2xl block mb-2 text-gray-300"></i>Nenhuma consulta futura agendada.</td></tr>`;
+                    list.innerHTML = `<tr>
+                        <td colspan="5" class="py-4 text-center text-gray-500">
+                            <i class="fas fa-inbox text-2xl block mb-2 text-gray-300"></i>
+                            Nenhuma consulta futura agendada.
+                        </td>
+                    </tr>`;
                     return;
                 }
 
                 list.innerHTML = appointments.map(a => {
                     const st = (a.status || 'pendente').toLowerCase();
-                    const typeClass = (a.type === 'primeira') ? 'primeira' : 'retorno';
-                    const typeLabel = (a.type === 'primeira') ? 'Primeira vez' : 'Retorno';
                     const canAct = st !== 'concluido' && st !== 'cancelado';
                     return `
                         <tr>
@@ -995,17 +1126,22 @@
                             </td>
                             <td>${a.date ? new Date(a.date).toLocaleDateString('pt-PT') : '—'}</td>
                             <td>${a.time || '—'}</td>
-                            <td><span class="type-tag ${typeClass}">${typeLabel}</span></td>
                             <td><span class="status-badge ${st}">${a.status_label || a.status || ''}</span></td>
-                            <td class="text-center whitespace-nowrap">
-                                <button class="btn-sm btn-view" onclick="showPatientModal('${a.patient_bi}')" title="Ver ficha"><i class="fas fa-file-medical"></i></button>
-                                ${canAct ? `<button class="btn-sm btn-cancel-appt" onclick="updateAppointmentStatus('${a.id}', 'cancelado')" title="Cancelar"><i class="fas fa-times"></i></button>` : ''}
+                            <td class="text-center">
+                                <button class="btn-sm btn-view" onclick="showPatientModal('${a.patient_bi}')" title="Ver ficha">
+                                    <i class="fas fa-file-medical"></i>
+                                </button>
+                                ${canAct ? `
+                                    <button class="btn-sm btn-cancel-appt" onclick="updateAppointmentStatus('${a.id}', 'cancelado')" title="Cancelar">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                ` : ''}
                             </td>
                         </tr>`;
                 }).join('');
             } catch (e) {
                 console.error('Erro ao buscar próximas consultas:', e);
-                list.innerHTML = `<tr><td colspan="6" class="py-4 text-center text-gray-500">Erro ao carregar.</td></tr>`;
+                list.innerHTML = `<tr><td colspan="5" class="py-4 text-center text-gray-500">Erro ao carregar.</td></tr>`;
             }
         }
 
@@ -1048,13 +1184,17 @@
 
             try {
                 const data = await fetchJSON(AJAX_URL + `/medico/patient/${bi}`);
-                if (data.error) { body.innerHTML = `<div class="empty-state">${data.error}</div>`; return; }
+                if (data.error) {
+                    body.innerHTML = `<div class="empty-state">${data.error}</div>`;
+                    return;
+                }
 
                 const historyItems = (data.history || []).map(h => `
                     <div class="history-row">
                         <span>${h.date ? new Date(h.date).toLocaleDateString('pt-PT') : '—'} — ${h.reason || 'Consulta'}</span>
                         <span class="status-badge ${(h.status || '').toLowerCase()}">${h.status_label || h.status || ''}</span>
-                    </div>`).join('') || '<p class="text-xs text-gray-500 py-2">Sem histórico de consultas anteriores.</p>';
+                    </div>
+                `).join('') || '<p class="text-xs text-gray-500 py-2">Sem histórico de consultas anteriores.</p>';
 
                 body.innerHTML = `
                     <div class="info-grid">
@@ -1108,7 +1248,9 @@
                     e.stopPropagation();
                     sidebarMenu.classList.toggle('expanded');
                     pageWrapper.classList.toggle('expanded');
-                    setTimeout(() => { [trendChart, statusChart, newReturnChart, ageChart].forEach(c => c && c.resize()); }, 320);
+                    setTimeout(() => {
+                        [trendChart, statusChart, newReturnChart, ageChart].forEach(c => c && c.resize());
+                    }, 320);
                 });
             }
             if (sidebarOverlay) {
@@ -1154,7 +1296,7 @@
             renderAgenda();
             renderUpcoming();
 
-            // Atualização periódica sem recarregar a página
+            // Atualização periódica
             setInterval(() => {
                 renderMetrics();
                 renderNextAppointment();

@@ -4,45 +4,117 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agendamento de Consultas - Hospital Matlhovele</title>
-    <meta name="description" content="Sistema inteligente de agendamento de consultas para o Hospital Público de Matlhovele">
+    <title>Agendamento de Consultas - Centro de Saúde Da Matola II</title>
+    <meta name="description" content="Sistema inteligente de agendamento de consultas para o Centro de Saúde Da Matola II">
     <meta name="csrf-token" content="<?= csrf_hash(); ?>">
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/locales-all.min.js"></script>
 
-    <!-- URL Base para AJAX - CI4 -->
     <script>
-        var BASE_URL = '<?= base_url(); ?>';
-        var SITE_URL = '<?= site_url(); ?>';
+        var BASE_URL = '<?= rtrim(base_url(), '/'); ?>';
+        var SITE_URL = '<?= rtrim(site_url(), '/'); ?>';
         var AJAX_URL = SITE_URL;
     </script>
 
     <style>
+        /* ---------- Paleta partilhada com as views de Admin / Médico / Secretário ---------- */
+        :root {
+            --brand-700: #1d4ed8;
+            --brand-600: #2563eb;
+            --brand-500: #3b82f6;
+            --brand-100: #dbeafe;
+            --teal-600: #0d9488;
+            --teal-500: #14b8a6;
+            --amber-500: #f59e0b;
+            --rose-500: #ef4444;
+            --ink-900: #111827;
+            --ink-700: #374151;
+            --ink-500: #6b7280;
+            --paper: #f6f8fb;
+        }
+
         body {
             font-family: 'Roboto', sans-serif;
             margin: 0;
             padding: 0;
             overflow-x: hidden;
-            background-color: #f9fafb;
+            background-color: var(--paper);
+            color: var(--ink-900);
+        }
+
+        h1,
+        h2,
+        h3,
+        .display-font {
+            font-family: 'Outfit', 'Roboto', sans-serif;
+        }
+
+        /* ---------- Botões partilhados (mesmos nomes de classe das outras 3 views) ---------- */
+        .btn {
+            padding: 0.65rem 1.25rem;
+            border-radius: 0.55rem;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .btn-primary {
+            background-color: var(--brand-500);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--brand-600);
+            transform: translateY(-1px);
+        }
+
+        .btn-success {
+            background-color: var(--teal-500);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background-color: var(--teal-600);
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background-color: #e5e7eb;
+            color: #374151;
+        }
+
+        .btn-secondary:hover {
+            background-color: #d1d5db;
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
         }
 
         .fc-button {
-            background-color: #3b82f6 !important;
-            border-color: #3b82f6 !important;
+            background-color: var(--brand-500) !important;
+            border-color: var(--brand-500) !important;
             color: white !important;
         }
 
         .fc-button:hover {
-            background-color: #2563eb !important;
+            background-color: var(--brand-600) !important;
         }
 
         .specialty-item.selected,
         .doctor-item.selected {
-            background-color: #3b82f6;
+            background-color: var(--brand-500);
             color: white;
         }
 
@@ -61,7 +133,7 @@
         }
 
         .fc-daygrid-day.available {
-            background-color: #3b82f6 !important;
+            background-color: var(--brand-500) !important;
             color: white !important;
         }
 
@@ -83,7 +155,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
+            background-color: rgba(15, 23, 42, 0.55);
             z-index: 950;
             justify-content: center;
             align-items: center;
@@ -98,11 +170,11 @@
         .modal-content {
             background-color: white;
             padding: 1.5rem;
-            border-radius: 0.5rem;
+            border-radius: 0.85rem;
             max-width: 500px;
             width: 90%;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            max-height: 80vh;
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+            max-height: 85vh;
             overflow-y: auto;
         }
 
@@ -125,226 +197,15 @@
             border-radius: 3px;
         }
 
-        /* Chat Bot Styles */
-        #chat-btn {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 60px;
-            height: 60px;
-            background-color: #10b981;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            font-size: 24px;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-            z-index: 1000;
-            transition: transform 0.3s ease;
-        }
-
-        #chat-btn:hover {
-            transform: scale(1.1);
-        }
-
-        #chat-modal {
-            display: none;
-            position: fixed;
-            bottom: 90px;
-            right: 20px;
-            width: 350px;
-            height: 500px;
-            background-color: white;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-            z-index: 1000;
-            flex-direction: column;
-            overflow: hidden;
-            border: 1px solid #e5e7eb;
-        }
-
-        #chat-modal.show {
-            display: flex;
-            animation: slideInUp 0.3s ease-out;
-        }
-
-        @keyframes slideInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .chat-header {
-            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-            color: white;
-            padding: 1rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-radius: 12px 12px 0 0;
-        }
-
-        .chat-header h3 {
-            margin: 0;
-            font-size: 1rem;
-            font-weight: 600;
-        }
-
-        #close-chat-btn {
-            background: none;
-            border: none;
-            color: white;
-            cursor: pointer;
-            padding: 4px;
-            border-radius: 50%;
-            transition: background-color 0.2s;
-        }
-
-        #close-chat-btn:hover {
-            background-color: rgba(255, 255, 255, 0.2);
-        }
-
-        .chat-messages {
-            flex: 1;
-            padding: 1rem;
-            overflow-y: auto;
-            background-color: #f8fafc;
-            max-height: 350px;
-        }
-
-        .chat-message {
-            margin-bottom: 1rem;
-            padding: 0.75rem 1rem;
-            border-radius: 1rem;
-            max-width: 85%;
-            word-wrap: break-word;
-            animation: fadeIn 0.3s ease-in;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .chat-message.user {
-            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-            color: white;
-            margin-left: auto;
-            border-bottom-right-radius: 0.25rem;
-        }
-
-        .chat-message.bot {
-            background-color: white;
-            color: #374151;
-            border: 1px solid #e5e7eb;
-            margin-right: auto;
-            border-bottom-left-radius: 0.25rem;
-        }
-
-        .chat-input-container {
-            display: flex;
-            padding: 1rem;
-            gap: 0.5rem;
-            background-color: white;
-            border-top: 1px solid #e5e7eb;
-        }
-
-        .chat-input {
-            flex: 1;
-            padding: 0.75rem;
-            border: 1px solid #d1d5db;
-            border-radius: 1.5rem;
-            outline: none;
-            font-size: 0.875rem;
-            transition: border-color 0.2s;
-        }
-
-        .chat-input:focus {
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-        }
-
-        .chat-send-btn {
-            background: linear-gradient(135deg, #10b981, #059669);
-            color: white;
-            border: none;
-            padding: 0.75rem;
-            border-radius: 50%;
-            cursor: pointer;
-            width: 44px;
-            height: 44px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s;
-        }
-
-        .chat-send-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 4px 8px rgba(16, 185, 129, 0.3);
-        }
-
-        .chat-send-btn:active {
-            transform: scale(0.95);
-        }
-
-        @media (max-width: 640px) {
-            #chat-modal {
-                width: calc(100vw - 40px);
-                right: 20px;
-                left: 20px;
-                height: 70vh;
-                bottom: 80px;
-            }
-
-            #chat-btn {
-                bottom: 20px;
-                right: 20px;
-                width: 56px;
-                height: 56px;
-            }
-        }
-
-        .chat-messages::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .chat-messages::-webkit-scrollbar-track {
-            background: #f1f5f9;
-            border-radius: 3px;
-        }
-
-        .chat-messages::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 3px;
-        }
-
-        .chat-messages::-webkit-scrollbar-thumb:hover {
-            background: #94a3b8;
-        }
-
-        /* Sidebar */
+        /* ---------- Sidebar (mesma estrutura visual das outras views) ---------- */
         .sidebar {
             position: fixed;
             top: 0;
             left: 0;
             height: 100vh;
             width: 80px;
-            background-color: white;
-            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+            background: linear-gradient(180deg, #0f2f66 0%, #123a80 100%);
+            box-shadow: 2px 0 12px rgba(0, 0, 0, 0.15);
             transform: translateX(0);
             transition: transform 0.3s ease-in-out, width 0.3s ease-in-out;
             z-index: 900;
@@ -361,7 +222,7 @@
         }
 
         .sidebar.desktop.expanded {
-            width: 250px;
+            width: 260px;
         }
 
         .sidebar.desktop .sidebar-text {
@@ -379,13 +240,32 @@
 
         .sidebar.desktop.expanded .sidebar-header {
             justify-content: space-between;
-            padding: 1rem;
+            padding: 1rem 1.25rem;
+        }
+
+        .sidebar-header {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+        }
+
+        .sidebar-header h2 {
+            color: white;
+        }
+
+        .sidebar-header button {
+            color: rgba(255, 255, 255, 0.85);
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .sidebar-header button:hover {
+            color: white;
         }
 
         header {
             position: relative;
             z-index: 800;
-            background-color: #2563eb;
+            background: linear-gradient(90deg, #1d4ed8 0%, #2563eb 55%, #0d9488 130%);
             width: 100%;
             margin-left: 0;
         }
@@ -400,8 +280,8 @@
         }
 
         .page-wrapper.expanded {
-            margin-left: 250px;
-            width: calc(100% - 250px);
+            margin-left: 260px;
+            width: calc(100% - 260px);
         }
 
         .main-content {
@@ -422,7 +302,7 @@
         @media (max-width: 767px) {
             .sidebar.desktop {
                 transform: translateX(-100%);
-                width: 250px;
+                width: 260px;
             }
 
             .sidebar.show {
@@ -460,69 +340,84 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            padding: 1rem;
+            padding: 0.5rem;
         }
 
         .sidebar-nav a,
         .sidebar-nav button {
             display: flex;
             align-items: center;
-            gap: 12px;
-            padding: 10px 16px;
-            border-radius: 0.25rem;
-            color: #4b5563;
+            gap: 10px;
+            padding: 11px 16px;
+            margin-bottom: 2px;
+            border-radius: 0.5rem;
+            color: rgba(255, 255, 255, 0.8);
+            transition: background-color 0.2s, color 0.2s;
+            font-size: 0.92rem;
+            width: 100%;
+            text-align: left;
+            border: none;
+            background: none;
+            cursor: pointer;
+        }
+
+        .sidebar-nav a:hover,
+        .sidebar-nav button:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .sidebar-nav a.active {
+            background: rgba(255, 255, 255, 0.16);
+            color: white;
+            box-shadow: inset 3px 0 0 var(--teal-500);
         }
 
         .sidebar-nav i {
-            font-size: 1.5rem;
-            width: 28px;
+            font-size: 1.3rem;
+            width: 26px;
             text-align: center;
         }
 
         .sidebar.desktop .sidebar-nav a,
         .sidebar.desktop .sidebar-nav button {
             justify-content: center;
-            padding: 10px;
+            padding: 11px;
         }
 
         .sidebar.desktop.expanded .sidebar-nav a,
         .sidebar.desktop.expanded .sidebar-nav button {
             justify-content: flex-start;
-            padding: 10px 16px;
+            padding: 11px 16px;
         }
 
         .sidebar-nav .logout {
-            margin-top: auto;
-        }
-
-        .appointments-list {
-            margin-top: 1rem;
-        }
-
-        .appointment-item {
-            border: 1px solid #d1d5db;
-            border-radius: 0.5rem;
-            padding: 1rem;
-            margin-bottom: 1rem;
+            margin-top: 0.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.12);
+            padding-top: 0.5rem;
         }
 
         .slot-button {
-            display: block;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.4rem;
             width: 100%;
             padding: 0.5rem;
             margin-bottom: 0.5rem;
             border: 1px solid #d1d5db;
-            border-radius: 0.25rem;
+            border-radius: 0.4rem;
             text-align: center;
             cursor: pointer;
         }
 
         .slot-button.available:hover {
-            background-color: #e0f2fe;
+            background-color: #eff6ff;
+            border-color: var(--brand-500);
         }
 
         .slot-button.booked {
-            background-color: #ef4444;
+            background-color: var(--rose-500);
             color: white;
             cursor: not-allowed;
         }
@@ -533,22 +428,23 @@
             top: 1rem;
             right: 1rem;
             z-index: 1000;
-            padding: 1rem;
-            border-radius: 0.25rem;
+            padding: 1rem 1.25rem;
+            border-radius: 0.6rem;
             color: white;
-            max-width: 300px;
+            max-width: 350px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
         }
 
         #notification.error {
-            background-color: #ef4444;
+            background-color: var(--rose-500);
         }
 
         #notification.success {
-            background-color: #10b981;
+            background-color: var(--teal-600);
         }
 
         #notification.info {
-            background-color: #3b82f6;
+            background-color: var(--brand-500);
         }
 
         #notification.show {
@@ -559,7 +455,7 @@
             max-height: 300px;
             overflow-y: auto;
             border: 1px solid #d1d5db;
-            border-radius: 0.25rem;
+            border-radius: 0.5rem;
             padding: 0.5rem;
             margin-bottom: 1rem;
         }
@@ -586,7 +482,7 @@
             position: absolute;
             left: -999px;
             top: 0;
-            background: #1d4ed8;
+            background: var(--brand-700);
             color: white;
             padding: 0.75rem 1rem;
             z-index: 2000;
@@ -595,22 +491,6 @@
 
         .skip-link:focus {
             left: 0;
-        }
-
-        a:focus-visible,
-        button:focus-visible,
-        input:focus-visible,
-        textarea:focus-visible,
-        [tabindex]:focus-visible {
-            outline: 3px solid #f59e0b;
-            outline-offset: 2px;
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            * {
-                animation-duration: 0.01ms !important;
-                transition-duration: 0.01ms !important;
-            }
         }
 
         .booking-stepper {
@@ -648,7 +528,7 @@
         .booking-step .label {
             font-size: 0.8rem;
             font-weight: 500;
-            color: #6b7280;
+            color: var(--ink-500);
             white-space: nowrap;
             display: none;
         }
@@ -672,29 +552,29 @@
         }
 
         .booking-step.active .circle {
-            background: #2563eb;
-            border-color: #2563eb;
+            background: var(--brand-600);
+            border-color: var(--brand-600);
             color: white;
             box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15);
         }
 
         .booking-step.active .label {
-            color: #1d4ed8;
+            color: var(--brand-700);
             font-weight: 600;
         }
 
         .booking-step.complete .circle {
-            background: #10b981;
-            border-color: #10b981;
+            background: var(--teal-500);
+            border-color: var(--teal-500);
             color: white;
         }
 
         .booking-step.complete .connector {
-            background: #10b981;
+            background: var(--teal-500);
         }
 
         .booking-step.complete .label {
-            color: #059669;
+            color: var(--teal-600);
         }
 
         #selection-summary {
@@ -705,7 +585,7 @@
             flex-wrap: wrap;
             gap: 0.5rem;
             background: #eff6ff;
-            border: 1px solid #bfdbfe;
+            border: 1px solid var(--brand-100);
             border-radius: 0.75rem;
             padding: 0.75rem 1rem;
             margin-bottom: 1.75rem;
@@ -716,11 +596,11 @@
             align-items: center;
             gap: 0.4rem;
             background: white;
-            border: 1px solid #dbeafe;
+            border: 1px solid var(--brand-100);
             border-radius: 9999px;
             padding: 0.35rem 0.85rem;
             font-size: 0.8rem;
-            color: #374151;
+            color: var(--ink-700);
         }
 
         .summary-chip i {
@@ -730,13 +610,13 @@
 
         .summary-chip.filled {
             border-color: #93c5fd;
-            background: #dbeafe;
-            color: #1d4ed8;
+            background: var(--brand-100);
+            color: var(--brand-700);
             font-weight: 500;
         }
 
         .summary-chip.filled i {
-            color: #2563eb;
+            color: var(--brand-600);
         }
 
         .specialty-item {
@@ -773,7 +653,7 @@
             height: 1.25rem;
             border-radius: 9999px;
             background: white;
-            color: #2563eb;
+            color: var(--brand-600);
             display: none;
             align-items: center;
             justify-content: center;
@@ -816,7 +696,7 @@
         }
 
         .doctor-toolbar input:focus {
-            border-color: #3b82f6;
+            border-color: var(--brand-500);
             box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
             outline: none;
         }
@@ -827,12 +707,6 @@
 
         .doctor-item:hover {
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
-        }
-
-        .doctor-item .rating {
-            color: #f59e0b;
-            font-size: 0.75rem;
-            margin-top: 0.15rem;
         }
 
         .doctor-item img {
@@ -882,7 +756,7 @@
         .empty-state {
             text-align: center;
             padding: 2rem 1rem;
-            color: #6b7280;
+            color: var(--ink-500);
         }
 
         .empty-state i {
@@ -899,7 +773,7 @@
             justify-content: center;
             margin-top: 0.75rem;
             font-size: 0.8rem;
-            color: #4b5563;
+            color: var(--ink-700);
         }
 
         .calendar-legend span {
@@ -916,12 +790,12 @@
         }
 
         .legend-dot.available {
-            background: #3b82f6;
+            background: var(--brand-500);
         }
 
         .legend-dot.selected {
             background: #e0f2fe;
-            border: 1px solid #3b82f6;
+            border: 1px solid var(--brand-500);
         }
 
         .legend-dot.unavailable {
@@ -942,7 +816,7 @@
             height: 2rem;
             border-radius: 9999px;
             background: #f3f4f6;
-            color: #6b7280;
+            color: var(--ink-500);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -959,8 +833,8 @@
             width: 3rem;
             height: 3rem;
             border-radius: 9999px;
-            background: #dbeafe;
-            color: #2563eb;
+            background: var(--brand-100);
+            color: var(--brand-600);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -970,21 +844,14 @@
 
         .modal-icon-header.success {
             background: #d1fae5;
-            color: #059669;
-        }
-
-        .slot-button {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.4rem;
+            color: var(--teal-600);
         }
 
         .review-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 0.75rem 1rem;
-            background: #f9fafb;
+            background: var(--paper);
             border-radius: 0.5rem;
             padding: 0.9rem;
         }
@@ -998,28 +865,46 @@
         }
 
         .review-grid dd {
-            color: #111827;
+            color: var(--ink-900);
             font-weight: 500;
             margin: 0;
+        }
+
+        .review-section-label {
+            grid-column: 1 / -1;
+            font-size: 0.68rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--brand-600);
+            margin-top: 0.4rem;
+            padding-top: 0.4rem;
+            border-top: 1px dashed #e2e8f0;
+        }
+
+        .review-grid>.review-section-label:first-child {
+            border-top: none;
+            margin-top: 0;
+            padding-top: 0;
         }
 
         .field-label {
             display: flex;
             align-items: center;
             gap: 0.4rem;
-            color: #374151;
+            color: var(--ink-700);
             margin-bottom: 0.4rem;
             font-weight: 500;
         }
 
         .field-label i {
-            color: #2563eb;
+            color: var(--brand-600);
             width: 1rem;
             text-align: center;
         }
 
         .field-label .required-dot {
-            color: #ef4444;
+            color: var(--rose-500);
         }
 
         .field-input {
@@ -1031,13 +916,13 @@
         }
 
         .field-input:focus {
-            border-color: #3b82f6;
+            border-color: var(--brand-500);
             box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
             outline: none;
         }
 
         .field-input.field-error {
-            border-color: #ef4444;
+            border-color: var(--rose-500);
             box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
         }
 
@@ -1046,10 +931,331 @@
             color: #9ca3af;
             margin-top: 0.25rem;
         }
+
+        /* ---------- "Para quem é a consulta?" ---------- */
+        .who-toggle {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .who-option {
+            border: 1.5px solid #d1d5db;
+            border-radius: 0.6rem;
+            padding: 0.9rem;
+            text-align: center;
+            cursor: pointer;
+            background: white;
+            transition: all 0.15s ease;
+        }
+
+        .who-option:hover {
+            border-color: var(--brand-500);
+        }
+
+        .who-option i {
+            font-size: 1.3rem;
+            color: var(--brand-600);
+            display: block;
+            margin-bottom: 0.4rem;
+        }
+
+        .who-option .title {
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--ink-900);
+        }
+
+        .who-option .sub {
+            font-size: 0.7rem;
+            color: var(--ink-500);
+            margin-top: 0.15rem;
+        }
+
+        .who-option.selected {
+            border-color: var(--brand-500);
+            background: #eff6ff;
+        }
+
+        .who-option.selected i {
+            color: var(--brand-700);
+        }
+
+        .form-section-title {
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--brand-600);
+            margin: 1.4rem 0 0.75rem;
+        }
+
+        .form-section-title:first-of-type {
+            margin-top: 0;
+        }
+
+        /* ---------- Chat Bot ---------- */
+        #chat-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background-color: var(--teal-500);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 1000;
+            transition: transform 0.3s ease;
+        }
+
+        #chat-btn:hover {
+            transform: scale(1.1);
+            background-color: var(--teal-600);
+        }
+
+        #chat-modal {
+            display: none;
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: 350px;
+            height: 500px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            flex-direction: column;
+            overflow: hidden;
+            border: 1px solid #e5e7eb;
+        }
+
+        #chat-modal.show {
+            display: flex;
+            animation: slideInUp 0.3s ease-out;
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .chat-header {
+            background: linear-gradient(135deg, var(--brand-500), var(--brand-700));
+            color: white;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 12px 12px 0 0;
+        }
+
+        .chat-header h3 {
+            margin: 0;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        #close-chat-btn {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 50%;
+            transition: background-color 0.2s;
+        }
+
+        #close-chat-btn:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 1rem;
+            overflow-y: auto;
+            background-color: var(--paper);
+            max-height: 350px;
+        }
+
+        .chat-message {
+            margin-bottom: 1rem;
+            padding: 0.75rem 1rem;
+            border-radius: 1rem;
+            max-width: 88%;
+            word-wrap: break-word;
+            animation: fadeIn 0.3s ease-in;
+            line-height: 1.45;
+            font-size: 0.87rem;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .chat-message.user {
+            background: linear-gradient(135deg, var(--brand-500), var(--brand-700));
+            color: white;
+            margin-left: auto;
+            border-bottom-right-radius: 0.25rem;
+        }
+
+        .chat-message.bot {
+            background-color: white;
+            color: var(--ink-700);
+            border: 1px solid #e5e7eb;
+            margin-right: auto;
+            border-bottom-left-radius: 0.25rem;
+        }
+
+        .chat-message.bot.urgent {
+            background-color: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #991b1b;
+            font-weight: 500;
+        }
+
+        .chat-input-container {
+            display: flex;
+            padding: 1rem;
+            gap: 0.5rem;
+            background-color: white;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 1.5rem;
+            outline: none;
+            font-size: 0.875rem;
+            transition: border-color 0.2s;
+        }
+
+        .chat-input:focus {
+            border-color: var(--brand-500);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .chat-send-btn {
+            background: linear-gradient(135deg, var(--teal-500), var(--teal-600));
+            color: white;
+            border: none;
+            padding: 0.75rem;
+            border-radius: 50%;
+            cursor: pointer;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .chat-send-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(13, 148, 136, 0.3);
+        }
+
+        .chat-send-btn:active {
+            transform: scale(0.95);
+        }
+
+        @media (max-width: 640px) {
+            #chat-modal {
+                width: calc(100vw - 40px);
+                right: 20px;
+                left: 20px;
+                height: 70vh;
+                bottom: 80px;
+            }
+
+            #chat-btn {
+                bottom: 20px;
+                right: 20px;
+                width: 56px;
+                height: 56px;
+            }
+
+            .who-toggle {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .chat-messages::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .chat-messages::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 3px;
+        }
+
+        .chat-messages::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+
+        .chat-messages::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        .pulse-line {
+            width: 120px;
+            height: 34px;
+            opacity: 0.9;
+        }
+
+        .pulse-path {
+            stroke-dasharray: 300;
+            stroke-dashoffset: 300;
+            animation: draw-pulse 3.2s ease-in-out infinite;
+        }
+
+        @keyframes draw-pulse {
+            0% {
+                stroke-dashoffset: 300;
+            }
+
+            55% {
+                stroke-dashoffset: 0;
+            }
+
+            100% {
+                stroke-dashoffset: -300;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .pulse-path {
+                animation: none;
+                stroke-dashoffset: 0;
+            }
+        }
     </style>
 </head>
 
-<body class="bg-gray-50">
+<body>
     <a href="#main-content" class="skip-link">Saltar para o conteúdo principal</a>
 
     <!-- Notification -->
@@ -1059,32 +1265,32 @@
     </div>
 
     <!-- Left Sidebar -->
-    <div id="sidebar-menu" class="sidebar bg-white shadow-lg desktop">
-        <div class="sidebar-header flex justify-between items-center p-4 border-b">
-            <h2 class="text-lg font-semibold text-gray-700 sidebar-text">Menu do Paciente</h2>
-            <button id="toggle-sidebar-btn" class="text-gray-700 hover:text-gray-900" aria-label="Alternar menu">
+    <div id="sidebar-menu" class="sidebar desktop">
+        <div class="sidebar-header flex justify-between items-center">
+            <h2 class="text-lg font-semibold sidebar-text">Menu do Paciente</h2>
+            <button id="toggle-sidebar-btn" aria-label="Alternar menu">
                 <i class="fas fa-bars text-xl"></i>
             </button>
-            <button id="close-sidebar-btn" class="text-gray-700 hover:text-gray-900 md:hidden close-sidebar-btn" aria-label="Fechar menu">
+            <button id="close-sidebar-btn" class="md:hidden close-sidebar-btn" aria-label="Fechar menu">
                 <i class="fas fa-times text-xl"></i>
             </button>
         </div>
         <nav class="sidebar-nav">
             <div class="main-menu">
-                <a href="<?= site_url('agenda'); ?>" class="block text-gray-700 hover:bg-blue-50 rounded">
+                <a href="<?= site_url('agenda'); ?>" class="active">
                     <i class="fas fa-home"></i>
                     <span class="sidebar-text">Home</span>
                 </a>
-                <a href="<?= site_url('agenda/agendamentos'); ?>" id="meus-agendamentos-btn" class="block text-gray-700 hover:bg-blue-50 rounded">
+                <a href="<?= site_url('agenda/agendamentos'); ?>" id="meus-agendamentos-btn">
                     <i class="fas fa-calendar-check"></i>
                     <span class="sidebar-text">Meus Agendamentos</span>
                 </a>
-                <a href="<?= site_url('agenda/perfil'); ?>" class="block text-gray-700 hover:bg-blue-50 rounded">
+                <a href="<?= site_url('agenda/perfil'); ?>">
                     <i class="fas fa-user"></i>
                     <span class="sidebar-text">Perfil</span>
                 </a>
             </div>
-            <button id="logout-btn" class="block w-full text-left text-gray-700 hover:bg-blue-50 rounded logout">
+            <button id="logout-btn" class="logout">
                 <i class="fas fa-sign-out-alt"></i>
                 <span class="sidebar-text">Sair</span>
             </button>
@@ -1097,24 +1303,33 @@
     <!-- Page Wrapper -->
     <div class="page-wrapper">
         <!-- Header -->
-        <header class="bg-blue-600 text-white shadow-lg">
-            <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-                <div class="flex items-center space-x-2">
-                    <i class="fas fa-hospital-alt text-2xl" aria-label="Ícone do Hospital Matlhovele"></i>
-                    <h1 class="text-xl font-bold">Hospital Matlhovele</h1>
+        <header class="text-white shadow-lg">
+            <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+                <div class="flex items-center gap-3">
+                    <i class="fas fa-hospital-alt text-2xl" aria-label="Ícone do Centro de Saúde Da Matola II"></i>
+                    <div>
+                        <h1 class="text-xl font-bold leading-tight">Centro de Saúde Da Matola II</h1>
+                        <p class="text-xs text-blue-100 opacity-90">Agendamento de Consultas</p>
+                    </div>
                 </div>
-                <button id="mobile-menu-btn" class="md:hidden text-white hover:text-gray-200" aria-label="Abrir menu">
-                    <i class="fas fa-bars text-2xl"></i>
-                </button>
+                <div class="flex items-center gap-4">
+                    <!-- Animação do Eletrocardiograma -->
+                    <svg class="pulse-line hidden sm:block" viewBox="0 0 140 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path class="pulse-path" d="M0 20 H35 L45 6 L55 34 L65 14 L72 20 H140" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                    <button id="mobile-menu-btn" class="md:hidden text-white hover:text-blue-200" aria-label="Abrir menu">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
             </div>
         </header>
 
         <!-- Main Content -->
         <main class="main-content" id="main-content">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                <div class="bg-white rounded-lg shadow-md p-6 mb-8" style="border:1px solid #eef1f6;">
                     <h2 class="text-2xl font-semibold text-gray-800 mb-2">Agendar Consulta</h2>
-                    <p class="text-gray-500 mb-6">Siga os 4 passos abaixo para marcar a sua consulta no Hospital Matlhovele.</p>
+                    <p class="text-gray-500 mb-6">Siga os 4 passos abaixo para marcar a sua consulta no Centro de Saúde Da Matola II.</p>
 
                     <!-- Indicador de progresso -->
                     <div class="booking-stepper" id="booking-stepper" role="list" aria-label="Progresso do agendamento">
@@ -1164,7 +1379,6 @@
                                     </div>
                                 <?php endforeach; ?>
                             <?php else: ?>
-                                <!-- Fallback caso não haja especialidades no banco -->
                                 <div class="specialty-item border rounded-lg p-4 hover:bg-blue-50 cursor-pointer" data-specialty="Medicina Geral" tabindex="0" role="button" aria-pressed="false">
                                     <span class="check-badge"><i class="fas fa-check"></i></span>
                                     <div class="icon-wrap"><i class="fas fa-user-md text-blue-500 text-xl" aria-hidden="true"></i></div>
@@ -1213,7 +1427,7 @@
                                 <input type="text" id="doctor-search" placeholder="Procurar médico pelo nome..." aria-label="Procurar médico pelo nome" disabled>
                             </div>
                         </div>
-                        <div id="doctor-header" class="hidden mb-2 text-sm font-medium text-blue-600"></div>
+                        <div id="doctor-header" class="hidden mb-2 text-sm font-medium" style="color:var(--brand-600);"></div>
                         <div id="doctor-container" class="grid grid-cols-1 md:grid-cols-2 gap-4 max-h-96 overflow-y-auto border rounded-lg p-4 bg-gray-50">
                             <div class="empty-state col-span-full">
                                 <i class="fas fa-user-md" aria-hidden="true"></i>
@@ -1241,9 +1455,7 @@
                             <h3 class="text-lg font-medium text-gray-700 mb-1">Selecione um horário</h3>
                             <p class="text-sm text-gray-500 mb-4" id="time-slot-subtitle">Horários disponíveis para a data escolhida</p>
                             <div id="time-slot-list"></div>
-                            <button id="modal-cancel-btn" class="bg-gray-300 text-gray-700 py-2 px-4 rounded-lg hover:bg-gray-400 transition w-full">
-                                Cancelar
-                            </button>
+                            <button id="modal-cancel-btn" class="btn btn-secondary" style="width:100%;">Cancelar</button>
                         </div>
                     </div>
 
@@ -1255,6 +1467,7 @@
                             <h3 class="text-lg font-medium text-gray-700 mb-1">Revisar Agendamento</h3>
                             <p class="text-sm text-gray-500 mb-4">Confirme os dados antes de finalizar a marcação.</p>
                             <dl id="review-details" class="review-grid mb-4">
+                                <div class="review-section-label">Consulta</div>
                                 <div>
                                     <dt>Especialidade</dt>
                                     <dd id="review-specialty"></dd>
@@ -1271,6 +1484,18 @@
                                     <dt>Horário</dt>
                                     <dd id="review-time"></dd>
                                 </div>
+
+                                <div class="review-section-label" id="review-patient-section-label">Paciente</div>
+                                <div>
+                                    <dt>Nome do paciente</dt>
+                                    <dd id="review-patient-name"></dd>
+                                </div>
+                                <div id="review-patient-relation-wrap">
+                                    <dt>Parentesco</dt>
+                                    <dd id="review-patient-relation"></dd>
+                                </div>
+
+                                <div class="review-section-label" id="review-responsible-section-label">Responsável / Contacto</div>
                                 <div>
                                     <dt>Nome</dt>
                                     <dd id="review-name"></dd>
@@ -1285,12 +1510,10 @@
                                 </div>
                             </dl>
                             <div class="flex space-x-2">
-                                <button id="review-confirm-btn" class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition flex-1">
+                                <button id="review-confirm-btn" class="btn btn-primary flex-1">
                                     <i class="fas fa-check mr-1"></i> Confirmar
                                 </button>
-                                <button id="review-cancel-btn" class="bg-gray-300 text-gray-700 py-2 px-4 rounded-lg hover:bg-gray-400 transition flex-1">
-                                    Voltar
-                                </button>
+                                <button id="review-cancel-btn" class="btn btn-secondary flex-1">Voltar</button>
                             </div>
                         </div>
                     </div>
@@ -1301,17 +1524,73 @@
                             <div class="modal-icon-header success"><i class="fas fa-check-circle"></i></div>
                             <h3 class="text-lg font-medium text-gray-700 mb-4">Agendamento Confirmado</h3>
                             <p id="confirmation-message" class="mb-4"></p>
-                            <p class="text-xs text-gray-500 mb-4"><i class="fas fa-info-circle mr-1"></i> Chegue com 15 minutos de antecedência e leve o seu Bilhete de Identidade.</p>
-                            <button id="confirmation-close-btn" class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition w-full">
-                                Fechar
-                            </button>
+                            <p class="text-xs text-gray-500 mb-4"><i class="fas fa-info-circle mr-1"></i> Chegue com 15 minutos de antecedência e leve o documento de identificação do paciente (BI ou Certidão de Nascimento).</p>
+                            <button id="confirmation-close-btn" class="btn btn-primary" style="width:100%;">Fechar</button>
                         </div>
                     </div>
 
                     <!-- Step 4: Confirmar Agendamento -->
-                    <div class="bg-blue-50 p-6 rounded-lg">
+                    <div class="p-6 rounded-lg" style="background:#eff6ff;">
                         <h3 class="text-lg font-medium text-gray-700 mb-1">4. Confirmar agendamento</h3>
-                        <p class="text-sm text-gray-500 mb-4">Verifique os seus dados de contacto — usaremos estes dados para confirmar a consulta.</p>
+                        <p class="text-sm text-gray-500 mb-4">Estes dados são usados para identificar o paciente e para o contactarmos sobre a consulta.</p>
+
+                        <!-- Para quem é a consulta -->
+                        <div class="mb-2">
+                            <label class="field-label"><i class="fas fa-users"></i> Para quem é esta consulta? <span class="required-dot">*</span></label>
+                        </div>
+                        <div class="who-toggle" id="who-toggle" role="radiogroup" aria-label="Para quem é a consulta">
+                            <div class="who-option selected" data-who="self" tabindex="0" role="radio" aria-checked="true">
+                                <i class="fas fa-user"></i>
+                                <div class="title">Para mim</div>
+                                <div class="sub">Eu sou o paciente</div>
+                            </div>
+                            <div class="who-option" data-who="other" tabindex="0" role="radio" aria-checked="false">
+                                <i class="fas fa-child"></i>
+                                <div class="title">Para outra pessoa</div>
+                                <div class="sub">Ex: meu filho/filha, ou outro dependente</div>
+                            </div>
+                        </div>
+
+                        <!-- Dados do paciente (só visível quando "Para outra pessoa") -->
+                        <div id="patient-fields" class="hidden">
+                            <div class="form-section-title">Dados do paciente</div>
+                            <div class="mb-4">
+                                <label class="field-label" for="patient-name"><i class="fas fa-child"></i> Nome completo do paciente <span class="required-dot">*</span></label>
+                                <input type="text" id="patient-name" class="field-input" aria-required="true" placeholder="Nome completo de quem vai à consulta">
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                <div>
+                                    <label class="field-label" for="patient-birthdate"><i class="fas fa-birthday-cake"></i> Data de nascimento</label>
+                                    <input type="date" id="patient-birthdate" class="field-input">
+                                </div>
+                                <div>
+                                    <label class="field-label" for="patient-relation"><i class="fas fa-heart"></i> Parentesco / relação <span class="required-dot">*</span></label>
+                                    <select id="patient-relation" class="field-input">
+                                        <option value="">Seleccione</option>
+                                        <option value="Mãe">Mãe</option>
+                                        <option value="Pai">Pai</option>
+                                        <option value="Tutor legal">Tutor legal</option>
+                                        <option value="Outro">Outro</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                <div>
+                                    <label class="field-label" for="patient-doc-type"><i class="fas fa-id-badge"></i> Documento do paciente</label>
+                                    <select id="patient-doc-type" class="field-input">
+                                        <option value="Nenhum">Sem documento (menor sem BI)</option>
+                                        <option value="BI">Bilhete de Identidade</option>
+                                        <option value="Certidao">Certidão de Nascimento</option>
+                                    </select>
+                                </div>
+                                <div id="patient-doc-number-wrap">
+                                    <label class="field-label" for="patient-doc-number"><i class="fas fa-hashtag"></i> Número do documento</label>
+                                    <input type="text" id="patient-doc-number" class="field-input" placeholder="Opcional se não possuir">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-section-title" id="responsible-section-title">Os seus dados de contacto</div>
                         <div class="mb-4">
                             <label class="field-label" for="name"><i class="fas fa-user"></i> Nome completo <span class="required-dot">*</span></label>
                             <input type="text" id="name" value="<?= htmlspecialchars($nome_completo ?? ''); ?>" class="field-input" aria-required="true">
@@ -1328,17 +1607,11 @@
                         <div class="mb-4">
                             <label class="field-label" for="motivo"><i class="fas fa-notes-medical"></i> Motivo da consulta (opcional)</label>
                             <textarea id="motivo" class="field-input" rows="3" maxlength="300" placeholder="Descreva o motivo da consulta..."></textarea>
-                            <p class="field-hint">Isto ajuda o médico a preparar-se antes da sua consulta.</p>
+                            <p class="field-hint">Isto ajuda o médico a preparar-se antes da consulta.</p>
                         </div>
-                        <button id="confirm-btn" class="bg-blue-600 text-white py-2 px-6 rounded-lg hover:bg-blue-700 transition" aria-label="Confirmar agendamento">
+                        <button id="confirm-btn" class="btn btn-primary" aria-label="Confirmar agendamento">
                             <i class="fas fa-calendar-check mr-1"></i> Confirmar Agendamento
                         </button>
-                    </div>
-
-                    <!-- Lista de Meus Agendamentos -->
-                    <div id="appointments-section" class="hidden mt-8">
-                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Meus Agendamentos</h3>
-                        <div id="appointments-list" class="appointments-list"></div>
                     </div>
                 </div>
             </div>
@@ -1353,18 +1626,12 @@
     <!-- Chat Modal -->
     <div id="chat-modal">
         <div class="chat-header">
-            <h3>Assistente de Agendamento</h3>
-            <button id="close-chat-btn">
-                <i class="fas fa-times"></i>
-            </button>
+            <h3>Assistente do Centro de Saúde Da Matola II</h3>
+            <button id="close-chat-btn"><i class="fas fa-times"></i></button>
         </div>
-        <div class="chat-messages" id="chat-messages">
-            <div class="chat-message bot">
-                Olá! Sou o assistente do Hospital Matlhovele. Como posso ajudar? Descreva seus sintomas ou o problema para eu sugerir a especialidade certa.
-            </div>
-        </div>
+        <div class="chat-messages" id="chat-messages"></div>
         <div class="chat-input-container">
-            <input type="text" id="chat-input" class="chat-input" placeholder="Digite sua mensagem...">
+            <input type="text" id="chat-input" class="chat-input" placeholder="Descreva os sintomas ou a sua dúvida...">
             <button id="chat-send-btn" class="chat-send-btn">
                 <i class="fas fa-paper-plane"></i>
             </button>
@@ -1372,7 +1639,7 @@
     </div>
 
     <script>
-        // Variáveis globais
+        // ==================== VARIÁVEIS GLOBAIS ====================
         let doctors = [];
         let availableSlots = {};
         let selectedSpecialty = null;
@@ -1381,53 +1648,85 @@
         let selectedDate = null;
         let selectedTime = null;
         let calendar;
+        let bookingFor = 'self'; // 'self' | 'other'
 
-        // Função para exibir notificações
+        // ==================== CSRF ====================
+        function getCsrfToken() {
+            const metaToken = document.querySelector('meta[name="csrf-token"]');
+            if (metaToken) {
+                const token = metaToken.getAttribute('content');
+                if (token && token.length > 0) return token;
+            }
+            const cookies = document.cookie.split(';');
+            for (let cookie of cookies) {
+                const [name, value] = cookie.trim().split('=');
+                if (name === 'csrf_cookie_name') return value;
+            }
+            return '';
+        }
+
+        function getCsrfName() {
+            const input = document.querySelector('input[name="csrf_test_name"]');
+            if (input) return input.name;
+            return 'csrf_test_name';
+        }
+
+        // ==================== NOTIFICAÇÕES ====================
         function showNotification(message, type = 'info') {
             const notification = document.getElementById('notification');
             const messageEl = document.getElementById('notification-message');
-            messageEl.innerHTML = `<i class="fas ${notificationIcon(type)} mr-2"></i>${message}`;
+            const icon = type === 'error' ? 'fa-exclamation-circle' :
+                type === 'success' ? 'fa-check-circle' : 'fa-info-circle';
+            messageEl.innerHTML = `<i class="fas ${icon} mr-2"></i>${message}`;
             notification.className = `show ${type}`;
             setTimeout(() => {
                 notification.classList.remove('show');
             }, 5000);
         }
 
-        // Close notification
         document.getElementById('notification-close')?.addEventListener('click', () => {
             document.getElementById('notification').classList.remove('show');
         });
 
-        // Ícones por tipo de notificação
-        function notificationIcon(type) {
-            return type === 'error' ? 'fa-exclamation-circle' :
-                type === 'success' ? 'fa-check-circle' :
-                'fa-info-circle';
+        // ==================== PARA QUEM É A CONSULTA ====================
+        const whoToggle = document.getElementById('who-toggle');
+        const patientFields = document.getElementById('patient-fields');
+        const responsibleSectionTitle = document.getElementById('responsible-section-title');
+        const patientDocType = document.getElementById('patient-doc-type');
+        const patientDocNumberWrap = document.getElementById('patient-doc-number-wrap');
+
+        function setBookingFor(who) {
+            bookingFor = who;
+            whoToggle.querySelectorAll('.who-option').forEach(opt => {
+                const isSelected = opt.dataset.who === who;
+                opt.classList.toggle('selected', isSelected);
+                opt.setAttribute('aria-checked', isSelected ? 'true' : 'false');
+            });
+
+            if (who === 'other') {
+                patientFields.classList.remove('hidden');
+                responsibleSectionTitle.textContent = 'Dados do responsável (quem está a agendar)';
+            } else {
+                patientFields.classList.add('hidden');
+                responsibleSectionTitle.textContent = 'Os seus dados de contacto';
+            }
         }
 
-        // Atualiza o indicador de progresso
-        function updateStepper() {
-            const steps = document.querySelectorAll('.booking-step');
-            const state = [
-                !!selectedSpecialty,
-                !!selectedDoctorId,
-                !!(selectedDate && selectedTime),
-                false
-            ];
-            let activeIndex = state.findIndex(done => !done);
-            if (activeIndex === -1) activeIndex = 3;
-
-            steps.forEach((stepEl, i) => {
-                stepEl.classList.remove('active', 'complete');
-                if (i < activeIndex) {
-                    stepEl.classList.add('complete');
-                } else if (i === activeIndex) {
-                    stepEl.classList.add('active');
+        whoToggle.querySelectorAll('.who-option').forEach(opt => {
+            opt.addEventListener('click', () => setBookingFor(opt.dataset.who));
+            opt.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    setBookingFor(opt.dataset.who);
                 }
             });
-        }
+        });
 
-        // Atualiza a barra de resumo
+        patientDocType?.addEventListener('change', function() {
+            patientDocNumberWrap.style.display = this.value === 'Nenhum' ? 'none' : 'block';
+        });
+
+        // ==================== UPDATE SUMMARY ====================
         function updateSummary() {
             const map = [
                 ['summary-specialty', 'Especialidade', selectedSpecialty],
@@ -1444,7 +1743,23 @@
             updateStepper();
         }
 
+        function updateStepper() {
+            const steps = document.querySelectorAll('.booking-step');
+            const state = [!!selectedSpecialty, !!selectedDoctorId, !!(selectedDate && selectedTime), false];
+            let activeIndex = state.findIndex(done => !done);
+            if (activeIndex === -1) activeIndex = 3;
+
+            steps.forEach((stepEl, i) => {
+                stepEl.classList.remove('active', 'complete');
+                if (i < activeIndex) stepEl.classList.add('complete');
+                else if (i === activeIndex) stepEl.classList.add('active');
+            });
+        }
+
         // ==================== CHAT BOT ====================
+        // Assistente reformulado para um tom claro, directo e profissional — evita gírias,
+        // emojis e frases hesitantes. Inclui deteção básica de sinais de urgência: nesses
+        // casos a prioridade passa a ser encaminhar para a Urgência, não sugerir agendamento.
         const chatBtn = document.getElementById('chat-btn');
         const chatModal = document.getElementById('chat-modal');
         const closeChatBtn = document.getElementById('close-chat-btn');
@@ -1452,9 +1767,20 @@
         const chatSendBtn = document.getElementById('chat-send-btn');
         const chatMessages = document.getElementById('chat-messages');
 
+        const WELCOME_MESSAGE =
+            'Bem-vindo(a) ao Centro de Saúde Da Matola II. Sou o assistente virtual e posso ajudá-lo(a) a identificar a ' +
+            'especialidade indicada com base nos sintomas descritos, ou esclarecer informações sobre horários e ' +
+            'contactos. Esta orientação não substitui uma avaliação médica.';
+
+        const URGENT_KEYWORDS = [
+            'dor no peito', 'falta de ar', 'dificuldade em respirar', 'hemorragia', 'sangramento intenso',
+            'perda de consciência', 'desmaio', 'convulsão', 'convulsao', 'não consigo respirar',
+            'acidente grave', 'ferida profunda', 'envenenamento', 'overdose', 'avc', 'paralisia súbita'
+        ];
+
         const specialtySuggestions = {
             'coração': 'Cardiologia',
-            'dor no peito': 'Cardiologia',
+            'dor no peito leve': 'Cardiologia',
             'pressão alta': 'Cardiologia',
             'batimento cardíaco': 'Cardiologia',
             'colesterol': 'Cardiologia',
@@ -1473,15 +1799,13 @@
             'menstruação': 'Ginecologia',
             'ginecológica': 'Ginecologia',
             'obstetrícia': 'Ginecologia',
-            'cabeça': 'Neurologia',
             'dor de cabeça': 'Neurologia',
             'enxaqueca': 'Neurologia',
             'tontura': 'Neurologia',
-            'convulsão': 'Neurologia',
             'memória': 'Neurologia',
             'cirurgia': 'Cirurgia Geral',
-            'operar': 'Cirurgia Geral',
             'ferida': 'Cirurgia Geral',
+            'operar': 'Cirurgia Geral',
             'febre': 'Medicina Geral',
             'gripe': 'Medicina Geral',
             'tosse': 'Medicina Geral',
@@ -1489,45 +1813,9 @@
             'check-up': 'Medicina Geral'
         };
 
-        const welcomeMessages = [
-            "Olá! Sou o assistente virtual do Hospital Matlhovele. Como posso ajudar você hoje?",
-            "Bem-vindo! Descreva seus sintomas ou o motivo da consulta para eu sugerir a especialidade adequada.",
-            "Oi! Estou aqui para ajudar. Conte-me sobre o que você está sentindo para indicar o melhor especialista."
-        ];
-
-        if (chatBtn) {
-            chatBtn.addEventListener('click', () => {
-                chatModal.classList.add('show');
-                chatInput.focus();
-                if (chatMessages.children.length <= 1) {
-                    const welcomeMsg = welcomeMessages[Math.floor(Math.random() * welcomeMessages.length)];
-                    addBotMessage(welcomeMsg);
-                }
-            });
-        }
-
-        if (closeChatBtn) {
-            closeChatBtn.addEventListener('click', () => {
-                chatModal.classList.remove('show');
-                chatInput.value = '';
-            });
-        }
-
-        if (chatSendBtn) {
-            chatSendBtn.addEventListener('click', sendChatMessage);
-        }
-
-        if (chatInput) {
-            chatInput.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') {
-                    sendChatMessage();
-                }
-            });
-        }
-
-        function addBotMessage(message) {
+        function addBotMessage(message, urgent = false) {
             const botMsg = document.createElement('div');
-            botMsg.className = 'chat-message bot';
+            botMsg.className = 'chat-message bot' + (urgent ? ' urgent' : '');
             botMsg.innerHTML = message;
             chatMessages.appendChild(botMsg);
             chatMessages.scrollTop = chatMessages.scrollHeight;
@@ -1541,6 +1829,28 @@
             chatMessages.scrollTop = chatMessages.scrollHeight;
         }
 
+        if (chatBtn) {
+            chatBtn.addEventListener('click', () => {
+                chatModal.classList.add('show');
+                chatInput.focus();
+                if (chatMessages.children.length === 0) addBotMessage(WELCOME_MESSAGE);
+            });
+        }
+
+        if (closeChatBtn) {
+            closeChatBtn.addEventListener('click', () => {
+                chatModal.classList.remove('show');
+                chatInput.value = '';
+            });
+        }
+
+        if (chatSendBtn) chatSendBtn.addEventListener('click', sendChatMessage);
+        if (chatInput) {
+            chatInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') sendChatMessage();
+            });
+        }
+
         function sendChatMessage() {
             const message = chatInput.value.trim();
             if (!message) return;
@@ -1549,81 +1859,81 @@
             chatInput.value = '';
 
             setTimeout(() => {
-                let response = '';
-                let foundSpecialty = null;
+                const lower = message.toLowerCase();
 
-                for (let keyword in specialtySuggestions) {
-                    if (message.toLowerCase().includes(keyword)) {
+                const isUrgent = URGENT_KEYWORDS.some(k => lower.includes(k));
+                if (isUrgent) {
+                    addBotMessage(
+                        'Os sintomas descritos podem indicar uma situação de urgência. Dirija-se imediatamente à ' +
+                        'Urgência do Centro de Saúde Da Matola II ou ao serviço de urgência mais próximo. Não aguarde por ' +
+                        'uma consulta agendada.',
+                        true
+                    );
+                    chatInput.focus();
+                    return;
+                }
+
+                let response;
+                let foundSpecialty = null;
+                for (const keyword in specialtySuggestions) {
+                    if (lower.includes(keyword)) {
                         foundSpecialty = specialtySuggestions[keyword];
                         break;
                     }
                 }
 
                 if (foundSpecialty) {
-                    response = `Com base na sua descrição, recomendo a especialidade de <strong>${foundSpecialty}</strong>. `;
-                    response += `Clique em "${foundSpecialty}" na lista de especialidades acima para agendar sua consulta. `;
-                    response += `Posso ajudar com mais alguma coisa?`;
-                } else if (message.toLowerCase().includes('obrigado') || message.toLowerCase().includes('obrigada')) {
-                    response = `De nada! Estou aqui para ajudar. Se precisar de mais alguma coisa, é só falar. 😊`;
-                } else if (message.toLowerCase().includes('horário') || message.toLowerCase().includes('funcionamento')) {
-                    response = `O Hospital Matlhovele funciona:<br>• Segunda a Sexta: 7h30 - 16h30<br>• Sábado: 8h00 - 12h00<br>• Emergências: 24 horas`;
-                } else if (message.toLowerCase().includes('telefone') || message.toLowerCase().includes('contacto')) {
-                    response = `📞 Telefone: +258 84 123 4567<br>📍 Endereço: Av. 25 de Setembro, Maputo<br>📧 Email: info@mathlovele.gov.mz`;
+                    response = `Com base na informação fornecida, a especialidade indicada é <strong>${foundSpecialty}</strong>. ` +
+                        `Seleccione-a na lista de especialidades acima para prosseguir com o agendamento.`;
+                } else if (lower.includes('obrigado') || lower.includes('obrigada')) {
+                    response = 'Disponha. Se surgir alguma dúvida adicional durante o processo de agendamento, estou disponível para ajudar.';
+                } else if (lower.includes('horário') || lower.includes('funcionamento')) {
+                    response = 'Horário de funcionamento do Hospital:<br>' +
+                        '• Segunda a Sexta: 7h30 – 16h30<br>' +
+                        '• Sábado: 8h00 – 12h00<br>' +
+                        '• Urgências: atendimento permanente, 24 horas.';
+                } else if (lower.includes('telefone') || lower.includes('contacto')) {
+                    response = 'Telefone: +258 84 123 4567<br>Morada: Av. 25 de Setembro, Maputo.';
                 } else {
-                    response = `Desculpe, não entendi completamente. Pode descrever melhor seus sintomas? `;
-                    response += `Por exemplo: "estou com dor de cabeça frequente" ou "minha filha está com febre".`;
+                    response = 'Não foi possível identificar a especialidade com a informação fornecida. Descreva os ' +
+                        'sintomas de forma mais específica — por exemplo, localização, duração ou sintomas associados ' +
+                        '— para que eu possa orientá-lo(a) correctamente.';
                 }
 
                 addBotMessage(response);
                 chatInput.focus();
-            }, 1000);
+            }, 700);
         }
 
-        // Fechar chat ao clicar fora
         document.addEventListener('click', (e) => {
-            if (chatModal.classList.contains('show') &&
-                !chatModal.contains(e.target) &&
-                e.target !== chatBtn) {
+            if (chatModal.classList.contains('show') && !chatModal.contains(e.target) && e.target !== chatBtn) {
                 chatModal.classList.remove('show');
             }
         });
 
-        // ==================== AJAX FUNCTIONS ====================
-
-        // Carregar médicos
+        // ==================== LOAD DOCTORS ====================
         async function loadDoctors(query = '', specialty = '', limit = 10, offset = 0) {
             try {
-                console.log('=== loadDoctors chamado ===');
-                console.log('specialty:', specialty);
-
-                // Mostra loading
                 const container = document.getElementById('doctor-container');
                 container.innerHTML = Array(3).fill(`
-            <div class="skeleton-card">
-                <div class="skeleton-circle"></div>
-                <div style="flex:1">
-                    <div class="skeleton-line" style="width:60%"></div>
-                    <div class="skeleton-line" style="width:85%"></div>
-                </div>
-            </div>
-        `).join('');
+                    <div class="skeleton-card">
+                        <div class="skeleton-circle"></div>
+                        <div style="flex:1">
+                            <div class="skeleton-line" style="width:60%"></div>
+                            <div class="skeleton-line" style="width:85%"></div>
+                        </div>
+                    </div>
+                `).join('');
 
-                // Obter token CSRF (sempre o mais recente)
                 const csrfToken = getCsrfToken();
                 const csrfName = getCsrfName();
 
-                console.log('CSRF Token:', csrfToken);
-                console.log('CSRF Name:', csrfName);
-
-                // Se não tiver token, recarrega a página
                 if (!csrfToken) {
-                    console.warn('Token CSRF não encontrado. Recarregando página...');
-                    showNotification('Recarregando página para segurança...', 'info');
+                    showNotification('Recarregando página por segurança...', 'info');
                     setTimeout(() => location.reload(), 1500);
                     return;
                 }
 
-                // Construir dados com CSRF
                 const formData = new FormData();
                 formData.append('q', query);
                 formData.append('specialty', specialty);
@@ -1631,10 +1941,7 @@
                 formData.append('offset', offset);
                 formData.append(csrfName, csrfToken);
 
-                const url = SITE_URL + '/agenda/get_doctors';
-                console.log('URL chamada:', url);
-
-                const response = await fetch(url, {
+                const response = await fetch(SITE_URL + '/agenda/get_doctors', {
                     method: 'POST',
                     headers: {
                         'X-Requested-With': 'XMLHttpRequest'
@@ -1642,41 +1949,17 @@
                     body: formData
                 });
 
-                console.log('Status da resposta:', response.status);
-
                 if (!response.ok) {
-                    const text = await response.text();
-                    console.error('Erro resposta:', text);
-
                     if (response.status === 403) {
-                        // Se for 403, tenta recarregar a página uma vez
-                        if (!sessionStorage.getItem('csrf_reload_attempt')) {
-                            sessionStorage.setItem('csrf_reload_attempt', '1');
-                            showNotification('Token expirado. Recarregando página...', 'info');
-                            setTimeout(() => location.reload(), 1500);
-                            return;
-                        } else {
-                            sessionStorage.removeItem('csrf_reload_attempt');
-                            showNotification('Erro de segurança. Tente novamente.', 'error');
-                            return;
-                        }
+                        showNotification('Sessão expirada. Recarregando...', 'error');
+                        setTimeout(() => location.reload(), 1500);
+                        return;
                     }
-
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                    throw new Error(`HTTP ${response.status}`);
                 }
 
                 const text = await response.text();
-                console.log('Resposta bruta:', text.substring(0, 200));
-
-                let result;
-                try {
-                    result = JSON.parse(text);
-                } catch (parseErr) {
-                    console.error('Erro ao fazer parse:', parseErr);
-                    throw new Error('Resposta inválida do servidor');
-                }
-
-                console.log('Resultado:', result);
+                let result = JSON.parse(text);
 
                 if (result.status === 'success') {
                     processDoctors(result, specialty, offset, limit);
@@ -1684,12 +1967,26 @@
                     showNotification(result.message || 'Erro ao carregar médicos.', 'error');
                 }
             } catch (err) {
-                console.error('Erro completo:', err);
-                showNotification('Erro de conexão ao carregar médicos: ' + err.message, 'error');
+                console.error('Erro:', err);
+                showNotification('Erro ao carregar médicos.', 'error');
             }
         }
 
-        // Renderizar lista de médicos
+        function processDoctors(result, specialty, offset, limit) {
+            if (result.csrf_token) updateCsrfToken(result.csrf_token, result.csrf_name);
+
+            if (offset === 0) doctors = result.data || [];
+            else doctors = doctors.concat(result.data || []);
+            renderDoctors(specialty, result.total || 0);
+
+            if ((result.data || []).length === 0 && offset === 0) {
+                showNotification('Nenhum médico encontrado.', 'info');
+            }
+            if ((result.total || 0) > (offset + limit)) {
+                renderLoadMoreButton(result.total - (offset + limit));
+            }
+        }
+
         function renderDoctors(specialty = null, total = 0) {
             const container = document.getElementById('doctor-container');
             const header = document.getElementById('doctor-header');
@@ -1706,18 +2003,18 @@
 
             container.innerHTML = doctors.length > 0 ?
                 doctors.map(doctor => `
-                    <div class="doctor-item flex items-center p-4 border rounded-lg hover:bg-blue-50 cursor-pointer" 
+                    <div class="doctor-item flex items-center p-4 border rounded-lg hover:bg-blue-50 cursor-pointer"
                          data-id="${doctor.id}" data-name="${doctor.name}" tabindex="0" role="button" aria-pressed="false">
-                        <img src="${doctor.image || 'https://picsum.photos/100?random=' + doctor.id}" 
+                        <img src="${doctor.image || 'https://picsum.photos/100?random=' + doctor.id}"
                              alt="${doctor.name}" class="w-12 h-12 rounded-full mr-4">
                         <div>
                             <p class="font-medium">${doctor.name}</p>
-                            <p class="text-sm text-gray-600">${doctor.specialty || specialty} - Experiência: ${doctor.experience || 'N/A'}</p>
+                            <p class="text-sm text-gray-600">${doctor.specialty || specialty} - ${doctor.experience || 'N/A'}</p>
                             ${doctor.rating ? `<p class="rating"><i class="fas fa-star"></i> ${doctor.rating} de 5</p>` : ''}
                         </div>
                     </div>
                 `).join('') :
-                `<div class="empty-state col-span-full"><i class="fas fa-user-md"></i>Nenhum médico disponível para esta especialidade.</div>`;
+                `<div class="empty-state col-span-full"><i class="fas fa-user-md"></i>Nenhum médico disponível.</div>`;
 
             document.querySelectorAll('.doctor-item').forEach(item => {
                 item.addEventListener('click', function() {
@@ -1738,20 +2035,20 @@
             });
         }
 
-        // Botão "Carregar Mais"
         function renderLoadMoreButton(remaining) {
             const container = document.getElementById('doctor-container');
             if (container.querySelector('.load-more-btn')) return;
             const loadMoreBtn = document.createElement('button');
-            loadMoreBtn.innerHTML = `<i class="fas fa-plus mr-2"></i>Carregar Mais Médicos (${remaining} restantes)`;
-            loadMoreBtn.className = 'load-more-btn w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition mt-4';
+            loadMoreBtn.innerHTML = `<i class="fas fa-plus mr-2"></i>Carregar Mais (${remaining} restantes)`;
+            loadMoreBtn.className = 'load-more-btn btn btn-primary w-full mt-4';
+            loadMoreBtn.style.width = '100%';
             loadMoreBtn.addEventListener('click', () => {
                 loadDoctors('', selectedSpecialty, 10, doctors.length);
             });
             container.appendChild(loadMoreBtn);
         }
 
-        // Selecionar especialidade
+        // ==================== SELECT SPECIALTY ====================
         function selectSpecialty(item) {
             document.querySelectorAll('.specialty-item').forEach(el => {
                 el.classList.remove('selected');
@@ -1800,7 +2097,7 @@
             });
         });
 
-        // Pesquisa de médicos
+        // ==================== DOCTOR SEARCH ====================
         document.getElementById('doctor-search')?.addEventListener('input', function() {
             const term = this.value.trim().toLowerCase();
             document.querySelectorAll('#doctor-container .doctor-item').forEach(item => {
@@ -1809,20 +2106,14 @@
             });
         });
 
-        // Carregar horários disponíveis
+        // ==================== AVAILABLE SLOTS ====================
         async function loadAvailableSlots(dateStr, medicoId) {
             try {
-                // Obter token CSRF
                 const csrfToken = getCsrfToken();
                 const csrfName = getCsrfName();
 
-                console.log('loadAvailableSlots - CSRF Token:', csrfToken);
-                console.log('loadAvailableSlots - CSRF Name:', csrfName);
-
-                // Se não tiver token, recarrega a página
                 if (!csrfToken) {
-                    console.warn('Token CSRF não encontrado em loadAvailableSlots');
-                    showNotification('Erro de segurança. Recarregando página...', 'error');
+                    showNotification('Erro de segurança. Recarregando...', 'error');
                     setTimeout(() => location.reload(), 1500);
                     return;
                 }
@@ -1830,7 +2121,7 @@
                 const formData = new FormData();
                 formData.append('data', dateStr);
                 formData.append('medico_id', medicoId);
-                formData.append(csrfName, csrfToken); // Adiciona CSRF
+                formData.append(csrfName, csrfToken);
 
                 const response = await fetch(SITE_URL + '/agenda/get_available_slots', {
                     method: 'POST',
@@ -1840,64 +2131,127 @@
                     body: formData
                 });
 
-                console.log('loadAvailableSlots - Status:', response.status);
-
                 if (!response.ok) {
-                    const text = await response.text();
-                    console.error('loadAvailableSlots - Erro:', text);
-
                     if (response.status === 403) {
-                        showNotification('Token expirado. Recarregando página...', 'error');
+                        showNotification('Sessão expirada. Recarregando...', 'error');
                         setTimeout(() => location.reload(), 1500);
                         return;
                     }
-
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                    throw new Error(`HTTP ${response.status}`);
                 }
 
                 const result = await response.json();
-                console.log('loadAvailableSlots - Resultado:', result);
-
                 if (result.status === 'success') {
                     const slots = result.data || [];
                     if (!availableSlots[dateStr]) availableSlots[dateStr] = {};
                     availableSlots[dateStr][selectedDoctor || 'default'] = slots;
-
-                    // Atualiza o token CSRF se retornado
-                    if (result.csrf_token) {
-                        updateCsrfToken(result.csrf_token, result.csrf_name);
-                    }
+                    if (result.csrf_token) updateCsrfToken(result.csrf_token, result.csrf_name);
                 } else {
                     showNotification(result.message || 'Erro ao carregar horários.', 'error');
                 }
             } catch (err) {
-                console.error('Erro AJAX slots:', err);
-                showNotification('Erro ao carregar horários: ' + err.message, 'error');
+                console.error('Erro:', err);
+                showNotification('Erro ao carregar horários.', 'error');
             }
         }
 
-        // Salvar agendamento 
+        function updateCsrfToken(newToken, newName) {
+            if (newToken) {
+                const metaToken = document.querySelector('meta[name="csrf-token"]');
+                if (metaToken) metaToken.setAttribute('content', newToken);
+                document.cookie = `csrf_cookie_name=${newToken}; path=/; SameSite=Lax`;
+            }
+        }
+
+        // ==================== UPDATE AVAILABLE DAYS ====================
+        async function updateAvailableDays() {
+            if (!selectedDoctorId) return;
+
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            const visibleStart = calendar.view.activeStart;
+            const visibleEnd = calendar.view.activeEnd;
+
+            document.querySelectorAll('.fc-daygrid-day').forEach(el => {
+                el.classList.remove('available', 'selected', 'unavailable');
+            });
+
+            const loadPromises = [];
+            for (let date = new Date(Math.max(visibleStart, today)); date < visibleEnd && ((date - today) / (1000 * 60 * 60 * 24)) < 14; date.setDate(date.getDate() + 1)) {
+                const dateStr = date.toISOString().split('T')[0];
+                if (date >= today) loadPromises.push(loadAvailableSlots(dateStr, selectedDoctorId));
+            }
+
+            await Promise.all(loadPromises);
+
+            Object.keys(availableSlots).forEach(dateStr => {
+                const dayEl = document.querySelector(`.fc-daygrid-day[data-date="${dateStr}"]`);
+                if (dayEl) {
+                    const slots = availableSlots[dateStr][selectedDoctor || 'default'] || [];
+                    dayEl.classList.add(slots.length > 0 ? 'available' : 'unavailable');
+                }
+            });
+        }
+
+        // ==================== SHOW TIME SLOTS ====================
+        async function showTimeSlots(dateStr, doctorName) {
+            const medicoId = doctors.find(d => d.name === doctorName)?.id;
+            if (!medicoId) {
+                showNotification('Médico inválido.', 'error');
+                return;
+            }
+
+            const csrfToken = getCsrfToken();
+            if (!csrfToken) {
+                showNotification('Erro de segurança. Recarregando...', 'error');
+                setTimeout(() => location.reload(), 1500);
+                return;
+            }
+
+            await loadAvailableSlots(dateStr, medicoId);
+
+            const slots = availableSlots[dateStr] ? availableSlots[dateStr][doctorName] || [] : [];
+            const modal = document.getElementById('time-slot-modal');
+            const slotList = document.getElementById('time-slot-list');
+            const subtitle = document.getElementById('time-slot-subtitle');
+
+            if (subtitle) subtitle.textContent = `Horários disponíveis em ${dateStr} com ${doctorName}`;
+
+            if (slots.length === 0) {
+                slotList.innerHTML = '<div class="empty-state"><i class="fas fa-calendar-times"></i>Nenhum horário disponível para esta data.</div>';
+                modal.classList.add('show');
+                return;
+            }
+
+            slotList.innerHTML = slots.map(slot =>
+                `<button class="slot-button available" data-time="${slot}"><i class="fas fa-clock"></i> ${slot} (Disponível)</button>`
+            ).join('');
+
+            modal.classList.add('show');
+
+            document.querySelectorAll('.slot-button.available').forEach(button => {
+                button.addEventListener('click', function() {
+                    selectedTime = this.dataset.time;
+                    updateSummary();
+                    showNotification(`Horário selecionado: ${selectedTime}`, 'success');
+                    modal.classList.remove('show');
+                });
+            });
+        }
+
+        // ==================== SAVE APPOINTMENT ====================
         async function saveAppointment(formData) {
             try {
-                // Verificar se formData é um objeto FormData
                 if (!(formData instanceof FormData)) {
-                    console.error('formData não é um FormData:', formData);
-                    // Criar um novo FormData a partir do objeto
                     const newFormData = new FormData();
                     for (const key in formData) {
-                        if (formData.hasOwnProperty(key)) {
-                            newFormData.append(key, formData[key]);
-                        }
+                        if (formData.hasOwnProperty(key)) newFormData.append(key, formData[key]);
                     }
                     formData = newFormData;
                 }
 
-                // Adicionar CSRF ao FormData
                 const csrfToken = getCsrfToken();
                 const csrfName = getCsrfName();
-
-                console.log('saveAppointment - CSRF Token:', csrfToken);
-                console.log('saveAppointment - FormData:', formData);
 
                 if (!csrfToken) {
                     showNotification('Erro de segurança. Recarregue a página.', 'error');
@@ -1915,27 +2269,17 @@
                     body: formData
                 });
 
-                console.log('saveAppointment - Status:', response.status);
-
                 if (!response.ok) {
-                    const text = await response.text();
-                    console.error('saveAppointment - Erro:', text);
-
                     if (response.status === 403) {
-                        showNotification('Token expirado. Recarregando página...', 'error');
+                        showNotification('Sessão expirada. Recarregando...', 'error');
                         setTimeout(() => location.reload(), 1500);
                         return false;
                     }
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                    throw new Error(`HTTP ${response.status}`);
                 }
 
                 const result = await response.json();
-                console.log('saveAppointment - Resultado:', result);
-
-                // Atualiza o token CSRF se retornado
-                if (result.csrf_token) {
-                    updateCsrfToken(result.csrf_token, result.csrf_name);
-                }
+                if (result.csrf_token) updateCsrfToken(result.csrf_token, result.csrf_name);
 
                 if (result.status === 'success') {
                     showNotification(result.message, 'success');
@@ -1945,121 +2289,100 @@
                     return false;
                 }
             } catch (err) {
-                console.error('Erro ao salvar:', err);
-                showNotification('Erro de conexão. Tente novamente.', 'error');
+                console.error('Erro:', err);
+                showNotification('Erro ao salvar agendamento.', 'error');
                 return false;
             }
         }
 
-        // Atualizar dias disponíveis
-        async function updateAvailableDays() {
-            if (!selectedDoctorId) return;
+        // ==================== LOAD PATIENT APPOINTMENTS ====================
+        async function loadPatientAppointments() {
+            try {
+                const csrfToken = getCsrfToken();
+                const csrfName = getCsrfName();
+                const formData = new FormData();
+                if (csrfToken) formData.append(csrfName, csrfToken);
 
-            const today = new Date();
-            today.setHours(0, 0, 0, 0);
-            const visibleStart = calendar.view.activeStart;
-            const visibleEnd = calendar.view.activeEnd;
-
-            document.querySelectorAll('.fc-daygrid-day').forEach(el => {
-                el.classList.remove('available', 'selected', 'unavailable');
-            });
-
-            const loadPromises = [];
-            for (let date = new Date(Math.max(visibleStart, today)); date < visibleEnd && ((date - today) / (1000 * 60 * 60 * 24)) < 14; date.setDate(date.getDate() + 1)) {
-                const dateStr = date.toISOString().split('T')[0];
-                if (date >= today) {
-                    loadPromises.push(loadAvailableSlots(dateStr, selectedDoctorId));
-                }
-            }
-
-            await Promise.all(loadPromises);
-
-            Object.keys(availableSlots).forEach(dateStr => {
-                const dayEl = document.querySelector(`.fc-daygrid-day[data-date="${dateStr}"]`);
-                if (dayEl) {
-                    const slots = availableSlots[dateStr][selectedDoctor || 'default'] || [];
-                    if (slots.length > 0) {
-                        dayEl.classList.add('available');
-                    } else {
-                        dayEl.classList.add('unavailable');
-                    }
-                }
-            });
-        }
-
-        // Mostrar horários
-        async function showTimeSlots(dateStr, doctorName) {
-            const medicoId = doctors.find(d => d.name === doctorName)?.id;
-            if (!medicoId) {
-                showNotification('Médico inválido.', 'error');
-                return;
-            }
-
-            // Obter token CSRF antes de carregar
-            const csrfToken = getCsrfToken();
-            const csrfName = getCsrfName();
-
-            console.log('showTimeSlots - CSRF Token:', csrfToken);
-
-            // Se não tiver token, recarrega
-            if (!csrfToken) {
-                showNotification('Erro de segurança. Recarregando página...', 'error');
-                setTimeout(() => location.reload(), 1500);
-                return;
-            }
-
-            await loadAvailableSlots(dateStr, medicoId);
-
-            const slots = availableSlots[dateStr] ? availableSlots[dateStr][doctorName] || [] : [];
-            const modal = document.getElementById('time-slot-modal');
-            const slotList = document.getElementById('time-slot-list');
-            const subtitle = document.getElementById('time-slot-subtitle');
-
-            if (subtitle) subtitle.textContent = `Horários disponíveis em ${dateStr} com ${doctorName}`;
-
-            slotList.innerHTML = slots.length > 0 ?
-                slots.map(slot => `<button class="slot-button available" data-time="${slot}"><i class="fas fa-clock"></i> ${slot} (Disponível)</button>`).join('') :
-                '<div class="empty-state"><i class="fas fa-calendar-times"></i>Nenhum horário disponível para esta data.</div>';
-
-            modal.classList.add('show');
-            updateSummary();
-
-            document.querySelectorAll('.slot-button.available').forEach(button => {
-                button.addEventListener('click', function() {
-                    selectedTime = this.dataset.time;
-                    updateSummary();
-                    showNotification(`Horário selecionado: ${selectedTime}`, 'success');
-                    modal.classList.remove('show');
+                const response = await fetch(SITE_URL + '/agenda/get_patient_appointments', {
+                    method: 'POST',
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    body: formData
                 });
-            });
+
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+                const result = await response.json();
+                if (result.status === 'success') renderAppointments(result.data);
+                else showNotification(result.message, 'error');
+            } catch (err) {
+                console.error('Erro:', err);
+                showNotification('Erro ao carregar agendamentos.', 'error');
+            }
         }
 
-        // ==================== EVENT LISTENERS ====================
+        function renderAppointments(appointments) {
+            const container = document.getElementById('appointments-list');
+            if (!appointments || appointments.length === 0) {
+                container.innerHTML = '<p class="text-gray-500">Nenhum agendamento encontrado.</p>';
+                return;
+            }
 
-        // Confirmar agendamento
+            container.innerHTML = appointments.map(appointment => {
+                const statusColor = appointment.status === 'Pendente' ? '#92400e' :
+                    appointment.status === 'Confirmado' ? 'var(--brand-700)' :
+                    'var(--rose-500)';
+                return `
+                    <div class="appointment-item" style="border:1px solid #eef1f6;border-radius:0.6rem;padding:0.9rem 1rem;margin-bottom:0.6rem;background:white;">
+                        <h4 class="font-medium">${appointment.especialidade || 'N/A'} - ${appointment.medico || 'N/A'}</h4>
+                        ${appointment.paciente_nome ? `<p class="text-sm text-gray-600">Paciente: ${appointment.paciente_nome}</p>` : ''}
+                        <p class="text-sm text-gray-600">Data: ${appointment.date} às ${appointment.time}</p>
+                        <p class="text-sm text-gray-600">Status: <span class="font-semibold" style="color:${statusColor};">${appointment.status}</span></p>
+                        <p class="text-sm text-gray-600">Motivo: ${appointment.motivo || 'N/A'}</p>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // ==================== EVENTS ====================
+        document.getElementById('meus-agendamentos-btn').addEventListener('click', (e) => {
+            e.preventDefault();
+            window.location.href = SITE_URL + '/agenda/agendamentos';
+        });
+
+        document.getElementById('logout-btn').addEventListener('click', () => {
+            window.location.href = SITE_URL + '/auth/logout';
+        });
+
+        // ==================== REVIEW CONFIRM ====================
         document.getElementById('review-confirm-btn').addEventListener('click', async function() {
-            console.log('=== Confirmando agendamento ===');
-
-            // Coletar dados do formulário
-            const formData = new FormData(); // CRIAR UM NOVO FORMDATA
-
             const nome = document.getElementById('name')?.value?.trim() || '';
             const telefone = document.getElementById('phone')?.value?.trim() || '';
             const bi = document.getElementById('bi')?.value?.trim() || '';
             const motivo = document.getElementById('motivo')?.value?.trim() || '';
 
-            // Validar campos obrigatórios
+            const isOther = bookingFor === 'other';
+            const patientName = isOther ? (document.getElementById('patient-name')?.value?.trim() || '') : nome;
+            const patientBirthdate = isOther ? (document.getElementById('patient-birthdate')?.value || '') : '';
+            const patientRelation = isOther ? (document.getElementById('patient-relation')?.value || '') : '';
+            const patientDocType = isOther ? (document.getElementById('patient-doc-type')?.value || 'Nenhum') : '';
+            const patientDocNumber = isOther ? (document.getElementById('patient-doc-number')?.value?.trim() || '') : '';
+
             if (!nome || !telefone || !bi) {
-                showNotification('Por favor, preencha todos os campos do formulário.', 'error');
+                showNotification('Preencha todos os campos de contacto.', 'error');
                 return;
             }
-
+            if (isOther && (!patientName || !patientRelation)) {
+                showNotification('Indique o nome do paciente e o parentesco.', 'error');
+                return;
+            }
             if (!selectedSpecialty || !selectedDoctor || !selectedDate || !selectedTime) {
-                showNotification('Selecione especialidade, médico, data e horário antes de continuar.', 'error');
+                showNotification('Selecione especialidade, médico, data e horário.', 'error');
                 return;
             }
 
-            // Adicionar dados ao FormData
+            const formData = new FormData();
             formData.append('especialidade', selectedSpecialty);
             formData.append('medico', selectedDoctorId);
             formData.append('data_consulta', selectedDate);
@@ -2069,19 +2392,16 @@
             formData.append('bi', bi);
             formData.append('motivo', motivo);
 
-            console.log('Dados do agendamento:', {
-                especialidade: selectedSpecialty,
-                medico: selectedDoctorId,
-                data_consulta: selectedDate,
-                horario: selectedTime,
-                nome: nome,
-                telefone: telefone,
-                bi: bi,
-                motivo: motivo
-            });
+            // Novos campos — distinguem o paciente do responsável quando a marcação é feita
+            // por um pai/mãe/tutor para outra pessoa (ex: filho/a menor).
+            formData.append('agendado_para', bookingFor);
+            formData.append('paciente_nome', patientName);
+            formData.append('paciente_data_nascimento', patientBirthdate);
+            formData.append('paciente_parentesco', patientRelation);
+            formData.append('paciente_documento_tipo', patientDocType);
+            formData.append('paciente_documento_numero', patientDocNumber);
 
-            // Mostrar loading no botão
-            const confirmBtn = document.getElementById('review-confirm-btn');
+            const confirmBtn = this;
             const originalText = confirmBtn.innerHTML;
             confirmBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Salvando...';
             confirmBtn.disabled = true;
@@ -2090,14 +2410,22 @@
                 const success = await saveAppointment(formData);
 
                 if (success) {
-                    const confirmationMessage = `
-                Agendamento confirmado!<br>
-                <strong>Nome:</strong> ${nome}<br>
-                <strong>Especialidade:</strong> ${selectedSpecialty}<br>
-                <strong>Médico:</strong> ${selectedDoctor}<br>
-                <strong>Data:</strong> ${selectedDate}<br>
-                <strong>Horário:</strong> ${selectedTime}
-            `;
+                    const confirmationMessage = isOther ? `
+                        Agendamento confirmado!<br>
+                        <strong>Paciente:</strong> ${patientName}<br>
+                        <strong>Responsável:</strong> ${nome}<br>
+                        <strong>Especialidade:</strong> ${selectedSpecialty}<br>
+                        <strong>Médico:</strong> ${selectedDoctor}<br>
+                        <strong>Data:</strong> ${selectedDate}<br>
+                        <strong>Horário:</strong> ${selectedTime}
+                    ` : `
+                        Agendamento confirmado!<br>
+                        <strong>Nome:</strong> ${nome}<br>
+                        <strong>Especialidade:</strong> ${selectedSpecialty}<br>
+                        <strong>Médico:</strong> ${selectedDoctor}<br>
+                        <strong>Data:</strong> ${selectedDate}<br>
+                        <strong>Horário:</strong> ${selectedTime}
+                    `;
                     document.getElementById('confirmation-message').innerHTML = confirmationMessage;
                     document.getElementById('confirmation-modal').classList.add('show');
                     document.getElementById('review-modal').classList.remove('show');
@@ -2108,13 +2436,19 @@
                     selectedDoctorId = null;
                     selectedDate = null;
                     selectedTime = null;
+                    setBookingFor('self');
+                    document.getElementById('patient-name').value = '';
+                    document.getElementById('patient-birthdate').value = '';
+                    document.getElementById('patient-relation').value = '';
+                    document.getElementById('motivo').value = '';
 
                     document.querySelectorAll('.specialty-item').forEach(el => {
                         el.classList.remove('selected');
                         el.setAttribute('aria-pressed', 'false');
                     });
 
-                    document.getElementById('doctor-container').innerHTML = '<div class="empty-state col-span-full"><i class="fas fa-user-md"></i>Selecione uma especialidade para ver os médicos disponíveis.</div>';
+                    document.getElementById('doctor-container').innerHTML =
+                        '<div class="empty-state col-span-full"><i class="fas fa-user-md"></i>Selecione uma especialidade para ver os médicos disponíveis.</div>';
                     document.getElementById('doctor-header').classList.add('hidden');
 
                     const searchInput = document.getElementById('doctor-search');
@@ -2126,82 +2460,116 @@
                     updateSummary();
                 }
             } catch (error) {
-                console.error('Erro ao confirmar:', error);
-                showNotification('Erro ao confirmar agendamento. Tente novamente.', 'error');
+                console.error('Erro:', error);
+                showNotification('Erro ao confirmar agendamento.', 'error');
             } finally {
-                // Restaurar botão
                 confirmBtn.innerHTML = originalText;
                 confirmBtn.disabled = false;
             }
         });
 
-        // Carregar agendamentos do paciente
-        async function loadPatientAppointments() {
-            try {
-                const csrfToken = getCsrfToken();
-                const csrfName = getCsrfName();
+        // ==================== CONFIRM BUTTON ====================
+        document.getElementById('confirm-btn').addEventListener('click', function() {
+            const nameEl = document.getElementById('name');
+            const phoneEl = document.getElementById('phone');
+            const biEl = document.getElementById('bi');
+            const patientNameEl = document.getElementById('patient-name');
+            const patientRelationEl = document.getElementById('patient-relation');
 
-                const formData = new FormData();
-                formData.append(csrfName, csrfToken);
+            const nome = nameEl?.value?.trim() || '';
+            const telefone = phoneEl?.value?.trim() || '';
+            const bi = biEl?.value?.trim() || '';
 
-                const response = await fetch(SITE_URL + '/agenda/get_patient_appointments', {
-                    method: 'POST',
-                    headers: {
-                        'X-Requested-With': 'XMLHttpRequest'
-                    },
-                    body: formData
-                });
+            [nameEl, phoneEl, biEl, patientNameEl, patientRelationEl].forEach(el => el?.classList.remove('field-error'));
 
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
+            const isOther = bookingFor === 'other';
+            let hasError = false;
 
-                const result = await response.json();
-                if (result.status === 'success') {
-                    renderAppointments(result.data);
-                } else {
-                    showNotification(result.message, 'error');
-                }
-            } catch (err) {
-                showNotification('Erro ao carregar agendamentos.', 'error');
-                console.error('Erro AJAX:', err);
+            if (!nome) {
+                nameEl?.classList.add('field-error');
+                hasError = true;
             }
-        }
+            if (!telefone) {
+                phoneEl?.classList.add('field-error');
+                hasError = true;
+            }
+            if (!bi) {
+                biEl?.classList.add('field-error');
+                hasError = true;
+            }
 
-        // Renderizar agendamentos
-        function renderAppointments(appointments) {
-            const container = document.getElementById('appointments-list');
-            if (appointments.length === 0) {
-                container.innerHTML = '<p class="text-gray-500">Nenhum agendamento encontrado.</p>';
+            if (isOther) {
+                if (!patientNameEl?.value?.trim()) {
+                    patientNameEl?.classList.add('field-error');
+                    hasError = true;
+                }
+                if (!patientRelationEl?.value) {
+                    patientRelationEl?.classList.add('field-error');
+                    hasError = true;
+                }
+            }
+
+            if (hasError) {
+                showNotification(
+                    isOther ?
+                    'Preencha os dados do paciente e do responsável antes de continuar.' :
+                    'Por favor, preencha todos os campos do formulário.',
+                    'error'
+                );
                 return;
             }
 
-            container.innerHTML = appointments.map(appointment => `
-                <div class="appointment-item">
-                    <h4 class="font-medium">${appointment.especialidade || 'N/A'} - ${appointment.medico || 'N/A'}</h4>
-                    <p class="text-sm text-gray-600">Data: ${appointment.date} às ${appointment.time}</p>
-                    <p class="text-sm text-gray-600">Status: <span class="font-semibold ${appointment.status === 'Pendente' ? 'text-yellow-600' : appointment.status === 'Confirmado' ? 'text-green-600' : 'text-red-600'}">${appointment.status}</span></p>
-                    <p class="text-sm text-gray-600">Motivo: ${appointment.motivo || 'N/A'}</p>
-                </div>
-            `).join('');
-        }
-
-        // Evento para Meus Agendamentos
-        document.getElementById('meus-agendamentos-btn').addEventListener('click', () => {
-            document.getElementById('appointments-section').classList.toggle('hidden');
-            if (!document.getElementById('appointments-section').classList.contains('hidden')) {
-                loadPatientAppointments();
+            if (!selectedSpecialty || !selectedDoctor || !selectedDate || !selectedTime) {
+                showNotification('Selecione especialidade, médico, data e horário antes de continuar.', 'error');
+                return;
             }
+
+            const patientName = isOther ? patientNameEl.value.trim() : nome;
+            const patientRelation = isOther ? patientRelationEl.value : '';
+
+            document.getElementById('review-specialty').textContent = selectedSpecialty;
+            document.getElementById('review-doctor').textContent = selectedDoctor;
+            document.getElementById('review-date').textContent = selectedDate;
+            document.getElementById('review-time').textContent = selectedTime;
+            document.getElementById('review-name').textContent = nome;
+            document.getElementById('review-phone').textContent = telefone;
+            document.getElementById('review-bi').textContent = bi;
+
+            document.getElementById('review-patient-name').textContent = patientName;
+            document.getElementById('review-patient-section-label').textContent = isOther ? 'Paciente (dependente)' : 'Paciente';
+            document.getElementById('review-responsible-section-label').textContent = isOther ? 'Responsável / Contacto' : 'Contacto';
+            const relationWrap = document.getElementById('review-patient-relation-wrap');
+            if (isOther) {
+                relationWrap.style.display = '';
+                document.getElementById('review-patient-relation').textContent = patientRelation;
+            } else {
+                relationWrap.style.display = 'none';
+            }
+
+            document.getElementById('review-modal').classList.add('show');
         });
 
-        // Logout
-        document.getElementById('logout-btn').addEventListener('click', () => {
-            window.location.href = SITE_URL + '/auth/logout';
+        // ==================== MODAL HANDLERS ====================
+        document.getElementById('modal-cancel-btn').addEventListener('click', () => {
+            document.getElementById('time-slot-modal').classList.remove('show');
+        });
+        document.getElementById('time-slot-close-x')?.addEventListener('click', () => {
+            document.getElementById('time-slot-modal').classList.remove('show');
+        });
+
+        document.getElementById('review-cancel-btn').addEventListener('click', () => {
+            document.getElementById('review-modal').classList.remove('show');
+        });
+        document.getElementById('review-close-x')?.addEventListener('click', () => {
+            document.getElementById('review-modal').classList.remove('show');
+        });
+
+        document.getElementById('confirmation-close-btn').addEventListener('click', () => {
+            document.getElementById('confirmation-modal').classList.remove('show');
         });
 
         // ==================== DOMContentLoaded ====================
         document.addEventListener('DOMContentLoaded', function() {
-            // Sidebar Handlers
             const mobileMenuBtn = document.getElementById('mobile-menu-btn');
             const sidebarMenu = document.getElementById('sidebar-menu');
             const closeSidebarBtn = document.getElementById('close-sidebar-btn');
@@ -2216,7 +2584,6 @@
                     pageWrapper.classList.add('expanded');
                 });
             }
-
             if (closeSidebarBtn) {
                 closeSidebarBtn.addEventListener('click', () => {
                     sidebarMenu.classList.remove('show');
@@ -2224,7 +2591,6 @@
                     pageWrapper.classList.remove('expanded');
                 });
             }
-
             if (sidebarOverlay) {
                 sidebarOverlay.addEventListener('click', () => {
                     sidebarMenu.classList.remove('show');
@@ -2232,7 +2598,6 @@
                     pageWrapper.classList.remove('expanded');
                 });
             }
-
             if (toggleSidebarBtn) {
                 toggleSidebarBtn.addEventListener('click', () => {
                     sidebarMenu.classList.toggle('expanded');
@@ -2297,177 +2662,7 @@
                 }
             });
             calendar.render();
-
-            // Modal handlers
-            document.getElementById('modal-cancel-btn').addEventListener('click', () => {
-                document.getElementById('time-slot-modal').classList.remove('show');
-            });
-            document.getElementById('time-slot-close-x')?.addEventListener('click', () => {
-                document.getElementById('time-slot-modal').classList.remove('show');
-            });
-
-            document.getElementById('review-cancel-btn').addEventListener('click', () => {
-                document.getElementById('review-modal').classList.remove('show');
-            });
-            document.getElementById('review-close-x')?.addEventListener('click', () => {
-                document.getElementById('review-modal').classList.remove('show');
-            });
-
-            document.getElementById('confirmation-close-btn').addEventListener('click', () => {
-                document.getElementById('confirmation-modal').classList.remove('show');
-            });
-
-            // Botão principal "Confirmar Agendamento"
-            document.getElementById('confirm-btn').addEventListener('click', function() {
-                console.log('=== Botão Confirmar Agendamento clicado ===');
-
-                const nameEl = document.getElementById('name');
-                const phoneEl = document.getElementById('phone');
-                const biEl = document.getElementById('bi');
-
-                const nome = nameEl?.value?.trim() || '';
-                const telefone = phoneEl?.value?.trim() || '';
-                const bi = biEl?.value?.trim() || '';
-
-                // Limpar erros anteriores
-                [nameEl, phoneEl, biEl].forEach(el => el?.classList.remove('field-error'));
-
-                // Validar campos
-                let hasError = false;
-                if (!nome) {
-                    if (nameEl) nameEl.classList.add('field-error');
-                    hasError = true;
-                }
-                if (!telefone) {
-                    if (phoneEl) phoneEl.classList.add('field-error');
-                    hasError = true;
-                }
-                if (!bi) {
-                    if (biEl) biEl.classList.add('field-error');
-                    hasError = true;
-                }
-
-                if (hasError) {
-                    showNotification('Por favor, preencha todos os campos do formulário.', 'error');
-                    return;
-                }
-
-                if (!selectedSpecialty || !selectedDoctor || !selectedDate || !selectedTime) {
-                    showNotification('Selecione especialidade, médico, data e horário antes de continuar.', 'error');
-                    return;
-                }
-
-                // Preencher os dados na revisão
-                document.getElementById('review-specialty').textContent = selectedSpecialty;
-                document.getElementById('review-doctor').textContent = selectedDoctor;
-                document.getElementById('review-date').textContent = selectedDate;
-                document.getElementById('review-time').textContent = selectedTime;
-                document.getElementById('review-name').textContent = nome;
-                document.getElementById('review-phone').textContent = telefone;
-                document.getElementById('review-bi').textContent = bi;
-
-                // Mostrar modal de revisão
-                document.getElementById('review-modal').classList.add('show');
-            });
         });
-
-        // Função para obter o token CSRF
-        function getCsrfToken() {
-            // 1. Tentar pegar do meta tag
-            const metaToken = document.querySelector('meta[name="csrf-token"]');
-            if (metaToken) {
-                const token = metaToken.getAttribute('content');
-                if (token && token.length > 0) {
-                    console.log('CSRF Token obtido do meta tag:', token);
-                    return token;
-                }
-            }
-
-            // 2. Tentar pegar do cookie
-            const cookies = document.cookie.split(';');
-            for (let cookie of cookies) {
-                const [name, value] = cookie.trim().split('=');
-                if (name === 'csrf_cookie_name') {
-                    console.log('CSRF Token obtido do cookie:', value);
-                    return value;
-                }
-            }
-
-            // 3. Tentar pegar do input hidden (se existir)
-            const inputToken = document.querySelector('input[name="csrf_test_name"]');
-            if (inputToken) {
-                const token = inputToken.value;
-                if (token && token.length > 0) {
-                    console.log('CSRF Token obtido do input:', token);
-                    return token;
-                }
-            }
-
-            console.warn('CSRF Token não encontrado!');
-            return '';
-        }
-
-
-        // Função para obter o nome do campo CSRF
-        function getCsrfName() {
-            // Verificar se existe no input
-            const input = document.querySelector('input[name="csrf_test_name"]');
-            if (input) {
-                return input.name;
-            }
-            // Verificar se existe no meta
-            const meta = document.querySelector('meta[name="csrf-name"]');
-            if (meta) {
-                return meta.getAttribute('content');
-            }
-            // Padrão do CI4
-            return 'csrf_test_name';
-        }
-
-        // Função para atualizar o token CSRF
-        function updateCsrfToken(newToken, newName) {
-            if (newToken) {
-                // Atualiza o meta tag
-                const metaToken = document.querySelector('meta[name="csrf-token"]');
-                if (metaToken) {
-                    metaToken.setAttribute('content', newToken);
-                    console.log('CSRF Token atualizado no meta tag:', newToken);
-                }
-
-                // Atualiza o cookie manualmente (se necessário)
-                document.cookie = `csrf_cookie_name=${newToken}; path=/; SameSite=Lax`;
-            }
-
-            if (newName) {
-                const metaName = document.querySelector('meta[name="csrf-name"]');
-                if (metaName) {
-                    metaName.setAttribute('content', newName);
-                }
-            }
-        }
-
-        // Função auxiliar para processar os médicos - COM ATUALIZAÇÃO DE CSRF
-        function processDoctors(result, specialty, offset, limit) {
-            // Atualiza o token CSRF se retornado
-            if (result.csrf_token) {
-                updateCsrfToken(result.csrf_token, result.csrf_name);
-                console.log('Token CSRF atualizado com sucesso!');
-            }
-
-            if (offset === 0) {
-                doctors = result.data || [];
-            } else {
-                doctors = doctors.concat(result.data || []);
-            }
-            renderDoctors(specialty, result.total || 0);
-
-            if ((result.data || []).length === 0 && offset === 0) {
-                showNotification('Nenhum médico encontrado para esta especialidade.', 'info');
-            }
-            if ((result.total || 0) > (offset + limit)) {
-                renderLoadMoreButton(result.total - (offset + limit));
-            }
-        }
     </script>
 </body>
 

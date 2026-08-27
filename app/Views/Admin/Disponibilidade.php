@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Disponibilidade - Administrador - Hospital Matlhovele</title>
-    <meta name="description" content="Gerenciar disponibilidade dos médicos no Hospital Público de Matlhovele">
+    <title>Disponibilidade - Administrador - Centro de Saúde Da Matola II</title>
+    <meta name="description" content="Gerenciar disponibilidade dos médicos no Centro de Saúde Da Matola II">
     <meta name="csrf-token" content="<?= csrf_hash(); ?>">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
@@ -231,6 +231,15 @@
             padding: 0 0.4rem;
         }
 
+        .conflict-warning {
+            display: none;
+            background: #fffbeb; border: 1px solid #fde68a; color: #92400e;
+            border-radius: 0.5rem; padding: 0.75rem 0.9rem; font-size: 0.8rem;
+            margin-bottom: 1rem;
+        }
+        .conflict-warning.show { display: block; }
+        .conflict-warning ul { margin: 0.35rem 0 0; padding-left: 1.1rem; }
+
         .btn {
             padding: 0.65rem 1.25rem;
             border-radius: 0.55rem;
@@ -380,12 +389,44 @@
         .chart-card .chart-sub { font-size: 0.78rem; color: var(--ink-500); margin-bottom: 0.5rem; }
         .chart-canvas-wrap { position: relative; min-height: 220px; }
 
+        /* View toggle Lista/Calendário */
+        .view-toggle { display: inline-flex; border: 1.5px solid #e5e7eb; border-radius: 0.5rem; overflow: hidden; }
+        .view-toggle button {
+            padding: 0.45rem 0.9rem; border: none; background: white; color: var(--ink-500);
+            font-size: 0.78rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 0.35rem;
+        }
+        .view-toggle button.active { background: var(--brand-500); color: white; }
+        .view-toggle button + button { border-left: 1.5px solid #e5e7eb; }
+
+        /* Calendário semanal (todos os médicos) */
+        .cal-grid { display: grid; grid-template-columns: repeat(7, minmax(160px, 1fr)); gap: 0.65rem; overflow-x: auto; padding-bottom: 0.25rem; }
+        .cal-day { background: var(--paper); border-radius: 0.6rem; padding: 0.7rem; min-height: 160px; }
+        .cal-day__header { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: .02em; color: var(--ink-700); text-align: center; padding-bottom: 0.5rem; margin-bottom: 0.5rem; border-bottom: 1px solid #e5e7eb; }
+        .cal-block { background: white; border: 1px solid #e5e7eb; border-left: 3px solid var(--brand-500); border-radius: 0.45rem; padding: 0.5rem 0.6rem; margin-bottom: 0.45rem; font-size: 0.72rem; }
+        .cal-block.inativo { opacity: .55; }
+        .cal-block__doctor { font-weight: 700; color: var(--ink-900); }
+        .cal-block__time { font-weight: 600; margin-top: 0.1rem; }
+        .cal-block__meta { color: var(--ink-500); font-size: 0.65rem; margin-top: 0.15rem; }
+        .cal-empty { font-size: 0.68rem; color: #9ca3af; text-align: center; padding: 1rem 0; }
+
+        /* Impressão */
+        #print-area { display: none; }
+        @media print {
+            body * { visibility: hidden; }
+            #print-area, #print-area * { visibility: visible; }
+            #print-area { display: block; position: absolute; top: 0; left: 0; width: 100%; padding: 20px; }
+            #print-area table { width: 100%; border-collapse: collapse; font-size: 12px; }
+            #print-area th, #print-area td { border: 1px solid #999; padding: 6px 8px; text-align: left; }
+        }
+
         @media (max-width: 640px) {
             .main-content { padding: 0.5rem; }
             .card-panel { padding: 1rem; }
             table { font-size: 0.75rem; }
             thead th, tbody td { padding: 0.55rem; }
             .pulse-line { display: none; }
+            .view-toggle { width: 100%; }
+            .view-toggle button { flex: 1; justify-content: center; }
         }
     </style>
 </head>
@@ -432,7 +473,7 @@
                 <div class="flex items-center gap-3">
                     <i class="fas fa-hospital-alt text-2xl"></i>
                     <div>
-                        <h1 class="text-xl font-bold leading-tight">Hospital Matlhovele</h1>
+                        <h1 class="text-xl font-bold leading-tight">Centro de Saúde Da Matola II</h1>
                         <p class="text-xs text-blue-100 opacity-90">Painel de Administração</p>
                     </div>
                 </div>
@@ -547,141 +588,187 @@
                             <input type="text" id="filter-search" class="form-input" placeholder="Ex: Consultório 3">
                         </div>
                     </div>
-                    <div class="flex justify-end gap-2 mt-4">
+                    <div class="flex flex-wrap items-center justify-end gap-2 mt-4">
                         <button class="btn btn-secondary" id="clear-filter-btn">Limpar</button>
                         <button class="btn btn-primary" id="apply-filter-btn">
                             <i class="fas fa-filter mr-1"></i> Aplicar Filtro
                         </button>
+                        <div class="flex-1"></div>
+                        <button class="btn btn-secondary" id="export-csv-btn">
+                            <i class="fas fa-file-csv"></i> Exportar CSV
+                        </button>
+                        <button class="btn btn-secondary" id="export-print-btn">
+                            <i class="fas fa-print"></i> Imprimir
+                        </button>
                     </div>
                 </div>
 
-                <!-- Schedule Table -->
+                <!-- Schedule Table / Calendar -->
                 <div class="card-panel">
-                    <div class="flex items-center justify-between mb-4">
+                    <div class="flex items-center justify-between mb-4 flex-wrap gap-2">
                         <h3 class="text-lg font-semibold text-gray-800">Horários Cadastrados</h3>
-                        <span class="text-xs text-gray-400" id="schedule-count"></span>
+                        <div class="flex items-center gap-3">
+                            <span class="text-xs text-gray-400" id="schedule-count"></span>
+                            <div class="view-toggle">
+                                <button data-view="list" class="active"><i class="fas fa-list"></i> Lista</button>
+                                <button data-view="calendar"><i class="fas fa-calendar-week"></i> Calendário</button>
+                            </div>
+                        </div>
                     </div>
-                    <div class="table-container">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Médico</th>
-                                    <th>Dia</th>
-                                    <th>Horário</th>
-                                    <th>Sala</th>
-                                    <th>Duração / Vagas</th>
-                                    <th>Vigência</th>
-                                    <th>Status</th>
-                                    <th class="text-center">Ações</th>
-                                </tr>
-                            </thead>
-                            <tbody id="schedule-table">
-                                <?php if (empty($horarios ?? [])): ?>
+
+                    <!-- Vista em lista -->
+                    <div id="view-list">
+                        <div class="table-container">
+                            <table>
+                                <thead>
                                     <tr>
-                                        <td colspan="8" class="empty-state">
-                                            <i class="fas fa-clock"></i>
-                                            <p class="text-lg font-medium mb-2">Nenhum horário cadastrado</p>
-                                            <button class="btn btn-primary" id="add-schedule-empty-btn">
-                                                <i class="fas fa-plus mr-1"></i> Adicionar Horário
-                                            </button>
-                                        </td>
+                                        <th>Médico</th>
+                                        <th>Dia</th>
+                                        <th>Horário</th>
+                                        <th>Sala</th>
+                                        <th>Duração / Vagas</th>
+                                        <th>Vigência</th>
+                                        <th>Status</th>
+                                        <th class="text-center">Ações</th>
                                     </tr>
-                                <?php else: ?>
-                                    <?php foreach ($horarios ?? [] as $horario):
-                                        $inicio = $horario->Hora_Inicio ?? '00:00:00';
-                                        $fim = $horario->Hora_Fim ?? '00:00:00';
-                                        $intervaloInicio = $horario->Intervalo_Inicio ?? '';
-                                        $intervaloFim = $horario->Intervalo_Fim ?? '';
-                                        $duracao = (int)($horario->Duracao_Consulta ?? 30);
-                                        $status = $horario->Status ?? 'ativo';
-
-                                        $toMin = function ($t) {
-                                            if (empty($t)) return null;
-                                            [$h, $m] = array_map('intval', explode(':', $t));
-                                            return $h * 60 + $m;
-                                        };
-                                        $totalMin = ($toMin($fim) ?? 0) - ($toMin($inicio) ?? 0);
-                                        if (!empty($intervaloInicio) && !empty($intervaloFim)) {
-                                            $totalMin -= (($toMin($intervaloFim) ?? 0) - ($toMin($intervaloInicio) ?? 0));
-                                        }
-                                        $vagas = $duracao > 0 && $totalMin > 0 ? intdiv($totalMin, $duracao) : 0;
-
-                                        $vigenciaFim = $horario->Data_Fim_Vigencia ?? '';
-                                        $vigenciaExpiringClass = '';
-                                        if (!empty($vigenciaFim)) {
-                                            $diff = (strtotime($vigenciaFim) - time()) / 86400;
-                                            if ($diff >= 0 && $diff <= 14) $vigenciaExpiringClass = 'expiring';
-                                        }
-                                    ?>
-                                        <tr data-id="<?= $horario->ID_Horario ?? ''; ?>" class="<?= $status !== 'ativo' ? 'row-inactive' : ''; ?>">
-                                            <td>
-                                                <div class="doctor-cell">
-                                                    <div class="doctor-avatar"><?= strtoupper(substr($horario->medico_nome ?? '?', 0, 1)); ?></div>
-                                                    <div>
-                                                        <div class="font-medium"><?= htmlspecialchars(($horario->medico_nome ?? '') . ' ' . ($horario->medico_sobrenome ?? '')); ?></div>
-                                                        <div class="specialty-tag"><?= htmlspecialchars($horario->especialidade ?? ''); ?></div>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td><span class="day-badge"><i class="fas fa-calendar-day"></i> <?= htmlspecialchars($horario->Dia_Semana ?? ''); ?></span></td>
-                                            <td>
-                                                <div class="time-block">
-                                                    <span class="main-time"><?= substr($inicio, 0, 5); ?> – <?= substr($fim, 0, 5); ?></span>
-                                                    <?php if (!empty($intervaloInicio) && !empty($intervaloFim)): ?>
-                                                        <span class="break-time"><i class="fas fa-mug-hot mr-1"></i>Intervalo <?= substr($intervaloInicio, 0, 5); ?>–<?= substr($intervaloFim, 0, 5); ?></span>
-                                                    <?php endif; ?>
-                                                </div>
-                                            </td>
-                                            <td><?= htmlspecialchars($horario->Sala ?? '—'); ?></td>
-                                            <td>
-                                                <div class="text-sm"><?= $duracao; ?> min / consulta</div>
-                                                <span class="capacity-pill"><i class="fas fa-user-check"></i> ~<?= $vagas; ?> vagas</span>
-                                            </td>
-                                            <td>
-                                                <?php if (!empty($horario->Data_Inicio_Vigencia) || !empty($vigenciaFim)): ?>
-                                                    <div class="vigencia-note <?= $vigenciaExpiringClass; ?>">
-                                                        <?= !empty($horario->Data_Inicio_Vigencia) ? date('d/m/Y', strtotime($horario->Data_Inicio_Vigencia)) : '—'; ?>
-                                                        até
-                                                        <?= !empty($vigenciaFim) ? date('d/m/Y', strtotime($vigenciaFim)) : 'indeterminado'; ?>
-                                                        <?= $vigenciaExpiringClass ? '<i class="fas fa-exclamation-triangle ml-1"></i>' : ''; ?>
-                                                    </div>
-                                                <?php else: ?>
-                                                    <span class="vigencia-note">Permanente</span>
-                                                <?php endif; ?>
-                                            </td>
-                                            <td>
-                                                <span class="status-badge <?= $status === 'ativo' ? 'ativo' : 'inativo'; ?>">
-                                                    <i class="fas fa-circle" style="font-size: 0.4rem;"></i>
-                                                    <?= ucfirst($status); ?>
-                                                </span>
-                                            </td>
-                                            <td class="text-center whitespace-nowrap">
-                                                <button class="btn-sm btn-edit edit-schedule" data-id="<?= $horario->ID_Horario ?? ''; ?>" title="Editar">
-                                                    <i class="fas fa-edit"></i>
-                                                </button>
-                                                <button class="btn-sm btn-duplicate duplicate-schedule" data-id="<?= $horario->ID_Horario ?? ''; ?>" title="Duplicar">
-                                                    <i class="fas fa-copy"></i>
-                                                </button>
-                                                <button class="btn-sm btn-delete delete-schedule" data-id="<?= $horario->ID_Horario ?? ''; ?>" title="Excluir">
-                                                    <i class="fas fa-trash"></i>
+                                </thead>
+                                <tbody id="schedule-table">
+                                    <?php if (empty($horarios ?? [])): ?>
+                                        <tr>
+                                            <td colspan="8" class="empty-state">
+                                                <i class="fas fa-clock"></i>
+                                                <p class="text-lg font-medium mb-2">Nenhum horário cadastrado</p>
+                                                <button class="btn btn-primary" id="add-schedule-empty-btn">
+                                                    <i class="fas fa-plus mr-1"></i> Adicionar Horário
                                                 </button>
                                             </td>
                                         </tr>
-                                    <?php endforeach; ?>
-                                <?php endif; ?>
-                            </tbody>
-                        </table>
+                                    <?php else: ?>
+                                        <?php foreach ($horarios ?? [] as $horario):
+                                            $inicio = $horario->Hora_Inicio ?? '00:00:00';
+                                            $fim = $horario->Hora_Fim ?? '00:00:00';
+                                            $intervaloInicio = $horario->Intervalo_Inicio ?? '';
+                                            $intervaloFim = $horario->Intervalo_Fim ?? '';
+                                            $duracao = (int)($horario->Duracao_Consulta ?? 30);
+                                            $status = $horario->Status ?? 'ativo';
+                                            $sala = $horario->Sala ?? '';
+                                            $doctorId = $horario->ID_Medico ?? '';
+                                            $doctorName = trim(($horario->medico_nome ?? '') . ' ' . ($horario->medico_sobrenome ?? ''));
+
+                                            $toMin = function ($t) {
+                                                if (empty($t)) return null;
+                                                [$h, $m] = array_map('intval', explode(':', $t));
+                                                return $h * 60 + $m;
+                                            };
+                                            $totalMin = ($toMin($fim) ?? 0) - ($toMin($inicio) ?? 0);
+                                            if (!empty($intervaloInicio) && !empty($intervaloFim)) {
+                                                $totalMin -= (($toMin($intervaloFim) ?? 0) - ($toMin($intervaloInicio) ?? 0));
+                                            }
+                                            $vagas = $duracao > 0 && $totalMin > 0 ? intdiv($totalMin, $duracao) : 0;
+
+                                            $vigenciaFim = $horario->Data_Fim_Vigencia ?? '';
+                                            $vigenciaInicio = $horario->Data_Inicio_Vigencia ?? '';
+                                            $vigenciaExpiringClass = '';
+                                            if (!empty($vigenciaFim)) {
+                                                $diff = (strtotime($vigenciaFim) - time()) / 86400;
+                                                if ($diff >= 0 && $diff <= 14) $vigenciaExpiringClass = 'expiring';
+                                            }
+
+                                            // Fonte única de verdade para o JS (editar/duplicar/conflitos/calendário/exportar)
+                                            // em vez de reconstruir os dados a partir do texto da tabela.
+                                            $rowJson = json_encode([
+                                                'id' => $horario->ID_Horario ?? '',
+                                                'doctor_id' => $doctorId,
+                                                'doctor_name' => $doctorName,
+                                                'specialty' => $horario->especialidade ?? '',
+                                                'day' => $horario->Dia_Semana ?? '',
+                                                'start' => substr($inicio, 0, 5),
+                                                'end' => substr($fim, 0, 5),
+                                                'break_start' => $intervaloInicio ? substr($intervaloInicio, 0, 5) : '',
+                                                'break_end' => $intervaloFim ? substr($intervaloFim, 0, 5) : '',
+                                                'room' => $sala,
+                                                'duration' => $duracao,
+                                                'start_date' => $vigenciaInicio ? date('Y-m-d', strtotime($vigenciaInicio)) : '',
+                                                'end_date' => $vigenciaFim ? date('Y-m-d', strtotime($vigenciaFim)) : '',
+                                                'notes' => $horario->Observacoes ?? '',
+                                                'status' => $status,
+                                            ], JSON_UNESCAPED_UNICODE);
+                                        ?>
+                                            <tr data-id="<?= $horario->ID_Horario ?? ''; ?>"
+                                                data-doctor-id="<?= $doctorId; ?>"
+                                                data-json="<?= htmlspecialchars($rowJson, ENT_QUOTES, 'UTF-8'); ?>"
+                                                class="<?= $status !== 'ativo' ? 'row-inactive' : ''; ?>">
+                                                <td>
+                                                    <div class="doctor-cell">
+                                                        <div class="doctor-avatar"><?= strtoupper(substr($horario->medico_nome ?? '?', 0, 1)); ?></div>
+                                                        <div>
+                                                            <div class="font-medium"><?= htmlspecialchars($doctorName); ?></div>
+                                                            <div class="specialty-tag"><?= htmlspecialchars($horario->especialidade ?? ''); ?></div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td><span class="day-badge"><i class="fas fa-calendar-day"></i> <?= htmlspecialchars($horario->Dia_Semana ?? ''); ?></span></td>
+                                                <td>
+                                                    <div class="time-block">
+                                                        <span class="main-time"><?= substr($inicio, 0, 5); ?> – <?= substr($fim, 0, 5); ?></span>
+                                                        <?php if (!empty($intervaloInicio) && !empty($intervaloFim)): ?>
+                                                            <span class="break-time"><i class="fas fa-mug-hot mr-1"></i>Intervalo <?= substr($intervaloInicio, 0, 5); ?>–<?= substr($intervaloFim, 0, 5); ?></span>
+                                                        <?php endif; ?>
+                                                    </div>
+                                                </td>
+                                                <td><?= htmlspecialchars($sala ?: '—'); ?></td>
+                                                <td>
+                                                    <div class="text-sm"><?= $duracao; ?> min / consulta</div>
+                                                    <span class="capacity-pill"><i class="fas fa-user-check"></i> ~<?= $vagas; ?> vagas</span>
+                                                </td>
+                                                <td>
+                                                    <?php if (!empty($vigenciaInicio) || !empty($vigenciaFim)): ?>
+                                                        <div class="vigencia-note <?= $vigenciaExpiringClass; ?>">
+                                                            <?= !empty($vigenciaInicio) ? date('d/m/Y', strtotime($vigenciaInicio)) : '—'; ?>
+                                                            até
+                                                            <?= !empty($vigenciaFim) ? date('d/m/Y', strtotime($vigenciaFim)) : 'indeterminado'; ?>
+                                                            <?= $vigenciaExpiringClass ? '<i class="fas fa-exclamation-triangle ml-1"></i>' : ''; ?>
+                                                        </div>
+                                                    <?php else: ?>
+                                                        <span class="vigencia-note">Permanente</span>
+                                                    <?php endif; ?>
+                                                </td>
+                                                <td>
+                                                    <span class="status-badge <?= $status === 'ativo' ? 'ativo' : 'inativo'; ?>">
+                                                        <i class="fas fa-circle" style="font-size: 0.4rem;"></i>
+                                                        <?= ucfirst($status); ?>
+                                                    </span>
+                                                </td>
+                                                <td class="text-center whitespace-nowrap">
+                                                    <button class="btn-sm btn-edit edit-schedule" data-id="<?= $horario->ID_Horario ?? ''; ?>" title="Editar">
+                                                        <i class="fas fa-edit"></i>
+                                                    </button>
+                                                    <button class="btn-sm btn-duplicate duplicate-schedule" data-id="<?= $horario->ID_Horario ?? ''; ?>" title="Duplicar">
+                                                        <i class="fas fa-copy"></i>
+                                                    </button>
+                                                    <button class="btn-sm btn-delete delete-schedule" data-id="<?= $horario->ID_Horario ?? ''; ?>" title="Excluir">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Vista em calendário -->
+                    <div id="view-calendar" style="display:none;">
+                        <div class="cal-grid" id="cal-grid"></div>
                     </div>
                 </div>
             </div>
         </main>
-
-        <footer class="bg-gray-800 text-white py-6">
-            <div class="container mx-auto px-4 text-center text-gray-400 text-sm">
-                <p>© <?= date('Y') ?> Hospital Público de Matlhovele. Todos os direitos reservados.</p>
-            </div>
-        </footer>
     </div>
+
+    <!-- Área usada apenas para impressão -->
+    <div id="print-area"></div>
 
     <!-- Modal para Adicionar/Editar Horário -->
     <div id="schedule-modal" class="modal-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15,23,42,0.55); z-index: 950; justify-content: center; align-items: center; padding: 1rem;">
@@ -690,6 +777,9 @@
                 <h3 id="modal-title" style="font-size: 1.15rem; font-weight: 600; color: #1f2937;"><i class="fas fa-clock text-blue-500 mr-2"></i>Adicionar Horário</h3>
                 <button class="modal-close" onclick="closeScheduleModal()" style="background: none; border: none; font-size: 1.5rem; color: #6b7280; cursor: pointer;">&times;</button>
             </div>
+
+            <div class="conflict-warning" id="conflict-warning"></div>
+
             <form id="schedule-form" onsubmit="saveSchedule(event)">
                 <input type="hidden" id="schedule-id" name="id">
 
@@ -837,6 +927,34 @@
             return h * 60 + m;
         }
 
+        // ==================== FONTE ÚNICA DE DADOS ====================
+        // Lidos uma vez a partir do atributo data-json de cada linha (gerado pelo PHP),
+        // em vez de reconstruídos a partir do texto visível da tabela (fonte do bug antigo
+        // em que Médico, Vigência e Observações se perdiam ao editar/duplicar).
+        let SCHEDULES = [];
+
+        function loadSchedulesFromTable() {
+            SCHEDULES = Array.from(document.querySelectorAll('#schedule-table tr[data-id]'))
+                .map(row => {
+                    try { return JSON.parse(row.dataset.json); } catch (e) { return null; }
+                })
+                .filter(Boolean);
+        }
+
+        function getScheduleById(id) {
+            return SCHEDULES.find(s => String(s.id) === String(id));
+        }
+
+        const DAY_ORDER = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo'];
+        const DAY_SHORT = { Segunda: 'Seg', Terça: 'Ter', Quarta: 'Qua', Quinta: 'Qui', Sexta: 'Sex', Sábado: 'Sáb', Domingo: 'Dom' };
+        const DOCTOR_COLORS = ['#2563eb', '#0d9488', '#f59e0b', '#dc2626', '#7c3aed', '#059669', '#db2777', '#0891b2'];
+        function colorForDoctor(doctorId) {
+            let hash = 0;
+            const s = String(doctorId || '');
+            for (let i = 0; i < s.length; i++) hash = (hash * 31 + s.charCodeAt(i)) % DOCTOR_COLORS.length;
+            return DOCTOR_COLORS[Math.abs(hash) % DOCTOR_COLORS.length];
+        }
+
         // ==================== SELETOR DE DIAS ====================
         let selectedDays = [];
         let isEditingSingleDay = false;
@@ -846,7 +964,6 @@
             if (!btn) return;
 
             if (isEditingSingleDay) {
-                // Em edição, apenas um dia pode ficar selecionado
                 document.querySelectorAll('.weekday-btn').forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
                 selectedDays = [btn.dataset.day];
@@ -899,6 +1016,7 @@
         function openScheduleModal(data = null) {
             const modal = document.getElementById('schedule-modal');
             const title = document.getElementById('modal-title');
+            document.getElementById('conflict-warning').classList.remove('show');
 
             if (data) {
                 isEditingSingleDay = true;
@@ -906,7 +1024,7 @@
                 document.getElementById('schedule-id').value = data.id || '';
                 document.getElementById('schedule-doctor').value = data.doctor_id || '';
                 document.getElementById('schedule-room').value = data.room || '';
-                setSelectedDays(data.day || []);
+                setSelectedDays(data.day ? [data.day] : []);
                 document.getElementById('schedule-start').value = data.start || '';
                 document.getElementById('schedule-end').value = data.end || '';
                 document.getElementById('schedule-break-start').value = data.break_start || '';
@@ -933,11 +1051,33 @@
             document.getElementById('schedule-modal').style.display = 'none';
         }
 
+        // ==================== DETECÇÃO DE CONFLITOS ====================
+        function findConflicts(day, start, end, doctorId, room, excludeId) {
+            const s1 = timeToMinutes(start), e1 = timeToMinutes(end);
+            return SCHEDULES.filter(s => {
+                if (String(s.id) === String(excludeId)) return false;
+                if (s.status !== 'ativo') return false;
+                if (s.day !== day) return false;
+                const s2 = timeToMinutes(s.start), e2 = timeToMinutes(s.end);
+                if (s2 === null || e2 === null || s1 === null || e1 === null) return false;
+                const overlaps = s1 < e2 && s2 < e1;
+                if (!overlaps) return false;
+                const sameDoctor = String(s.doctor_id) === String(doctorId);
+                const sameRoom = room && s.room && s.room.trim().toLowerCase() === room.trim().toLowerCase();
+                return sameDoctor || sameRoom;
+            });
+        }
+
+        function describeConflict(c) {
+            return `${c.day} ${c.start}–${c.end}: ${c.doctor_name || 'médico'}${c.room ? ' · ' + c.room : ''}`;
+        }
+
         async function saveSchedule(event) {
             event.preventDefault();
 
             const id = document.getElementById('schedule-id').value;
             const doctorId = document.getElementById('schedule-doctor').value;
+            const doctorName = document.getElementById('schedule-doctor').selectedOptions[0]?.text?.trim() || '';
             const room = document.getElementById('schedule-room').value.trim();
             const start = document.getElementById('schedule-start').value;
             const end = document.getElementById('schedule-end').value;
@@ -970,6 +1110,27 @@
             if (startDate && endDate && startDate > endDate) {
                 showNotification('A data de início de vigência deve ser anterior à data de fim.', 'error');
                 return;
+            }
+
+            // Conflitos: mesmo médico OU mesma sala, mesmo dia, horário sobreposto
+            const conflictWarning = document.getElementById('conflict-warning');
+            let allConflicts = [];
+            selectedDays.forEach(day => {
+                allConflicts = allConflicts.concat(findConflicts(day, start, end, doctorId, room, id));
+            });
+
+            if (allConflicts.length > 0) {
+                conflictWarning.innerHTML = `<strong><i class="fas fa-exclamation-triangle mr-1"></i>Possível conflito de agenda:</strong>
+                    <ul>${allConflicts.map(c => `<li>${describeConflict(c)}</li>`).join('')}</ul>`;
+                conflictWarning.classList.add('show');
+                const proceed = confirm(
+                    'Foram detetados conflitos de horário (mesmo médico ou sala já ocupados nesse período):\n\n' +
+                    allConflicts.map(c => '• ' + describeConflict(c)).join('\n') +
+                    '\n\nDeseja guardar mesmo assim?'
+                );
+                if (!proceed) return;
+            } else {
+                conflictWarning.classList.remove('show');
             }
 
             const csrfToken = getCsrfToken();
@@ -1018,49 +1179,22 @@
             }
         }
 
-        // ==================== LEITURA DE LINHAS DA TABELA ====================
-        function readRowData(row) {
-            const cells = row.querySelectorAll('td');
-            const dayText = cells[1]?.textContent?.trim() || '';
-            const timeMain = cells[2]?.querySelector('.main-time')?.textContent?.trim() || '';
-            const [start, end] = timeMain.split('–').map(s => s.trim());
-            const breakText = cells[2]?.querySelector('.break-time')?.textContent?.trim() || '';
-            let breakStart = '', breakEnd = '';
-            const breakMatch = breakText.match(/(\d{2}:\d{2})[–-](\d{2}:\d{2})/);
-            if (breakMatch) { breakStart = breakMatch[1]; breakEnd = breakMatch[2]; }
-            const room = cells[3]?.textContent?.trim() || '';
-            const durationText = cells[4]?.querySelector('div')?.textContent?.trim() || '';
-            const durationMatch = durationText.match(/(\d+)/);
-            const statusText = cells[6]?.textContent?.trim()?.toLowerCase() || 'ativo';
-
-            return {
-                id: row.dataset.id,
-                doctor_id: row.dataset.doctorId || '',
-                day: [dayText],
-                start: start || '',
-                end: end || '',
-                break_start: breakStart,
-                break_end: breakEnd,
-                room: room === '—' ? '' : room,
-                duration: durationMatch ? durationMatch[1] : '30',
-                status: statusText.includes('inativo') ? 'inativo' : 'ativo'
-            };
-        }
-
+        // ==================== AÇÕES DA TABELA (editar / duplicar / excluir) ====================
         document.getElementById('schedule-table').addEventListener('click', function(e) {
             const editBtn = e.target.closest('.edit-schedule');
             const dupBtn = e.target.closest('.duplicate-schedule');
             const delBtn = e.target.closest('.delete-schedule');
 
             if (editBtn) {
-                const row = editBtn.closest('tr');
-                openScheduleModal(readRowData(row));
+                const data = getScheduleById(editBtn.dataset.id);
+                if (!data) { showNotification('Erro ao carregar dados do horário.', 'error'); return; }
+                openScheduleModal(data);
             }
 
             if (dupBtn) {
-                const row = dupBtn.closest('tr');
-                const data = readRowData(row);
-                data.id = '';
+                const original = getScheduleById(dupBtn.dataset.id);
+                if (!original) { showNotification('Erro ao carregar dados do horário.', 'error'); return; }
+                const data = { ...original, id: '' };
                 openScheduleModal(data);
                 isEditingSingleDay = false; // permite escolher outros dias ao duplicar
                 showNotification('Horário duplicado — ajuste o dia ou os dados e salve.', 'info');
@@ -1088,7 +1222,9 @@
                         showNotification(result.success || 'Horário excluído com sucesso!', 'success');
                         const row = delBtn.closest('tr');
                         if (row) row.remove();
-                        recalcMetricsFromTable();
+                        SCHEDULES = SCHEDULES.filter(s => String(s.id) !== String(id));
+                        recalcMetrics();
+                        if (currentView === 'calendar') renderCalendarView();
                     }
                 })
                 .catch(error => {
@@ -1102,35 +1238,34 @@
             btn.addEventListener('click', () => openScheduleModal());
         });
 
-        // ==================== FILTROS ====================
+        // ==================== FILTROS (agora comparam dados, não texto renderizado) ====================
+        function matchesFilters(s) {
+            const doctorVal = document.getElementById('filter-doctor').value;
+            const dayVal = document.getElementById('filter-day').value;
+            const statusVal = document.getElementById('filter-status').value;
+            const searchVal = document.getElementById('filter-search').value.trim().toLowerCase();
+
+            if (doctorVal && String(s.doctor_id) !== String(doctorVal)) return false;
+            if (dayVal && s.day !== dayVal) return false;
+            if (statusVal && s.status !== statusVal) return false;
+            if (searchVal && !(s.room || '').toLowerCase().includes(searchVal)) return false;
+            return true;
+        }
+
+        function getFilteredSchedules() { return SCHEDULES.filter(matchesFilters); }
+
         function applyFilters() {
-            const doctor = document.getElementById('filter-doctor');
-            const day = document.getElementById('filter-day').value;
-            const status = document.getElementById('filter-status').value;
-            const search = document.getElementById('filter-search').value.trim().toLowerCase();
-            const selectedDoctorText = doctor.selectedOptions[0]?.text?.trim().toLowerCase() || '';
-
-            const rows = document.querySelectorAll('#schedule-table tr[data-id]');
             let visibleCount = 0;
-
-            rows.forEach(row => {
-                const doctorCell = row.querySelector('td:first-child')?.textContent?.toLowerCase() || '';
-                const dayCell = row.querySelector('td:nth-child(2)')?.textContent || '';
-                const roomCell = row.querySelector('td:nth-child(4)')?.textContent?.toLowerCase() || '';
-                const statusCell = row.querySelector('.status-badge')?.textContent?.trim().toLowerCase() || '';
-
-                let show = true;
-                if (doctor.value && !doctorCell.includes(selectedDoctorText)) show = false;
-                if (day && !dayCell.includes(day)) show = false;
-                if (status && !statusCell.includes(status)) show = false;
-                if (search && !roomCell.includes(search)) show = false;
-
+            SCHEDULES.forEach(s => {
+                const row = document.querySelector(`#schedule-table tr[data-id="${s.id}"]`);
+                if (!row) return;
+                const show = matchesFilters(s);
                 row.style.display = show ? '' : 'none';
                 if (show) visibleCount++;
             });
-
             const countEl = document.getElementById('schedule-count');
             if (countEl) countEl.textContent = `${visibleCount} horário(s) exibido(s)`;
+            if (currentView === 'calendar') renderCalendarView();
         }
 
         document.getElementById('apply-filter-btn').addEventListener('click', applyFilters);
@@ -1142,44 +1277,120 @@
             applyFilters();
         });
 
-        // ==================== MÉTRICAS E GRÁFICO (calculados a partir da tabela renderizada) ====================
-        let coverageChart;
-        const DAY_ORDER = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo'];
-        const DAY_SHORT = { Segunda: 'Seg', Terça: 'Ter', Quarta: 'Qua', Quinta: 'Qui', Sexta: 'Sex', Sábado: 'Sáb', Domingo: 'Dom' };
+        // ==================== VISTA LISTA / CALENDÁRIO ====================
+        let currentView = 'list';
 
-        function recalcMetricsFromTable() {
-            const rows = Array.from(document.querySelectorAll('#schedule-table tr[data-id]'));
+        document.querySelectorAll('.view-toggle button').forEach(btn => {
+            btn.addEventListener('click', function () {
+                document.querySelectorAll('.view-toggle button').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                currentView = this.dataset.view;
+                document.getElementById('view-list').style.display = currentView === 'list' ? 'block' : 'none';
+                document.getElementById('view-calendar').style.display = currentView === 'calendar' ? 'block' : 'none';
+                if (currentView === 'calendar') renderCalendarView();
+            });
+        });
+
+        function renderCalendarView() {
+            const grid = document.getElementById('cal-grid');
+            const items = getFilteredSchedules();
+
+            grid.innerHTML = DAY_ORDER.map(day => {
+                const dayItems = items
+                    .filter(i => i.day === day)
+                    .sort((a, b) => (a.start || '').localeCompare(b.start || ''));
+
+                const blocks = dayItems.length ? dayItems.map(item => {
+                    const vagas = item.duration > 0 && timeToMinutes(item.end) > timeToMinutes(item.start)
+                        ? Math.floor((timeToMinutes(item.end) - timeToMinutes(item.start)) / item.duration) : 0;
+                    return `
+                        <div class="cal-block ${item.status}" style="border-left-color:${colorForDoctor(item.doctor_id)};">
+                            <div class="cal-block__doctor">${item.doctor_name || 'Médico'}</div>
+                            <div class="cal-block__time">${item.start}–${item.end}</div>
+                            <div class="cal-block__meta">${item.room ? item.room + ' · ' : ''}${item.duration} min · ${vagas} vaga${vagas !== 1 ? 's' : ''}</div>
+                        </div>`;
+                }).join('') : `<div class="cal-empty">Sem horário</div>`;
+
+                return `<div class="cal-day"><div class="cal-day__header">${day}</div>${blocks}</div>`;
+            }).join('');
+        }
+
+        // ==================== EXPORTAR / IMPRIMIR ====================
+        function exportCSV() {
+            const items = getFilteredSchedules();
+            if (!items.length) { showNotification('Não há dados para exportar.', 'warning'); return; }
+
+            const headers = ['Médico', 'Especialidade', 'Dia', 'Início', 'Fim', 'Sala', 'Duração (min)', 'Status'];
+            const rows = items.map(s => [s.doctor_name, s.specialty, s.day, s.start, s.end, s.room, s.duration, s.status]);
+            const csv = headers.join(';') + '\n' + rows.map(r => r.map(v => `"${String(v ?? '').replace(/"/g, '""')}"`).join(';')).join('\n');
+            const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `disponibilidade_${new Date().toISOString().slice(0, 10)}.csv`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        function exportPrint() {
+            const items = getFilteredSchedules();
+            if (!items.length) { showNotification('Não há dados para imprimir.', 'warning'); return; }
+
+            const rows = items.map(s => `
+                <tr>
+                    <td>${s.doctor_name || ''}</td>
+                    <td>${s.specialty || ''}</td>
+                    <td>${s.day || ''}</td>
+                    <td>${s.start || ''}–${s.end || ''}</td>
+                    <td>${s.room || ''}</td>
+                    <td>${s.duration || ''} min</td>
+                    <td>${s.status === 'ativo' ? 'Ativo' : 'Inativo'}</td>
+                </tr>`).join('');
+
+            document.getElementById('print-area').innerHTML = `
+                <h2>Centro de Saúde Da Matola II — Disponibilidade dos Médicos</h2>
+                <p>Gerado em ${new Date().toLocaleString('pt-PT')}</p>
+                <table>
+                    <thead><tr><th>Médico</th><th>Especialidade</th><th>Dia</th><th>Horário</th><th>Sala</th><th>Duração</th><th>Status</th></tr></thead>
+                    <tbody>${rows}</tbody>
+                </table>`;
+            window.print();
+        }
+
+        document.getElementById('export-csv-btn').addEventListener('click', exportCSV);
+        document.getElementById('export-print-btn').addEventListener('click', exportPrint);
+
+        // ==================== MÉTRICAS E GRÁFICO ====================
+        let coverageChart;
+
+        function recalcMetrics() {
             const activeDoctors = new Set();
             let totalMinutes = 0;
             let totalSlots = 0;
             let inactiveCount = 0;
             const hoursByDay = Object.fromEntries(DAY_ORDER.map(d => [d, 0]));
 
-            rows.forEach(row => {
-                const statusText = row.querySelector('.status-badge')?.textContent?.trim().toLowerCase() || '';
-                const isActive = statusText.includes('ativo') && !statusText.includes('inativo');
-                if (!isActive) { inactiveCount++; return; }
+            SCHEDULES.forEach(s => {
+                if (s.status !== 'ativo') { inactiveCount++; return; }
 
-                const data = readRowData(row);
-                const start = timeToMinutes(data.start);
-                const end = timeToMinutes(data.end);
+                const start = timeToMinutes(s.start);
+                const end = timeToMinutes(s.end);
                 if (start === null || end === null || end <= start) return;
 
                 let minutes = end - start;
-                const bs = timeToMinutes(data.break_start);
-                const be = timeToMinutes(data.break_end);
+                const bs = timeToMinutes(s.break_start);
+                const be = timeToMinutes(s.break_end);
                 if (bs !== null && be !== null && be > bs) minutes -= (be - bs);
 
                 totalMinutes += minutes;
-                const duration = parseInt(data.duration, 10) || 30;
+                const duration = parseInt(s.duration, 10) || 30;
                 totalSlots += minutes > 0 ? Math.floor(minutes / duration) : 0;
 
-                if (data.doctor_id) activeDoctors.add(data.doctor_id);
-                else activeDoctors.add(row.querySelector('.font-medium')?.textContent?.trim());
+                activeDoctors.add(s.doctor_id || s.doctor_name);
 
-                const dayCell = row.querySelector('td:nth-child(2)')?.textContent || '';
-                const matchedDay = DAY_ORDER.find(d => dayCell.includes(d));
-                if (matchedDay) hoursByDay[matchedDay] += minutes / 60;
+                if (DAY_ORDER.includes(s.day)) hoursByDay[s.day] += minutes / 60;
             });
 
             document.getElementById('metric-doctors-scheduled').textContent = activeDoctors.size;
@@ -1228,7 +1439,7 @@
             });
         }
 
-        // ==================== SIDEBAR ====================
+        // ==================== SIDEBAR / INICIALIZAÇÃO ====================
         document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('notification-close').addEventListener('click', function() {
                 document.getElementById('notification').classList.remove('show');
@@ -1295,7 +1506,8 @@
                 }
             });
 
-            recalcMetricsFromTable();
+            loadSchedulesFromTable();
+            recalcMetrics();
         });
     </script>
 </body>

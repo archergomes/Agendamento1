@@ -123,4 +123,26 @@ class Email extends BaseConfig
      * Enable notify message from server
      */
     public bool $DSN = false;
+
+    /**
+     * Construtor - Carrega configurações do .env
+     */
+    public function __construct()
+    {
+        parent::__construct();
+
+        // Carregar variáveis do .env
+        $this->protocol = env('email.protocol', 'smtp');
+        $this->SMTPHost = env('email.SMTPHost', 'smtp.gmail.com');
+        $this->SMTPUser = env('email.SMTPUser', '');
+        $this->SMTPPass = env('email.SMTPPass', '');
+        $this->SMTPPort = (int) env('email.SMTPPort', 587);
+        $this->SMTPCrypto = env('email.SMTPCrypto', 'tls');
+        $this->SMTPTimeout = (int) env('email.SMTPTimeout', 30);
+        $this->fromEmail = env('email.fromEmail', 'noreply@hospitalmatlhovele.com');
+        $this->fromName = env('email.fromName', 'Centro de Saúde Da Matola II');
+        $this->mailType = env('email.mailType', 'html');
+        $this->charset = env('email.charset', 'utf-8');
+        $this->wordWrap = (bool) env('email.wordWrap', true);
+    }
 }

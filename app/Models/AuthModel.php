@@ -113,4 +113,66 @@ class AuthModel extends Model
         $builder->where('u.Email', $email);
         return $builder->get()->getRow();
     }
+
+    /**
+     * Busca usuário por email
+     */
+    public function getUserByEmail($email)
+    {
+        $builder = $this->db->table('usuarios');
+        $builder->where('Email', $email);
+        return $builder->get()->getRow();
+    }
+
+    /**
+     * Salva token de recuperação
+     */
+    public function saveRecoveryToken($usuario_id, $token, $expiracao)
+    {
+        // Remover tokens antigos do mesmo usuário
+        $builder = $this->db->table('recuperacao_senha');
+        $builder->where('ID_Usuario', $usuario_id);
+        $builder->delete();
+
+        // Inserir novo token
+        $data = [
+            'ID_Usuario' => $usuario_id,
+            'Token' => $token,
+            'Expiracao' => $expiracao,
+            'Criado_Em' => date('Y-m-d H:i:s')
+        ];
+
+        $builder = $this->db->table('recuperacao_senha');
+        return $builder->insert($data);
+    }
+
+    /**
+     * Busca dados do token
+     */
+    public function getTokenData($token)
+    {
+        $builder = $this->db->table('recuperacao_senha');
+        $builder->where('Token', $token);
+        return $builder->get()->getRow();
+    }
+
+    /**
+     * Remove token
+     */
+    public function deleteToken($token)
+    {
+        $builder = $this->db->table('recuperacao_senha');
+        $builder->where('Token', $token);
+        return $builder->delete();
+    }
+
+    /**
+     * Atualiza senha do usuário
+     */
+    public function updatePassword($usuario_id, $senha_hash)
+    {
+        $builder = $this->db->table('usuarios');
+        $builder->where('ID_Usuario', $usuario_id);
+        return $builder->update(['Senha' => $senha_hash]);
+    }
 }
