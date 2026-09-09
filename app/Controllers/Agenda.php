@@ -359,43 +359,28 @@ class Agenda extends Controller
      */
     public function saveAppointment()
     {
-        if (!$this->request->isAJAX()) {
-            return $this->response->setJSON([
-                'status' => 'error',
-                'message' => 'Requisição inválida'
-            ]);
-        }
-
-        // Verificar CSRF Token
-        $csrfToken = $this->request->getPost('csrf_test_name');
-        if (!$csrfToken) {
-            return $this->response->setJSON([
-                'status' => 'error',
-                'message' => 'Token CSRF não fornecido. Recarregue a página.',
-                'csrf_token' => csrf_hash()
-            ]);
-        }
-
-        $security = \Config\Services::security();
-        if (method_exists($security, 'verify')) {
-            if (!$security->verify($csrfToken)) {
-                return $this->response->setJSON([
-                    'status' => 'error',
-                    'message' => 'Token CSRF inválido. Recarregue a página.',
-                    'csrf_token' => csrf_hash()
-                ]);
-            }
-        } else {
-            if (!$security->validate($csrfToken)) {
-                return $this->response->setJSON([
-                    'status' => 'error',
-                    'message' => 'Token CSRF inválido. Recarregue a página.',
-                    'csrf_token' => csrf_hash()
-                ]);
-            }
-        }
-
         try {
+            // Verificar se é AJAX
+            if (!$this->request->isAJAX()) {
+                return $this->response->setJSON([
+                    'status' => 'error',
+                    'message' => 'Requisição inválida'
+                ]);
+            }
+
+            // Log dos dados recebidos
+            log_message('debug', 'saveAppointment - POST data: ' . print_r($this->request->getPost(), true));
+
+            // Verificar CSRF Token
+            $csrfToken = $this->request->getPost('csrf_test_name');
+            if (!$csrfToken) {
+                return $this->response->setJSON([
+                    'status' => 'error',
+                    'message' => 'Token CSRF não fornecido. Recarregue a página.',
+                    'csrf_token' => csrf_hash()
+                ]);
+            }
+
             // Pega dados do POST
             $especialidade = $this->request->getPost('especialidade');
             $medicoId = (int) $this->request->getPost('medico');
@@ -406,6 +391,14 @@ class Agenda extends Controller
             $bi = $this->request->getPost('bi');
             $motivo = $this->request->getPost('motivo');
 
+            // Novos campos para "outra pessoa"
+            $agendadoPara = $this->request->getPost('agendado_para') ?? 'self';
+            $pacienteNome = $this->request->getPost('paciente_nome') ?? '';
+            $pacienteDataNascimento = $this->request->getPost('paciente_data_nascimento') ?? '';
+            $pacienteParentesco = $this->request->getPost('paciente_parentesco') ?? '';
+            $pacienteDocumentoTipo = $this->request->getPost('paciente_documento_tipo') ?? '';
+            $pacienteDocumentoNumero = $this->request->getPost('paciente_documento_numero') ?? '';
+
             // Log para debug
             log_message('debug', 'saveAppointment - Dados recebidos: ' . print_r([
                 'especialidade' => $especialidade,
@@ -414,74 +407,68 @@ class Agenda extends Controller
                 'horario' => $horario,
                 'nome' => $nome,
                 'telefone' => $telefone,
-                'bi' => $bi
+                'bi' => $bi,
+                'agendado_para' => $agendadoPara,
+                'paciente_nome' => $pacienteNome,
+                'paciente_parentesco' => $pacienteParentesco
             ], true));
 
-            // Log da sessão
-            log_message('debug', 'saveAppointment - Sessão atual: ' . print_r($this->session->get(), true));
-
-            // Validação
+            // Validação básica
             if (
                 empty($especialidade) || empty($medicoId) || empty($dataConsulta) || empty($horario) ||
                 empty($nome) || empty($telefone) || empty($bi)
             ) {
                 return $this->response->setJSON([
                     'status' => 'error',
-                    'message' => 'Dados incompletos. Preencha todos os campos.'
+                    'message' => 'Dados incompletos. Preencha todos os campos obrigatórios.'
                 ]);
             }
 
-            // Busca paciente_id - MÉTODO MELHORADO
+            // Se for para outra pessoa, validar os campos adicionais
+            if ($agendadoPara === 'other') {
+                if (empty($pacienteNome) || empty($pacienteParentesco)) {
+                    return $this->response->setJSON([
+                        'status' => 'error',
+                        'message' => 'Preencha os dados do paciente (nome e parentesco).'
+                    ]);
+                }
+            }
+
+            // Buscar paciente_id
             $pacienteId = $this->session->get('paciente_id');
 
             // Se não encontrar, tenta buscar pelo ID_Usuario
             if (!$pacienteId) {
                 $usuarioId = $this->session->get('ID_Usuario');
-                log_message('debug', 'saveAppointment - UsuarioId da sessão: ' . $usuarioId);
-
                 if ($usuarioId) {
-                    // Buscar paciente pelo ID_Usuario
                     $paciente = $this->authModel->getPacienteByUsuarioId($usuarioId);
                     if ($paciente) {
                         $pacienteId = $paciente->ID_Paciente;
-                        // Salvar na sessão para uso futuro
                         $this->session->set('paciente_id', $pacienteId);
-                        log_message('debug', 'saveAppointment - Paciente encontrado: ID=' . $pacienteId);
-                    } else {
-                        // Se não encontrar, tenta buscar pelo email
-                        $email = $this->session->get('Email');
-                        if ($email) {
-                            $paciente = $this->authModel->getPacienteByEmail($email);
-                            if ($paciente) {
-                                $pacienteId = $paciente->ID_Paciente;
-                                $this->session->set('paciente_id', $pacienteId);
-                                log_message('debug', 'saveAppointment - Paciente encontrado pelo email: ID=' . $pacienteId);
-                            }
-                        }
                     }
                 }
             }
 
-            // Se ainda não tem paciente_id, tenta buscar diretamente da sessão do usuário
+            // Se ainda não tem paciente_id, tenta buscar pelo email
             if (!$pacienteId) {
-                // Verifica se o usuário está logado
-                $loggedIn = $this->session->get('logged_in');
-                log_message('debug', 'saveAppointment - logged_in: ' . ($loggedIn ? 'true' : 'false'));
-
-                if (!$loggedIn) {
-                    return $this->response->setJSON([
-                        'status' => 'error',
-                        'message' => 'Usuário não está logado. Faça login novamente.'
-                    ]);
+                $email = $this->session->get('Email');
+                if ($email) {
+                    $paciente = $this->authModel->getPacienteByEmail($email);
+                    if ($paciente) {
+                        $pacienteId = $paciente->ID_Paciente;
+                        $this->session->set('paciente_id', $pacienteId);
+                    }
                 }
+            }
 
+            if (!$pacienteId) {
                 return $this->response->setJSON([
                     'status' => 'error',
-                    'message' => 'Dados do paciente não encontrados. Faça login novamente.'
+                    'message' => 'Paciente não encontrado. Faça login novamente.'
                 ]);
             }
 
-            // Verifica disponibilidade
+            // Verificar disponibilidade
             if (!$this->agendamentosModel->isSlotAvailable($dataConsulta, $horario, $medicoId)) {
                 return $this->response->setJSON([
                     'status' => 'error',
@@ -489,25 +476,40 @@ class Agenda extends Controller
                 ]);
             }
 
-            // Dados para insert
+            // Preparar dados para insert - COM TODOS OS CAMPOS
             $dataInsert = [
                 'ID_Paciente' => $pacienteId,
                 'ID_Medico' => $medicoId,
                 'Data_Agendamento' => $dataConsulta,
                 'Hora_Agendamento' => $horario,
                 'Status' => 'Pendente',
-                'Motivo' => !empty($motivo) ? $motivo : null
+                'Motivo' => !empty($motivo) ? $motivo : null,
+                'tipo_agendamento' => $agendadoPara,
+                'responsavel_nome' => $nome,
+                'responsavel_telefone' => $telefone,
+                'responsavel_bi' => $bi
             ];
+
+            // Se for para outra pessoa, adicionar campos do paciente
+            if ($agendadoPara === 'other') {
+                $dataInsert['paciente_nome_agendado'] = $pacienteNome;
+                $dataInsert['paciente_relacao'] = $pacienteParentesco;
+                $dataInsert['paciente_data_nasc_agendado'] = !empty($pacienteDataNascimento) ? $pacienteDataNascimento : null;
+                $dataInsert['paciente_doc_tipo'] = $pacienteDocumentoTipo;
+                $dataInsert['paciente_doc_num'] = !empty($pacienteDocumentoNumero) ? $pacienteDocumentoNumero : null;
+            }
 
             log_message('debug', 'saveAppointment - Dados para insert: ' . print_r($dataInsert, true));
 
+            // Salvar no banco
             $result = $this->agendamentosModel->createAgendamento($dataInsert);
 
             if (isset($result['success'])) {
                 return $this->response->setJSON([
                     'status' => 'success',
                     'message' => $result['success'],
-                    'csrf_token' => csrf_hash()
+                    'csrf_token' => csrf_hash(),
+                    'csrf_name' => 'csrf_test_name'
                 ]);
             } else {
                 return $this->response->setJSON([
@@ -516,11 +518,12 @@ class Agenda extends Controller
                 ]);
             }
         } catch (\Exception $e) {
-            log_message('error', 'Erro no saveAppointment: ' . $e->getMessage());
-            log_message('error', 'Trace: ' . $e->getTraceAsString());
+            log_message('error', 'saveAppointment - ERRO: ' . $e->getMessage());
+            log_message('error', 'saveAppointment - TRACE: ' . $e->getTraceAsString());
+
             return $this->response->setJSON([
                 'status' => 'error',
-                'message' => 'Erro interno: ' . $e->getMessage()
+                'message' => 'Erro interno do servidor: ' . $e->getMessage()
             ]);
         }
     }

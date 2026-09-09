@@ -133,18 +133,23 @@ class AgendamentosModel extends Model
     }
 
     /**
-     * Verifica se um slot está disponível
+     * Verifica se um horário está disponível
      */
-    public function isSlotAvailable($data, $horario, $medicoId)
+    public function isSlotAvailable($data, $hora, $medicoId)
     {
-        $db = \Config\Database::connect();
-        $builder = $db->table('agendamentos');
-        $builder->where('ID_Medico', $medicoId);
-        $builder->where('Data_Agendamento', $data);
-        $builder->where('Hora_Agendamento', $horario);
-        $builder->where('Status !=', 'Cancelado');
+        try {
+            $builder = $this->db->table('agendamentos');
+            $builder->where('ID_Medico', $medicoId);
+            $builder->where('Data_Agendamento', $data);
+            $builder->where('Hora_Agendamento', $hora);
+            $builder->where('Status !=', 'Cancelado');
+            $existing = $builder->get()->getRow();
 
-        return $builder->countAllResults() == 0;
+            return $existing === null;
+        } catch (\Exception $e) {
+            log_message('error', 'isSlotAvailable - Erro: ' . $e->getMessage());
+            return false;
+        }
     }
 
     /**
@@ -153,10 +158,85 @@ class AgendamentosModel extends Model
     public function createAgendamento($data)
     {
         try {
-            $this->insert($data);
-            return ['success' => 'Agendamento criado com sucesso!'];
+            // Verificar se os campos obrigatórios existem
+            if (
+                empty($data['ID_Paciente']) || empty($data['Data_Agendamento']) ||
+                empty($data['Hora_Agendamento'])
+            ) {
+                return ['error' => 'Dados incompletos para criar agendamento.'];
+            }
+
+            // Verificar se o ID_Medico está definido
+            if (!isset($data['ID_Medico']) || empty($data['ID_Medico'])) {
+                return ['error' => 'Médico não selecionado.'];
+            }
+
+            // Verificar se o horário está disponível
+            $builder = $this->db->table('agendamentos');
+            $builder->where('ID_Medico', $data['ID_Medico']);
+            $builder->where('Data_Agendamento', $data['Data_Agendamento']);
+            $builder->where('Hora_Agendamento', $data['Hora_Agendamento']);
+            $builder->where('Status !=', 'Cancelado');
+            $existing = $builder->get()->getRow();
+
+            if ($existing) {
+                return ['error' => 'Já existe um agendamento para este horário.'];
+            }
+
+            // Inserir agendamento - COM TODOS OS CAMPOS
+            $insertData = [
+                'ID_Paciente' => $data['ID_Paciente'],
+                'ID_Medico' => $data['ID_Medico'],
+                'Data_Agendamento' => $data['Data_Agendamento'],
+                'Hora_Agendamento' => $data['Hora_Agendamento'],
+                'Status' => $data['Status'] ?? 'Pendente',
+                'Motivo' => $data['Motivo'] ?? null
+            ];
+
+            // Adicionar campos extras se existirem
+            if (isset($data['tipo_agendamento'])) {
+                $insertData['tipo_agendamento'] = $data['tipo_agendamento'];
+            }
+            if (isset($data['responsavel_nome'])) {
+                $insertData['responsavel_nome'] = $data['responsavel_nome'];
+            }
+            if (isset($data['responsavel_telefone'])) {
+                $insertData['responsavel_telefone'] = $data['responsavel_telefone'];
+            }
+            if (isset($data['responsavel_bi'])) {
+                $insertData['responsavel_bi'] = $data['responsavel_bi'];
+            }
+            if (isset($data['paciente_nome_agendado'])) {
+                $insertData['paciente_nome_agendado'] = $data['paciente_nome_agendado'];
+            }
+            if (isset($data['paciente_relacao'])) {
+                $insertData['paciente_relacao'] = $data['paciente_relacao'];
+            }
+            if (isset($data['paciente_data_nasc_agendado'])) {
+                $insertData['paciente_data_nasc_agendado'] = $data['paciente_data_nasc_agendado'];
+            }
+            if (isset($data['paciente_doc_tipo'])) {
+                $insertData['paciente_doc_tipo'] = $data['paciente_doc_tipo'];
+            }
+            if (isset($data['paciente_doc_num'])) {
+                $insertData['paciente_doc_num'] = $data['paciente_doc_num'];
+            }
+
+            $builder = $this->db->table('agendamentos');
+            $result = $builder->insert($insertData);
+
+            if ($result) {
+                $id = $this->db->insertID();
+                log_message('debug', 'createAgendamento - Agendamento criado com ID: ' . $id);
+                return ['success' => 'Agendamento criado com sucesso!', 'id' => $id];
+            } else {
+                log_message('error', 'createAgendamento - Falha ao criar agendamento');
+                log_message('error', 'createAgendamento - Último erro DB: ' . print_r($this->db->error(), true));
+                return ['error' => 'Erro ao criar agendamento no banco de dados.'];
+            }
         } catch (\Exception $e) {
-            return ['error' => 'Erro ao criar agendamento: ' . $e->getMessage()];
+            log_message('error', 'createAgendamento - Erro: ' . $e->getMessage());
+            return ['error' => 'Erro interno: ' . $e->getMessage()];
         }
     }
 

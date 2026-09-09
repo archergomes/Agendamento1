@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Sep 09, 2026 at 07:41 AM
+-- Generation Time: Sep 09, 2026 at 03:24 PM
 -- Server version: 8.0.31
 -- PHP Version: 8.2.0
 
@@ -35,35 +35,45 @@ CREATE TABLE IF NOT EXISTS `agendamentos` (
   `Data_Agendamento` date NOT NULL,
   `Hora_Agendamento` time DEFAULT NULL,
   `Motivo` varchar(255) DEFAULT NULL,
+  `tipo_agendamento` varchar(20) DEFAULT 'self',
+  `paciente_nome_agendado` varchar(100) DEFAULT NULL,
+  `paciente_relacao` varchar(50) DEFAULT NULL,
+  `paciente_data_nasc_agendado` date DEFAULT NULL,
+  `paciente_doc_tipo` varchar(50) DEFAULT NULL,
+  `paciente_doc_num` varchar(50) DEFAULT NULL,
+  `responsavel_nome` varchar(100) DEFAULT NULL,
+  `responsavel_telefone` varchar(20) DEFAULT NULL,
+  `responsavel_bi` varchar(50) DEFAULT NULL,
   `Status` enum('Confirmado','Pendente','Cancelado') NOT NULL DEFAULT 'Pendente',
   `Criado_Em` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`ID_Agendamento`),
   KEY `ID_Paciente` (`ID_Paciente`),
   KEY `ID_Medico` (`ID_Medico`)
-) ENGINE=MyISAM AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `agendamentos`
 --
 
-INSERT INTO `agendamentos` (`ID_Agendamento`, `ID_Paciente`, `ID_Medico`, `Data_Agendamento`, `Hora_Agendamento`, `Motivo`, `Status`, `Criado_Em`, `created_at`) VALUES
-(1, 1, NULL, '2025-09-23', '10:00:00', 'Consulta de rotina', 'Confirmado', '2025-09-22 06:19:37', '2025-10-23 16:32:24'),
-(2, 1, NULL, '2025-09-23', '10:00:00', 'Consulta de rotina', 'Confirmado', '2025-09-22 06:24:07', '2025-10-23 16:32:24'),
-(18, 10, 1345365, '2025-10-23', '10:00:00', NULL, 'Cancelado', '2025-10-22 12:06:39', '2025-10-23 16:32:24'),
-(16, 10, 1345374, '2025-10-23', '17:00:00', 'Dores de cabeça muito fortes', 'Pendente', '2025-10-22 10:01:49', '2025-10-23 16:32:24'),
-(9, 1, 3, '2025-10-22', '13:00:00', 'Dor de cabeça crônica', 'Pendente', '2025-10-20 07:46:40', '2025-10-23 16:32:24'),
-(10, 1, 3, '2025-10-26', '08:30:00', 'Problemas de memória', 'Cancelado', '2025-10-20 07:46:40', '2025-10-23 16:32:24'),
-(11, 1, 3, '2025-10-27', '16:00:00', 'Exame neurológico', 'Pendente', '2025-10-20 07:46:40', '2025-10-23 16:32:24'),
-(12, 1, 4, '2025-10-23', '11:30:00', 'Dor nas costas', 'Pendente', '2025-10-20 07:46:40', '2025-10-23 16:32:24'),
-(13, 1, 4, '2025-10-28', '14:30:00', 'Lesão no joelho', 'Pendente', '2025-10-20 07:46:40', '2025-10-23 16:32:24'),
-(14, 1, 4, '2025-10-29', '09:00:00', 'Fisioterapia', 'Pendente', '2025-10-20 07:46:40', '2025-10-23 16:32:24'),
-(15, 9, 1345360, '2025-10-24', '08:30:00', NULL, 'Pendente', '2025-10-22 10:00:31', '2025-10-23 16:32:24'),
-(19, 9, 1345352, '2025-10-29', '09:30:00', NULL, 'Pendente', '2025-10-24 06:05:00', '2025-10-24 06:05:00'),
-(21, 1234568, 1345352, '2026-08-04', '11:00:00', 'Dores de cabeça', 'Cancelado', '2026-08-02 14:46:33', '2026-08-02 14:46:33'),
-(22, 1234568, 1345353, '2026-08-06', '15:31:00', 'testesaaaa', 'Cancelado', '2026-08-02 15:03:14', '2026-08-02 15:03:14'),
-(23, 1234568, 1345352, '2026-08-30', '11:00:00', NULL, 'Cancelado', '2026-08-26 10:26:06', '2026-08-26 10:26:06'),
-(24, 1234568, 1345352, '2026-09-18', '11:00:00', NULL, 'Cancelado', '2026-09-09 05:59:50', '2026-09-09 05:59:50');
+INSERT INTO `agendamentos` (`ID_Agendamento`, `ID_Paciente`, `ID_Medico`, `Data_Agendamento`, `Hora_Agendamento`, `Motivo`, `tipo_agendamento`, `paciente_nome_agendado`, `paciente_relacao`, `paciente_data_nasc_agendado`, `paciente_doc_tipo`, `paciente_doc_num`, `responsavel_nome`, `responsavel_telefone`, `responsavel_bi`, `Status`, `Criado_Em`, `created_at`) VALUES
+(1, 1, NULL, '2025-09-23', '10:00:00', 'Consulta de rotina', 'self', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Confirmado', '2025-09-22 06:19:37', '2025-10-23 16:32:24'),
+(2, 1, NULL, '2025-09-23', '10:00:00', 'Consulta de rotina', 'self', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Confirmado', '2025-09-22 06:24:07', '2025-10-23 16:32:24'),
+(18, 10, 1345365, '2025-10-23', '10:00:00', NULL, 'self', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Cancelado', '2025-10-22 12:06:39', '2025-10-23 16:32:24'),
+(16, 10, 1345374, '2025-10-23', '17:00:00', 'Dores de cabeça muito fortes', 'self', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Pendente', '2025-10-22 10:01:49', '2025-10-23 16:32:24'),
+(9, 1, 3, '2025-10-22', '13:00:00', 'Dor de cabeça crônica', 'self', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Pendente', '2025-10-20 07:46:40', '2025-10-23 16:32:24'),
+(10, 1, 3, '2025-10-26', '08:30:00', 'Problemas de memória', 'self', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Cancelado', '2025-10-20 07:46:40', '2025-10-23 16:32:24'),
+(11, 1, 3, '2025-10-27', '16:00:00', 'Exame neurológico', 'self', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Pendente', '2025-10-20 07:46:40', '2025-10-23 16:32:24'),
+(12, 1, 4, '2025-10-23', '11:30:00', 'Dor nas costas', 'self', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Pendente', '2025-10-20 07:46:40', '2025-10-23 16:32:24'),
+(13, 1, 4, '2025-10-28', '14:30:00', 'Lesão no joelho', 'self', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Pendente', '2025-10-20 07:46:40', '2025-10-23 16:32:24'),
+(14, 1, 4, '2025-10-29', '09:00:00', 'Fisioterapia', 'self', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Pendente', '2025-10-20 07:46:40', '2025-10-23 16:32:24'),
+(15, 9, 1345360, '2025-10-24', '08:30:00', NULL, 'self', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Pendente', '2025-10-22 10:00:31', '2025-10-23 16:32:24'),
+(19, 9, 1345352, '2025-10-29', '09:30:00', NULL, 'self', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Pendente', '2025-10-24 06:05:00', '2025-10-24 06:05:00'),
+(21, 1234568, 1345352, '2026-08-04', '11:00:00', 'Dores de cabeça', 'self', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Cancelado', '2026-08-02 14:46:33', '2026-08-02 14:46:33'),
+(22, 1234568, 1345353, '2026-08-06', '15:31:00', 'testesaaaa', 'self', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Cancelado', '2026-08-02 15:03:14', '2026-08-02 15:03:14'),
+(23, 1234568, 1345352, '2026-08-30', '11:00:00', NULL, 'self', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Cancelado', '2026-08-26 10:26:06', '2026-08-26 10:26:06'),
+(24, 1234568, 1345352, '2026-09-18', '11:00:00', NULL, 'self', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Cancelado', '2026-09-09 05:59:50', '2026-09-09 05:59:50'),
+(25, 1234575, 1345352, '2026-09-18', '11:00:00', 'Dores de cabeça', 'self', NULL, NULL, NULL, NULL, NULL, 'Paciente 1', '+258 84 7654321', '123456789MZ', 'Confirmado', '2026-09-09 15:19:27', '2026-09-09 15:19:27');
 
 -- --------------------------------------------------------
 
@@ -534,7 +544,7 @@ CREATE TABLE IF NOT EXISTS `pacientes` (
   PRIMARY KEY (`ID_Paciente`),
   UNIQUE KEY `BI` (`BI`),
   KEY `idx_paciente_bi` (`BI`)
-) ENGINE=MyISAM AUTO_INCREMENT=1234573 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=1234576 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `pacientes`
@@ -547,7 +557,8 @@ INSERT INTO `pacientes` (`ID_Paciente`, `Nome`, `Sobrenome`, `Data_Nascimento`, 
 (1234567, 'Maria', 'Santos', '1995-05-15', 'Feminino', 'Maputo', '+258841234567', NULL, '', '2025-10-26 17:30:55', NULL, NULL),
 (1234569, 'Testando', '', '2000-01-04', 'Masculino', 'Matola', '+258844343844', NULL, '837483743s', '2026-08-03 07:59:25', NULL, 'teste@hospital.com'),
 (1234572, 'paciente', '', '2012-06-09', 'Masculino', 'Matola', '+258875757577', NULL, '24343434s', '2026-09-09 07:20:39', NULL, 'paciente@hospital.com'),
-(1234571, 'Archer', 'Gomes', '2026-08-01', 'Masculino', 'Matola', '+258841234567', NULL, '837482343s', '2026-08-27 08:37:09', NULL, 'gomesarcher3@gmail.com');
+(1234571, 'Archer', 'Gomes', '2026-08-01', 'Masculino', 'Matola', '+258841234567', NULL, '837482343s', '2026-08-27 08:37:09', NULL, 'gomesarcher3@gmail.com'),
+(1234575, 'Paciente', '1', '1990-05-15', 'Masculino', 'Av. 25 de Setembro, 123, Maputo', '+258 84 7654321', NULL, '123456789MZ', '2026-09-09 07:12:30', 18, 'paciente@hospital.com');
 
 -- --------------------------------------------------------
 
@@ -629,7 +640,7 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
   UNIQUE KEY `Email` (`Email`),
   KEY `idx_usuario_email` (`Email`),
   KEY `fk_usuario_paciente` (`ID_Referencia`)
-) ENGINE=MyISAM AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `usuarios`
@@ -648,7 +659,8 @@ INSERT INTO `usuarios` (`ID_Usuario`, `Email`, `Senha`, `Tipo_Usuario`, `ID_Refe
 (11, 'sec@hospital.com', '$2y$10$W3dhuqFb856OZD/re2BOu.xWXaTZH5vS1ziFF3qiJ6.rX9IczQS1.', 'Secretario', 2147483647, '2026-08-03 08:26:44'),
 (12, 'medico@hospital.com', '$2y$10$fZ8ChOga/PAmZbPqfGWr8e7DikaKr73.EMRcuwI0M11xby6.0lewC', 'Medico', 1345425, '2026-08-18 06:38:35'),
 (13, 'sarcher@hospital.com', '$2y$10$mHjBz8Pozze6pp0QjVHoteQSJaYq.D2arV5MdRcrQ7YIFyCHLAWXm', 'Secretario', 2147483647, '2026-08-19 11:21:11'),
-(14, 'medico4@hospital.com', '$2y$10$URw7.bDuKKrelEZvIQ3enutn4kjhGO7wvKl58/Un93prKKR/U29uq', 'Medico', 1345427, '2026-08-21 08:02:13');
+(14, 'medico4@hospital.com', '$2y$10$URw7.bDuKKrelEZvIQ3enutn4kjhGO7wvKl58/Un93prKKR/U29uq', 'Medico', 1345427, '2026-08-21 08:02:13'),
+(18, 'paciente@hospital.com', '$2y$10$ZotW33.W5ZMfAKxJHsq14.bGzH38o.46ipfcvp2W1Vyud/oPkqqum', 'Paciente', 1234575, '2026-09-09 07:12:30');
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

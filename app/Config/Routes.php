@@ -212,4 +212,6 @@ $routes->get('secretario/get_patients', 'Secretario::getPatients');
 $routes->get('secretario/get_doctors', 'Secretario::getDoctors');
 $routes->post('secretario/update_appointment_status', 'Secretario::updateAppointmentStatus');
 
+$routes->get('create-paciente-user', 'CreatePacienteUser::index');
+
 $routes->get('create-secretario', 'CreateSecretarioUser::index');
