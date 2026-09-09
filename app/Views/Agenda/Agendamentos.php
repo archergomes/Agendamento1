@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -40,7 +41,10 @@
             color: var(--ink-900);
         }
 
-        h1, h2, h3, .display-font {
+        h1,
+        h2,
+        h3,
+        .display-font {
             font-family: 'Outfit', 'Roboto', sans-serif;
         }
 
@@ -58,13 +62,24 @@
         }
 
         @keyframes draw-pulse {
-            0% { stroke-dashoffset: 300; }
-            55% { stroke-dashoffset: 0; }
-            100% { stroke-dashoffset: -300; }
+            0% {
+                stroke-dashoffset: 300;
+            }
+
+            55% {
+                stroke-dashoffset: 0;
+            }
+
+            100% {
+                stroke-dashoffset: -300;
+            }
         }
 
         @media (prefers-reduced-motion: reduce) {
-            .pulse-path { animation: none; stroke-dashoffset: 0; }
+            .pulse-path {
+                animation: none;
+                stroke-dashoffset: 0;
+            }
         }
 
         /* ---------- NOTIFICATION ---------- */
@@ -80,17 +95,41 @@
             max-width: 350px;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
         }
-        #notification.error { background-color: var(--rose-500); }
-        #notification.success { background-color: var(--teal-600); }
-        #notification.info { background-color: var(--brand-500); }
-        #notification.warning { background-color: var(--amber-500); }
-        #notification.show { display: block; animation: slideIn 0.3s ease-out; }
-        @keyframes slideIn {
-            from { transform: translateX(110%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
+
+        #notification.error {
+            background-color: var(--rose-500);
         }
 
-        /* ---------- SIDEBAR (mesmo estilo da view agenda) ---------- */
+        #notification.success {
+            background-color: var(--teal-600);
+        }
+
+        #notification.info {
+            background-color: var(--brand-500);
+        }
+
+        #notification.warning {
+            background-color: var(--amber-500);
+        }
+
+        #notification.show {
+            display: block;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(110%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* ---------- SIDEBAR ---------- */
         .sidebar {
             position: fixed;
             top: 0;
@@ -105,25 +144,54 @@
             flex-direction: column;
         }
 
-        .sidebar.show { transform: translateX(0); }
-        .sidebar.desktop { transform: translateX(0); }
-        .sidebar.desktop.expanded { width: 260px; }
-        .sidebar.desktop .sidebar-text { display: none; }
-        .sidebar.desktop.expanded .sidebar-text { display: inline; }
-        .sidebar.desktop .sidebar-header { justify-content: center; padding: 1rem; }
-        .sidebar.desktop.expanded .sidebar-header { justify-content: space-between; padding: 1rem 1.25rem; }
+        .sidebar.show {
+            transform: translateX(0);
+        }
+
+        .sidebar.desktop {
+            transform: translateX(0);
+        }
+
+        .sidebar.desktop.expanded {
+            width: 260px;
+        }
+
+        .sidebar.desktop .sidebar-text {
+            display: none;
+        }
+
+        .sidebar.desktop.expanded .sidebar-text {
+            display: inline;
+        }
+
+        .sidebar.desktop .sidebar-header {
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .sidebar.desktop.expanded .sidebar-header {
+            justify-content: space-between;
+            padding: 1rem 1.25rem;
+        }
 
         .sidebar-header {
             border-bottom: 1px solid rgba(255, 255, 255, 0.12);
         }
-        .sidebar-header h2 { color: white; }
+
+        .sidebar-header h2 {
+            color: white;
+        }
+
         .sidebar-header button {
             color: rgba(255, 255, 255, 0.85);
             background: none;
             border: none;
             cursor: pointer;
         }
-        .sidebar-header button:hover { color: white; }
+
+        .sidebar-header button:hover {
+            color: white;
+        }
 
         header {
             position: relative;
@@ -141,6 +209,7 @@
             display: flex;
             flex-direction: column;
         }
+
         .page-wrapper.expanded {
             margin-left: 260px;
             width: calc(100% - 260px);
@@ -154,7 +223,11 @@
         }
 
         @media (min-width: 768px) {
-            #mobile-menu-btn, #sidebar-overlay { display: none; }
+
+            #mobile-menu-btn,
+            #sidebar-overlay {
+                display: none;
+            }
         }
 
         @media (max-width: 767px) {
@@ -162,11 +235,16 @@
                 transform: translateX(-100%);
                 width: 260px;
             }
-            .sidebar.show { transform: translateX(0); }
+
+            .sidebar.show {
+                transform: translateX(0);
+            }
+
             .page-wrapper {
                 margin-left: 0 !important;
                 width: 100% !important;
             }
+
             .page-wrapper.expanded {
                 margin-left: 0 !important;
                 width: 100% !important;
@@ -183,7 +261,10 @@
             background-color: rgba(0, 0, 0, 0.5);
             z-index: 800;
         }
-        #sidebar-overlay.show { display: block; }
+
+        #sidebar-overlay.show {
+            display: block;
+        }
 
         .sidebar-nav {
             flex-grow: 1;
@@ -265,6 +346,7 @@
             background-color: var(--brand-500);
             color: white;
         }
+
         .btn-primary:hover {
             background-color: var(--brand-600);
             transform: translateY(-1px);
@@ -274,6 +356,7 @@
             background-color: var(--teal-500);
             color: white;
         }
+
         .btn-success:hover {
             background-color: var(--teal-600);
             transform: translateY(-1px);
@@ -283,6 +366,7 @@
             background-color: #e5e7eb;
             color: #374151;
         }
+
         .btn-secondary:hover {
             background-color: #d1d5db;
         }
@@ -291,6 +375,7 @@
             background-color: var(--rose-500);
             color: white;
         }
+
         .btn-danger:hover {
             background-color: #dc2626;
             transform: translateY(-1px);
@@ -381,6 +466,27 @@
             color: #1d4ed8;
         }
 
+        /* ---------- BADGE PARA TIPO DE AGENDAMENTO ---------- */
+        .tipo-badge {
+            display: inline-block;
+            padding: 0.15rem 0.6rem;
+            border-radius: 9999px;
+            font-size: 0.65rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+        }
+
+        .tipo-badge.proprio {
+            background-color: #dbeafe;
+            color: #1d4ed8;
+        }
+
+        .tipo-badge.outro {
+            background-color: #fef3c7;
+            color: #92400e;
+        }
+
         /* ---------- FILTROS ---------- */
         .filter-btn {
             padding: 0.375rem 1rem;
@@ -469,7 +575,7 @@
             margin-bottom: 0.5rem;
         }
 
-        /* ---------- MODAL (mesmo estilo da view agenda) ---------- */
+        /* ---------- MODAL ---------- */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -490,8 +596,13 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
         }
 
         .modal-content {
@@ -508,8 +619,15 @@
         }
 
         @keyframes slideUp {
-            from { transform: translateY(30px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
         }
 
         .modal-header {
@@ -544,7 +662,9 @@
             background-color: #f3f4f6;
         }
 
-        .modal-body { margin-bottom: 1.5rem; }
+        .modal-body {
+            margin-bottom: 1.5rem;
+        }
 
         .modal-footer {
             display: flex;
@@ -577,8 +697,18 @@
             width: 65%;
         }
 
+        .detail-value .sub-detail {
+            display: block;
+            font-size: 0.8rem;
+            color: #6b7280;
+            font-weight: 400;
+            margin-top: 0.15rem;
+        }
+
         /* ---------- FORMULÁRIO ---------- */
-        .form-group { margin-bottom: 1rem; }
+        .form-group {
+            margin-bottom: 1rem;
+        }
 
         .form-group label {
             display: block;
@@ -615,13 +745,36 @@
 
         /* ---------- RESPONSIVO ---------- */
         @media (max-width: 640px) {
-            .table-container { font-size: 0.75rem; }
-            thead th, tbody td { padding: 0.5rem 0.5rem; }
-            .btn-sm { font-size: 0.65rem; padding: 0.125rem 0.375rem; }
-            .modal-content { padding: 1rem; }
-            .detail-row { flex-direction: column; }
-            .detail-label { width: 100%; margin-bottom: 0.25rem; }
-            .detail-value { width: 100%; }
+            .table-container {
+                font-size: 0.75rem;
+            }
+
+            thead th,
+            tbody td {
+                padding: 0.5rem 0.5rem;
+            }
+
+            .btn-sm {
+                font-size: 0.65rem;
+                padding: 0.125rem 0.375rem;
+            }
+
+            .modal-content {
+                padding: 1rem;
+            }
+
+            .detail-row {
+                flex-direction: column;
+            }
+
+            .detail-label {
+                width: 100%;
+                margin-bottom: 0.25rem;
+            }
+
+            .detail-value {
+                width: 100%;
+            }
         }
 
         /* ---------- SKELETON LOADING ---------- */
@@ -641,8 +794,30 @@
         }
 
         @keyframes skeleton-loading {
-            0% { background-position: 100% 50%; }
-            100% { background-position: 0 50%; }
+            0% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0 50%;
+            }
+        }
+
+        /* Badge de "Para Outra Pessoa" na tabela */
+        .paciente-info {
+            font-size: 0.75rem;
+            color: #6b7280;
+        }
+
+        .paciente-info .nome {
+            font-weight: 500;
+            color: var(--ink-700);
+        }
+
+        .paciente-info .relacao {
+            font-size: 0.65rem;
+            color: #9ca3af;
+            display: block;
         }
     </style>
 </head>
@@ -703,9 +878,8 @@
                     </div>
                 </div>
                 <div class="flex items-center gap-4">
-                    <!-- Animação do Eletrocardiograma -->
                     <svg class="pulse-line hidden sm:block" viewBox="0 0 140 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                        <path class="pulse-path" d="M0 20 H35 L45 6 L55 34 L65 14 L72 20 H140" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path class="pulse-path" d="M0 20 H35 L45 6 L55 34 L65 14 L72 20 H140" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
                     </svg>
                     <button id="mobile-menu-btn" class="md:hidden text-white hover:text-blue-200" aria-label="Abrir menu">
                         <i class="fas fa-bars text-2xl"></i>
@@ -729,7 +903,7 @@
                         </a>
                     </div>
 
-                    <!-- Filtros e Busca -->
+                    <!-- Filtros -->
                     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
                         <div class="flex flex-wrap gap-2" id="filter-container">
                             <button class="filter-btn active" data-filter="all">
@@ -755,7 +929,7 @@
                         </div>
                         <div class="search-box w-full sm:w-auto">
                             <i class="fas fa-search"></i>
-                            <input type="text" id="search-input" placeholder="Buscar por médico, especialidade..." class="w-full sm:w-64">
+                            <input type="text" id="search-input" placeholder="Buscar por médico, paciente..." class="w-full sm:w-64">
                         </div>
                     </div>
 
@@ -773,19 +947,20 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
+                                            <th>Paciente</th>
                                             <th>Médico</th>
                                             <th>Especialidade</th>
                                             <th>Data</th>
                                             <th>Horário</th>
                                             <th>Status</th>
-                                            <th>Motivo</th>
+                                            <th>Tipo</th>
                                             <th class="text-center">Ações</th>
                                         </tr>
                                     </thead>
                                     <tbody id="appointments-table-body">
-                                        <?php 
+                                        <?php
                                         $counter = 0;
-                                        foreach ($agendamentos as $appt): 
+                                        foreach ($agendamentos as $appt):
                                             $counter++;
                                             $isObject = is_object($appt);
                                             $id = $isObject ? $appt->id : $appt['ID_Agendamento'];
@@ -796,49 +971,86 @@
                                             $medico = $isObject ? ($appt->medico ?? 'N/A') : (($appt['medico_nome'] ?? '') . ' ' . ($appt['medico_sobrenome'] ?? ''));
                                             $medico = trim($medico) ?: 'N/A';
                                             $motivo = $isObject ? ($appt->motivo ?? '') : ($appt['Motivo'] ?? '');
-                                            
+
+                                            // NOVOS CAMPOS PARA "OUTRA PESSOA"
+                                            $tipoAgendamento = $isObject ? ($appt->tipo_agendamento ?? 'self') : ($appt['tipo_agendamento'] ?? 'self');
+                                            $pacienteNome = $isObject ? ($appt->paciente_nome ?? '') : ($appt['paciente_nome'] ?? '');
+                                            $pacienteRelacao = $isObject ? ($appt->paciente_relacao ?? '') : ($appt['paciente_relacao'] ?? '');
+                                            $pacienteDataNasc = $isObject ? ($appt->paciente_data_nasc ?? '') : ($appt['paciente_data_nasc'] ?? '');
+                                            $pacienteDocTipo = $isObject ? ($appt->paciente_doc_tipo ?? '') : ($appt['paciente_doc_tipo'] ?? '');
+                                            $pacienteDocNum = $isObject ? ($appt->paciente_doc_num ?? '') : ($appt['paciente_doc_num'] ?? '');
+
+                                            // Nome do responsável (quem agendou)
+                                            $responsavelNome = $isObject ? ($appt->responsavel_nome ?? '') : ($appt['responsavel_nome'] ?? '');
+
                                             $status_class = strtolower($status);
-                                            $status_icon = $status_class === 'pendente' ? 'fa-clock' : 
-                                                           ($status_class === 'confirmado' ? 'fa-check-circle' : 
-                                                           ($status_class === 'concluido' ? 'fa-check-double' : 'fa-times-circle'));
+                                            $status_icon = $status_class === 'pendente' ? 'fa-clock' : ($status_class === 'confirmado' ? 'fa-check-circle' : ($status_class === 'concluido' ? 'fa-check-double' : 'fa-times-circle'));
+
+                                            // Determinar se é para outra pessoa
+                                            $isForOther = $tipoAgendamento === 'other';
+                                            $tipoLabel = $isForOther ? 'Outra pessoa' : 'Próprio';
+                                            $tipoClass = $isForOther ? 'outro' : 'proprio';
+
+                                            // Nome a ser exibido na coluna Paciente
+                                            $displayPaciente = $isForOther ? $pacienteNome : $responsavelNome;
+                                            $relacaoDisplay = $isForOther ? $pacienteRelacao : '';
                                         ?>
-                                        <tr data-id="<?= $id ?>" data-status="<?= $status_class ?>">
-                                            <td class="text-gray-500"><?= $counter ?></td>
-                                            <td>
-                                                <div class="font-semibold text-gray-800">Dr. <?= htmlspecialchars($medico) ?></div>
-                                            </td>
-                                            <td>
-                                                <div class="text-gray-600 text-sm"><?= htmlspecialchars($especialidade) ?></div>
-                                            </td>
-                                            <td><?= date('d/m/Y', strtotime($data)) ?></td>
-                                            <td><?= substr($hora, 0, 5) ?></td>
-                                            <td>
-                                                <span class="status-badge <?= $status_class ?>">
-                                                    <i class="fas <?= $status_icon ?>" style="font-size: 0.5rem;"></i>
-                                                    <?= $status ?>
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <div class="text-gray-600 text-sm max-w-[200px] truncate" title="<?= htmlspecialchars($motivo) ?>">
-                                                    <?= htmlspecialchars($motivo ?: '—') ?>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="flex flex-wrap gap-1 justify-center">
-                                                    <button class="btn btn-sm btn-primary" onclick="viewAppointment(<?= $id ?>)">
-                                                        <i class="fas fa-eye"></i>
-                                                    </button>
-                                                    <?php if (in_array($status, ['Pendente', 'Confirmado'])): ?>
-                                                        <button class="btn btn-sm btn-success" onclick="editAppointment(<?= $id ?>)">
-                                                            <i class="fas fa-edit"></i>
-                                                        </button>
-                                                        <button class="btn btn-sm btn-danger" onclick="confirmCancel(<?= $id ?>)">
-                                                            <i class="fas fa-times"></i>
-                                                        </button>
+                                            <tr data-id="<?= $id ?>" data-status="<?= $status_class ?>">
+                                                <td class="text-gray-500"><?= $counter ?></td>
+                                                <td>
+                                                    <?php if ($isForOther): ?>
+                                                        <div class="paciente-info">
+                                                            <span class="nome"><?= htmlspecialchars($displayPaciente ?: 'N/A') ?></span>
+                                                            <?php if ($relacaoDisplay): ?>
+                                                                <span class="relacao"><i class="fas fa-heart mr-1"></i><?= htmlspecialchars($relacaoDisplay) ?></span>
+                                                            <?php endif; ?>
+                                                            <?php if ($pacienteDataNasc): ?>
+                                                                <span class="relacao"><i class="fas fa-birthday-cake mr-1"></i><?= date('d/m/Y', strtotime($pacienteDataNasc)) ?></span>
+                                                            <?php endif; ?>
+                                                        </div>
+                                                    <?php else: ?>
+                                                        <div class="paciente-info">
+                                                            <span class="nome"><?= htmlspecialchars($displayPaciente ?: 'N/A') ?></span>
+                                                            <span class="relacao"><i class="fas fa-user mr-1"></i>Próprio</span>
+                                                        </div>
                                                     <?php endif; ?>
-                                                </div>
-                                            </td>
-                                        </tr>
+                                                </td>
+                                                <td>
+                                                    <div class="font-semibold text-gray-800">Dr. <?= htmlspecialchars($medico) ?></div>
+                                                </td>
+                                                <td>
+                                                    <div class="text-gray-600 text-sm"><?= htmlspecialchars($especialidade) ?></div>
+                                                </td>
+                                                <td><?= date('d/m/Y', strtotime($data)) ?></td>
+                                                <td><?= substr($hora, 0, 5) ?></td>
+                                                <td>
+                                                    <span class="status-badge <?= $status_class ?>">
+                                                        <i class="fas <?= $status_icon ?>" style="font-size: 0.5rem;"></i>
+                                                        <?= $status ?>
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <span class="tipo-badge <?= $tipoClass ?>">
+                                                        <i class="fas <?= $isForOther ? 'fa-users' : 'fa-user' ?> mr-1"></i>
+                                                        <?= $tipoLabel ?>
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <div class="flex flex-wrap gap-1 justify-center">
+                                                        <button class="btn btn-sm btn-primary" onclick="viewAppointment(<?= $id ?>)">
+                                                            <i class="fas fa-eye"></i>
+                                                        </button>
+                                                        <?php if (in_array($status, ['Pendente', 'Confirmado'])): ?>
+                                                            <button class="btn btn-sm btn-success" onclick="editAppointment(<?= $id ?>)">
+                                                                <i class="fas fa-edit"></i>
+                                                            </button>
+                                                            <button class="btn btn-sm btn-danger" onclick="confirmCancel(<?= $id ?>)">
+                                                                <i class="fas fa-times"></i>
+                                                            </button>
+                                                        <?php endif; ?>
+                                                    </div>
+                                                </td>
+                                            </tr>
                                         <?php endforeach; ?>
                                     </tbody>
                                 </table>
@@ -934,19 +1146,64 @@
 
         // ==================== CSRF ====================
         function getCsrfToken() {
+            // 1. Tentar do meta tag
             const metaToken = document.querySelector('meta[name="csrf-token"]');
             if (metaToken) {
                 const token = metaToken.getAttribute('content');
-                if (token && token.length > 0) return token;
+                if (token && token.length > 0) {
+                    console.log('CSRF Token obtido do meta:', token.substring(0, 10) + '...');
+                    return token;
+                }
             }
+
+            // 2. Tentar do cookie
             const cookies = document.cookie.split(';');
             for (let cookie of cookies) {
                 const [name, value] = cookie.trim().split('=');
-                if (name === 'csrf_cookie_name') return value;
+                if (name === 'csrf_cookie_name') {
+                    console.log('CSRF Token obtido do cookie:', value.substring(0, 10) + '...');
+                    return value;
+                }
             }
+
+            // 3. Tentar de um input hidden
+            const inputToken = document.querySelector('input[name="csrf_test_name"]');
+            if (inputToken && inputToken.value) {
+                console.log('CSRF Token obtido do input:', inputToken.value.substring(0, 10) + '...');
+                return inputToken.value;
+            }
+
+            console.warn('Nenhum token CSRF encontrado!');
             return '';
         }
 
+        function updateCsrfToken(newToken) {
+            if (!newToken) return;
+
+            // Atualizar meta tag
+            const metaToken = document.querySelector('meta[name="csrf-token"]');
+            if (metaToken) {
+                metaToken.setAttribute('content', newToken);
+            }
+
+            // Atualizar cookie
+            document.cookie = `csrf_cookie_name=${newToken}; path=/; SameSite=Lax`;
+
+            // Atualizar input hidden se existir
+            const inputToken = document.querySelector('input[name="csrf_test_name"]');
+            if (inputToken) {
+                inputToken.value = newToken;
+            }
+
+            console.log('Token CSRF atualizado:', newToken.substring(0, 10) + '...');
+        }
+
+
+        function getCsrfName() {
+            const input = document.querySelector('input[name="csrf_test_name"]');
+            if (input) return input.name;
+            return 'csrf_test_name';
+        }
         // ==================== NOTIFICAÇÕES ====================
         function showNotification(message, type = 'info') {
             const notification = document.getElementById('notification');
@@ -989,8 +1246,14 @@
         // ==================== CONTAGEM DE FILTROS ====================
         function updateCounts() {
             const rows = document.querySelectorAll('#appointments-table-body tr');
-            const counts = { all: rows.length, pendente: 0, confirmado: 0, cancelado: 0, concluido: 0 };
-            
+            const counts = {
+                all: rows.length,
+                pendente: 0,
+                confirmado: 0,
+                cancelado: 0,
+                concluido: 0
+            };
+
             rows.forEach(row => {
                 const status = row.dataset.status;
                 if (status === 'pendente') counts.pendente++;
@@ -1011,7 +1274,7 @@
             btn.addEventListener('click', function() {
                 document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
                 this.classList.add('active');
-                
+
                 const filter = this.dataset.filter;
                 const rows = document.querySelectorAll('#appointments-table-body tr');
                 const searchTerm = document.getElementById('search-input').value.toLowerCase();
@@ -1055,62 +1318,121 @@
             if (csrfToken) formData.append('csrf_test_name', csrfToken);
 
             fetch('<?= site_url('agenda/get_appointment_details') ?>', {
-                method: 'POST',
-                headers: { 'X-Requested-With': 'XMLHttpRequest' },
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === 'success') {
-                    const appt = data.data;
-                    const statusClass = appt.status.toLowerCase();
-                    const statusIcon = appt.status === 'Pendente' ? 'fa-clock' :
-                                     appt.status === 'Confirmado' ? 'fa-check-circle' :
-                                     appt.status === 'Concluido' ? 'fa-check-double' : 'fa-times-circle';
+                    method: 'POST',
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        const appt = data.data;
+                        const statusClass = appt.status.toLowerCase();
+                        const statusIcon = appt.status === 'Pendente' ? 'fa-clock' :
+                            appt.status === 'Confirmado' ? 'fa-check-circle' :
+                            appt.status === 'Concluido' ? 'fa-check-double' : 'fa-times-circle';
 
-                    document.getElementById('view-modal-body').innerHTML = `
-                        <div class="detail-row">
-                            <span class="detail-label"><i class="fas fa-user-md mr-1"></i>Médico</span>
-                            <span class="detail-value">Dr. ${appt.medico || 'Não informado'}</span>
-                        </div>
-                        <div class="detail-row">
-                            <span class="detail-label"><i class="fas fa-stethoscope mr-1"></i>Especialidade</span>
-                            <span class="detail-value">${appt.especialidade || 'Não informada'}</span>
-                        </div>
-                        <div class="detail-row">
-                            <span class="detail-label"><i class="fas fa-calendar-alt mr-1"></i>Data</span>
-                            <span class="detail-value">${appt.data_formatada || appt.data}</span>
-                        </div>
-                        <div class="detail-row">
-                            <span class="detail-label"><i class="fas fa-clock mr-1"></i>Horário</span>
-                            <span class="detail-value">${appt.hora}</span>
-                        </div>
-                        <div class="detail-row">
-                            <span class="detail-label"><i class="fas fa-tag mr-1"></i>Status</span>
-                            <span class="detail-value">
-                                <span class="status-badge ${statusClass}">
-                                    <i class="fas ${statusIcon} mr-1"></i>${appt.status}
-                                </span>
-                            </span>
-                        </div>
-                        <div class="detail-row">
-                            <span class="detail-label"><i class="fas fa-sticky-note mr-1"></i>Motivo</span>
-                            <span class="detail-value">${appt.motivo || 'Não informado'}</span>
-                        </div>
-                        <div class="detail-row">
-                            <span class="detail-label"><i class="fas fa-calendar-plus mr-1"></i>Criado em</span>
-                            <span class="detail-value">${appt.criado_em || 'Não informado'}</span>
-                        </div>
-                    `;
-                    openModal('view-modal');
-                } else {
-                    showNotification(data.message || 'Erro ao carregar detalhes.', 'error');
-                }
-            })
-            .catch(err => {
-                console.error('Erro:', err);
-                showNotification('Erro ao carregar detalhes.', 'error');
-            });
+                        const isForOther = appt.tipo_agendamento === 'other';
+                        const tipoLabel = isForOther ? 'Para outra pessoa' : 'Para mim';
+                        const tipoIcon = isForOther ? 'fa-users' : 'fa-user';
+                        const tipoClass = isForOther ? 'outro' : 'proprio';
+
+                        let html = `
+                <div class="detail-row">
+                    <span class="detail-label"><i class="fas fa-user-md mr-1"></i>Médico</span>
+                    <span class="detail-value">Dr. ${appt.medico || 'Não informado'}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label"><i class="fas fa-stethoscope mr-1"></i>Especialidade</span>
+                    <span class="detail-value">${appt.especialidade || 'Não informada'}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label"><i class="fas fa-calendar-alt mr-1"></i>Data</span>
+                    <span class="detail-value">${appt.data_formatada || appt.data}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label"><i class="fas fa-clock mr-1"></i>Horário</span>
+                    <span class="detail-value">${appt.hora}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label"><i class="fas fa-tag mr-1"></i>Status</span>
+                    <span class="detail-value">
+                        <span class="status-badge ${statusClass}">
+                            <i class="fas ${statusIcon} mr-1"></i>${appt.status}
+                        </span>
+                    </span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label"><i class="fas fa-users mr-1"></i>Tipo</span>
+                    <span class="detail-value">
+                        <span class="tipo-badge ${tipoClass}">
+                            <i class="fas ${tipoIcon} mr-1"></i>${tipoLabel}
+                        </span>
+                    </span>
+                </div>
+            `;
+
+                        // Se for para outra pessoa, mostrar dados do paciente
+                        if (isForOther) {
+                            html += `
+                    <div class="detail-row" style="background-color: #fef3c7; border-radius: 0.25rem; padding: 0.5rem 0.75rem; margin: 0.5rem 0; border-left: 4px solid #f59e0b;">
+                        <span class="detail-label" style="color: #92400e;"><i class="fas fa-child mr-1"></i>Paciente</span>
+                        <span class="detail-value">
+                            <strong>${appt.paciente_nome || 'Não informado'}</strong>
+                            ${appt.paciente_relacao ? `<span class="sub-detail"><i class="fas fa-heart mr-1"></i>Parentesco: ${appt.paciente_relacao}</span>` : ''}
+                            ${appt.paciente_data_nasc ? `<span class="sub-detail"><i class="fas fa-birthday-cake mr-1"></i>Data Nasc.: ${appt.paciente_data_nasc}</span>` : ''}
+                            ${appt.paciente_doc_tipo ? `<span class="sub-detail"><i class="fas fa-id-card mr-1"></i>Documento: ${appt.paciente_doc_tipo} ${appt.paciente_doc_num || ''}</span>` : ''}
+                        </span>
+                    </div>
+                `;
+                        }
+
+                        // Responsável
+                        html += `
+                <div class="detail-row">
+                    <span class="detail-label"><i class="fas fa-user mr-1"></i>Responsável</span>
+                    <span class="detail-value">${appt.responsavel_nome || appt.nome || 'Não informado'}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label"><i class="fas fa-phone mr-1"></i>Telefone</span>
+                    <span class="detail-value">${appt.telefone || 'Não informado'}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label"><i class="fas fa-id-card mr-1"></i>BI</span>
+                    <span class="detail-value">${appt.bi || 'Não informado'}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label"><i class="fas fa-sticky-note mr-1"></i>Motivo</span>
+                    <span class="detail-value">${appt.motivo || 'Não informado'}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label"><i class="fas fa-calendar-plus mr-1"></i>Criado em</span>
+                    <span class="detail-value">${appt.criado_em || 'Não informado'}</span>
+                </div>
+            `;
+
+                        // Adicionar botão de cancelar no modal se permitido
+                        if (appt.pode_cancelar) {
+                            html += `
+                    <div class="mt-4 pt-4 border-t border-gray-200">
+                        <button onclick="closeModal('view-modal'); confirmCancel(${appt.id})" class="btn btn-danger w-full">
+                            <i class="fas fa-times mr-1"></i> Cancelar Agendamento
+                        </button>
+                    </div>
+                `;
+                        }
+
+                        document.getElementById('view-modal-body').innerHTML = html;
+                        openModal('view-modal');
+                    } else {
+                        showNotification(data.message || 'Erro ao carregar detalhes.', 'error');
+                    }
+                })
+                .catch(err => {
+                    console.error('Erro:', err);
+                    showNotification('Erro ao carregar detalhes.', 'error');
+                });
         }
 
         // ==================== EDITAR ====================
@@ -1121,27 +1443,29 @@
             if (csrfToken) formData.append('csrf_test_name', csrfToken);
 
             fetch('<?= site_url('agenda/get_appointment_details') ?>', {
-                method: 'POST',
-                headers: { 'X-Requested-With': 'XMLHttpRequest' },
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === 'success') {
-                    const appt = data.data;
-                    document.getElementById('edit-id').value = id;
-                    document.getElementById('edit-data').value = appt.data;
-                    document.getElementById('edit-hora').value = appt.hora;
-                    document.getElementById('edit-motivo').value = appt.motivo || '';
-                    openModal('edit-modal');
-                } else {
-                    showNotification(data.message || 'Erro ao carregar dados.', 'error');
-                }
-            })
-            .catch(err => {
-                console.error('Erro:', err);
-                showNotification('Erro ao carregar dados para edição.', 'error');
-            });
+                    method: 'POST',
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        const appt = data.data;
+                        document.getElementById('edit-id').value = id;
+                        document.getElementById('edit-data').value = appt.data;
+                        document.getElementById('edit-hora').value = appt.hora;
+                        document.getElementById('edit-motivo').value = appt.motivo || '';
+                        openModal('edit-modal');
+                    } else {
+                        showNotification(data.message || 'Erro ao carregar dados.', 'error');
+                    }
+                })
+                .catch(err => {
+                    console.error('Erro:', err);
+                    showNotification('Erro ao carregar dados para edição.', 'error');
+                });
         }
 
         // ==================== SALVAR EDIÇÃO ====================
@@ -1171,62 +1495,118 @@
             btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-1"></i>Salvando...';
 
             fetch('<?= site_url('agenda/update_appointment') ?>', {
-                method: 'POST',
-                headers: { 'X-Requested-With': 'XMLHttpRequest' },
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                btn.disabled = false;
-                btn.innerHTML = '<i class="fas fa-save mr-1"></i>Salvar Alterações';
-
-                if (data.status === 'success') {
-                    showNotification(data.message, 'success');
-                    closeModal('edit-modal');
-                    setTimeout(() => location.reload(), 1500);
-                } else {
-                    showNotification(data.message || 'Erro ao atualizar.', 'error');
-                }
-            })
-            .catch(err => {
-                console.error('Erro:', err);
-                btn.disabled = false;
-                btn.innerHTML = '<i class="fas fa-save mr-1"></i>Salvar Alterações';
-                showNotification('Erro ao atualizar agendamento.', 'error');
-            });
-        }
-
-        // ==================== CANCELAR ====================
-        function confirmCancel(id) {
-            currentCancelId = id;
-            openModal('confirmation-modal');
-        }
-
-        document.getElementById('confirm-cancel-btn').addEventListener('click', function() {
-            if (currentCancelId) {
-                const csrfToken = getCsrfToken();
-                const formData = new FormData();
-                formData.append('id', currentCancelId);
-                if (csrfToken) formData.append('csrf_test_name', csrfToken);
-
-                this.disabled = true;
-                this.innerHTML = '<i class="fas fa-spinner fa-spin mr-1"></i>Cancelando...';
-
-                fetch('<?= site_url('agenda/cancelar_agendamento') ?>', {
                     method: 'POST',
-                    headers: { 'X-Requested-With': 'XMLHttpRequest' },
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
                     body: formData
                 })
                 .then(response => response.json())
                 .then(data => {
+                    btn.disabled = false;
+                    btn.innerHTML = '<i class="fas fa-save mr-1"></i>Salvar Alterações';
+
+                    if (data.status === 'success') {
+                        showNotification(data.message, 'success');
+                        closeModal('edit-modal');
+                        setTimeout(() => location.reload(), 1500);
+                    } else {
+                        showNotification(data.message || 'Erro ao atualizar.', 'error');
+                    }
+                })
+                .catch(err => {
+                    console.error('Erro:', err);
+                    btn.disabled = false;
+                    btn.innerHTML = '<i class="fas fa-save mr-1"></i>Salvar Alterações';
+                    showNotification('Erro ao atualizar agendamento.', 'error');
+                });
+        }
+
+        // ==================== CANCELAR ====================
+        // ==================== CANCELAR AGENDAMENTO ====================
+        function confirmCancel(id) {
+            currentCancelId = id;
+
+            // Verificar se temos token CSRF
+            const token = getCsrfToken();
+            if (!token) {
+                showNotification('Erro de segurança. Recarregue a página.', 'error');
+                return;
+            }
+
+            // Armazenar o token no botão de confirmação
+            const confirmBtn = document.getElementById('confirm-cancel-btn');
+            confirmBtn.dataset.csrf = token;
+
+            openModal('confirmation-modal');
+        }
+
+        document.getElementById('confirm-cancel-btn').addEventListener('click', function() {
+            if (!currentCancelId) {
+                showNotification('Erro: Nenhum agendamento selecionado.', 'error');
+                return;
+            }
+
+            // Obter token CSRF
+            let csrfToken = this.dataset.csrf || getCsrfToken();
+
+            if (!csrfToken) {
+                showNotification('Erro de segurança. Recarregue a página e tente novamente.', 'error');
+                return;
+            }
+
+            // Desabilitar botão
+            this.disabled = true;
+            this.innerHTML = '<i class="fas fa-spinner fa-spin mr-1"></i>Cancelando...';
+
+            // Preparar dados
+            const formData = new FormData();
+            formData.append('id', currentCancelId);
+            formData.append('csrf_test_name', csrfToken);
+
+            fetch('<?= site_url('agenda/cancelar_agendamento') ?>', {
+                    method: 'POST',
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    body: formData
+                })
+                .then(async response => {
+                    const text = await response.text();
+                    console.log('Resposta do servidor:', text);
+
+                    let data;
+                    try {
+                        data = JSON.parse(text);
+                    } catch (e) {
+                        console.error('Erro ao parsear JSON:', text);
+                        throw new Error('Resposta inválida do servidor');
+                    }
+                    return data;
+                })
+                .then(data => {
+                    // Restaurar botão
                     this.disabled = false;
                     this.innerHTML = '<i class="fas fa-times mr-1"></i>Sim, Cancelar';
 
                     if (data.status === 'success') {
+                        // Atualizar token CSRF se fornecido
+                        if (data.csrf_token) {
+                            updateCsrfToken(data.csrf_token);
+                        }
+
                         showNotification(data.message, 'success');
                         closeModal('confirmation-modal');
-                        setTimeout(() => location.reload(), 1500);
+
+                        // Recarregar a lista
+                        setTimeout(() => {
+                            location.reload();
+                        }, 1500);
                     } else {
+                        // Se o erro for de CSRF, atualizar o token
+                        if (data.csrf_token) {
+                            updateCsrfToken(data.csrf_token);
+                        }
                         showNotification(data.message || 'Erro ao cancelar.', 'error');
                     }
                 })
@@ -1234,20 +1614,93 @@
                     console.error('Erro:', err);
                     this.disabled = false;
                     this.innerHTML = '<i class="fas fa-times mr-1"></i>Sim, Cancelar';
-                    showNotification('Erro ao cancelar agendamento.', 'error');
+                    showNotification('Erro ao cancelar agendamento: ' + err.message, 'error');
                 });
+        });
+
+        document.getElementById('confirm-cancel-btn').addEventListener('click', function() {
+            if (currentCancelId) {
+                // Obter token CSRF atualizado
+                const csrfToken = getCsrfToken();
+
+                // Se não tiver token, tentar obter do meta tag
+                let token = csrfToken;
+                if (!token) {
+                    const metaToken = document.querySelector('meta[name="csrf-token"]');
+                    if (metaToken) {
+                        token = metaToken.getAttribute('content');
+                    }
+                }
+
+                if (!token) {
+                    showNotification('Erro de segurança. Recarregue a página.', 'error');
+                    return;
+                }
+
+                const formData = new FormData();
+                formData.append('id', currentCancelId);
+                formData.append('csrf_test_name', token);
+
+                this.disabled = true;
+                this.innerHTML = '<i class="fas fa-spinner fa-spin mr-1"></i>Cancelando...';
+
+                fetch('<?= site_url('agenda/cancelar_agendamento') ?>', {
+                        method: 'POST',
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest'
+                        },
+                        body: formData
+                    })
+                    .then(async response => {
+                        const text = await response.text();
+                        let data;
+                        try {
+                            data = JSON.parse(text);
+                        } catch (e) {
+                            console.error('Erro ao parsear JSON:', text);
+                            throw new Error('Resposta inválida do servidor');
+                        }
+                        return data;
+                    })
+                    .then(data => {
+                        this.disabled = false;
+                        this.innerHTML = '<i class="fas fa-times mr-1"></i>Sim, Cancelar';
+
+                        if (data.status === 'success') {
+                            // Atualizar token CSRF se fornecido
+                            if (data.csrf_token) {
+                                const metaToken = document.querySelector('meta[name="csrf-token"]');
+                                if (metaToken) {
+                                    metaToken.setAttribute('content', data.csrf_token);
+                                }
+                                // Atualizar cookie também
+                                document.cookie = `csrf_cookie_name=${data.csrf_token}; path=/; SameSite=Lax`;
+                            }
+
+                            showNotification(data.message, 'success');
+                            closeModal('confirmation-modal');
+                            // Recarregar a lista de agendamentos
+                            setTimeout(() => location.reload(), 1500);
+                        } else {
+                            showNotification(data.message || 'Erro ao cancelar.', 'error');
+                        }
+                    })
+                    .catch(err => {
+                        console.error('Erro:', err);
+                        this.disabled = false;
+                        this.innerHTML = '<i class="fas fa-times mr-1"></i>Sim, Cancelar';
+                        showNotification('Erro ao cancelar agendamento: ' + err.message, 'error');
+                    });
             }
         });
 
         // ==================== INICIALIZAÇÃO ====================
         document.addEventListener('DOMContentLoaded', function() {
-            // Esconder loading
             setTimeout(() => {
                 const loading = document.getElementById('appointments-loading');
                 if (loading) loading.style.display = 'none';
             }, 500);
 
-            // Atualizar contagens
             updateCounts();
 
             // Sidebar
@@ -1289,11 +1742,11 @@
                 });
             }
 
-            // Logout
             document.getElementById('logout-btn').addEventListener('click', function() {
                 window.location.href = '<?= site_url('auth/logout') ?>';
             });
         });
     </script>
 </body>
+
 </html>

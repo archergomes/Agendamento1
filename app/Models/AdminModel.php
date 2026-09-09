@@ -256,25 +256,44 @@ class AdminModel extends Model
     /**
      * Atualiza paciente
      */
-    public function updatePatient($bi, $name, $phone, $email = '')
+    /**
+     * Atualiza paciente
+     */
+    public function updatePatient($bi, $name, $phone, $email = '', $endereco = '')
     {
-        // Separar nome e sobrenome
-        $nameParts = explode(' ', $name, 2);
-        $nome = $nameParts[0] ?? '';
-        $sobrenome = $nameParts[1] ?? '';
+        try {
+            // Separar nome e sobrenome
+            $nameParts = explode(' ', trim($name), 2);
+            $nome = $nameParts[0] ?? '';
+            $sobrenome = $nameParts[1] ?? '';
 
-        $data = [
-            'Nome' => $nome,
-            'Sobrenome' => $sobrenome,
-            'Telefone' => $phone
-        ];
+            $data = [
+                'Nome' => $nome,
+                'Sobrenome' => $sobrenome,
+                'Telefone' => $phone
+            ];
 
-        if (!empty($email)) {
-            $data['email'] = $email;
+            if (!empty($email)) {
+                $data['email'] = $email;
+            }
+
+            if (!empty($endereco)) {
+                $data['Endereco'] = $endereco;
+            }
+
+            log_message('debug', 'updatePatient - Dados para atualização: ' . print_r($data, true));
+
+            $builder = $this->db->table('pacientes');
+            $builder->where('BI', $bi);
+            $result = $builder->update($data);
+
+            log_message('debug', 'updatePatient - Resultado: ' . ($result ? 'Sucesso' : 'Falha'));
+
+            return $result;
+        } catch (\Exception $e) {
+            log_message('error', 'updatePatient - Erro: ' . $e->getMessage());
+            return false;
         }
-
-        $builder = $this->db->table('pacientes');
-        return $builder->update($data, ['BI' => $bi]);
     }
 
     /**
@@ -721,24 +740,59 @@ class AdminModel extends Model
     }
 
     /**
-     * Atualiza secretário com dados completos
+     * Atualiza secretário
      */
-    public function updateSecretaryFull($id, $nome, $telefone, $email, $cargo)
+    public function updateSecretary($id, $nome, $telefone, $email, $cargo = '')
     {
-        $nameParts = explode(' ', trim($nome), 2);
-        $nomePart = $nameParts[0] ?? '';
-        $sobrenomePart = $nameParts[1] ?? '';
+        try {
+            // Verificar se o ID existe
+            $builder = $this->db->table('secretarios');
+            $builder->where('ID_Secretario', $id);
+            $existing = $builder->get()->getRow();
 
-        $data = [
-            'Nome' => $nomePart,
-            'Sobrenome' => $sobrenomePart,
-            'Telefone' => $telefone,
-            'Email' => $email,
-            'Cargo' => $cargo
-        ];
+            if (!$existing) {
+                log_message('error', 'updateSecretary - Secretário não encontrado ID: ' . $id);
+                return false;
+            }
 
-        $builder = $this->db->table('secretarios');
-        return $builder->update($data, ['ID_Secretario' => $id]);
+            // Separar nome e sobrenome
+            $nameParts = explode(' ', trim($nome), 2);
+            $nomePart = $nameParts[0] ?? '';
+            $sobrenomePart = $nameParts[1] ?? '';
+
+            $data = [
+                'Nome' => $nomePart,
+                'Sobrenome' => $sobrenomePart,
+                'Telefone' => $telefone,
+                'Email' => $email,
+                'Cargo' => !empty($cargo) ? $cargo : 'Secretário'
+            ];
+
+            log_message('debug', 'updateSecretary - Dados para atualização: ' . print_r($data, true));
+
+            // Atualizar secretário
+            $builder = $this->db->table('secretarios');
+            $builder->where('ID_Secretario', $id);
+            $result = $builder->update($data);
+
+            log_message('debug', 'updateSecretary - Resultado da atualização: ' . ($result ? 'true' : 'false'));
+
+            // Se a atualização foi bem sucedida, atualizar o email na tabela usuarios
+            if ($result) {
+                $builder = $this->db->table('usuarios');
+                $builder->where('ID_Referencia', $id);
+                $builder->where('Tipo_Usuario', 'Secretario');
+                $userResult = $builder->update(['Email' => $email]);
+
+                log_message('debug', 'updateSecretary - Atualização do usuário: ' . ($userResult ? 'true' : 'false'));
+            }
+
+            return $result;
+        } catch (\Exception $e) {
+            log_message('error', 'updateSecretary - Erro: ' . $e->getMessage());
+            log_message('error', 'updateSecretary - Trace: ' . $e->getTraceAsString());
+            return false;
+        }
     }
 
     /**
@@ -746,48 +800,78 @@ class AdminModel extends Model
      */
     public function getAppointmentsList($query = '')
     {
-        $builder = $this->db->table('agendamentos a');
-        $builder->select('
-        a.ID_Agendamento as id,
-        CONCAT(p.Nome, " ", p.Sobrenome) as paciente,
-        CONCAT(m.Nome, " ", m.Sobrenome) as medico,
-        a.Data_Agendamento as data,
-        a.Hora_Agendamento as hora,
-        a.Status as status,
-        a.Motivo as motivo,
-        a.Criado_Em as criado_em
-    ');
-        $builder->join('pacientes p', 'p.ID_Paciente = a.ID_Paciente', 'left');
-        $builder->join('medicos m', 'm.ID_Medico = a.ID_Medico', 'left');
+        try {
+            $builder = $this->db->table('agendamentos a');
+            $builder->select('
+            a.ID_Agendamento as id,
+            a.Data_Agendamento as data,
+            a.Hora_Agendamento as hora,
+            a.Status as status,
+            a.Motivo as motivo,
+            a.Criado_Em as criado_em,
+            a.tipo_agendamento,
+            a.paciente_nome_agendado,
+            a.paciente_relacao,
+            CONCAT(p.Nome, " ", p.Sobrenome) as paciente_nome,
+            CONCAT(m.Nome, " ", m.Sobrenome) as medico_nome,
+            e.Nome as especialidade
+        ');
+            $builder->join('pacientes p', 'p.ID_Paciente = a.ID_Paciente', 'left');
+            $builder->join('medicos m', 'm.ID_Medico = a.ID_Medico', 'left');
+            $builder->join('especialidades e', 'e.ID_Especialidade = m.ID_Especialidade', 'left');
 
-        if (!empty($query)) {
-            $builder->groupStart()
-                ->like('p.Nome', $query)
-                ->orLike('p.Sobrenome', $query)
-                ->orLike('m.Nome', $query)
-                ->orLike('m.Sobrenome', $query)
-                ->orLike('a.Status', $query)
-                ->groupEnd();
+            if (!empty($query)) {
+                $builder->groupStart()
+                    ->like('p.Nome', $query)
+                    ->orLike('p.Sobrenome', $query)
+                    ->orLike('m.Nome', $query)
+                    ->orLike('m.Sobrenome', $query)
+                    ->orLike('a.paciente_nome_agendado', $query)
+                    ->groupEnd();
+            }
+
+            $builder->orderBy('a.Data_Agendamento', 'DESC');
+            $builder->orderBy('a.Hora_Agendamento', 'DESC');
+
+            $results = $builder->get()->getResult();
+
+            // Log para depuração
+            log_message('debug', 'getAppointmentsList - Query executada, resultados: ' . count($results));
+
+            $formatted = [];
+            foreach ($results as $a) {
+                // Determinar o nome do paciente a ser exibido
+                $pacienteExibido = $a->paciente_nome ?? 'N/A';
+
+                // Verificar se é para outra pessoa
+                $isForOther = isset($a->tipo_agendamento) && $a->tipo_agendamento === 'other';
+
+                if ($isForOther && !empty($a->paciente_nome_agendado)) {
+                    $pacienteExibido = $a->paciente_nome_agendado . ' (dependente)';
+                }
+
+                $formatted[] = [
+                    'id' => $a->id,
+                    'paciente' => $pacienteExibido,
+                    'medico' => $a->medico_nome ?? 'N/A',
+                    'especialidade' => $a->especialidade ?? 'N/A',
+                    'data' => isset($a->data) ? date('d/m/Y', strtotime($a->data)) : '-',
+                    'hora' => isset($a->hora) ? substr($a->hora, 0, 5) : '-',
+                    'status' => $a->status ?? 'Pendente',
+                    'motivo' => $a->motivo ?? '',
+                    'criado_em' => isset($a->criado_em) ? date('d/m/Y H:i', strtotime($a->criado_em)) : '',
+                    'tipo_agendamento' => $a->tipo_agendamento ?? 'self',
+                    'paciente_nome_agendado' => $a->paciente_nome_agendado ?? '',
+                    'paciente_relacao' => $a->paciente_relacao ?? ''
+                ];
+            }
+
+            return $formatted;
+        } catch (\Exception $e) {
+            log_message('error', 'Erro em getAppointmentsList: ' . $e->getMessage());
+            log_message('error', 'Trace: ' . $e->getTraceAsString());
+            return [];
         }
-
-        $builder->orderBy('a.Data_Agendamento', 'DESC');
-        $results = $builder->get()->getResult();
-
-        $formatted = [];
-        foreach ($results as $a) {
-            $formatted[] = [
-                'id' => $a->id,
-                'paciente' => $a->paciente ?? 'N/A',
-                'medico' => $a->medico ?? 'N/A',
-                'data' => date('d/m/Y', strtotime($a->data)),
-                'hora' => substr($a->hora, 0, 5),
-                'status' => $a->status ?? 'Pendente',
-                'motivo' => $a->motivo ?? '',
-                'criado_em' => isset($a->criado_em) ? date('d/m/Y H:i', strtotime($a->criado_em)) : ''
-            ];
-        }
-
-        return $formatted;
     }
 
     /**
@@ -795,33 +879,70 @@ class AdminModel extends Model
      */
     public function getAppointmentDetails($id)
     {
-        $builder = $this->db->table('agendamentos a');
-        $builder->select('
-        a.*,
-        CONCAT(p.Nome, " ", p.Sobrenome) as paciente,
-        CONCAT(m.Nome, " ", m.Sobrenome) as medico,
-        e.Nome as especialidade
-    ');
-        $builder->join('pacientes p', 'p.ID_Paciente = a.ID_Paciente', 'left');
-        $builder->join('medicos m', 'm.ID_Medico = a.ID_Medico', 'left');
-        $builder->join('especialidades e', 'e.ID_Especialidade = m.ID_Especialidade', 'left');
-        $builder->where('a.ID_Agendamento', $id);
-        $result = $builder->get()->getRow();
+        try {
+            $builder = $this->db->table('agendamentos a');
+            $builder->select('
+            a.*,
+            CONCAT(p.Nome, " ", p.Sobrenome) as paciente,
+            CONCAT(m.Nome, " ", m.Sobrenome) as medico,
+            e.Nome as especialidade,
+            p.Data_Nascimento as paciente_data_nasc,
+            p.Telefone as paciente_telefone,
+            p.BI as paciente_bi,
+            p.Endereco as paciente_endereco,
+            p.Genero as paciente_genero
+        ');
+            $builder->join('pacientes p', 'p.ID_Paciente = a.ID_Paciente', 'left');
+            $builder->join('medicos m', 'm.ID_Medico = a.ID_Medico', 'left');
+            $builder->join('especialidades e', 'e.ID_Especialidade = m.ID_Especialidade', 'left');
+            $builder->where('a.ID_Agendamento', $id);
+            $result = $builder->get()->getRow();
 
-        if (!$result) return null;
+            if (!$result) return null;
 
-        return [
-            'id' => $result->ID_Agendamento,
-            'paciente' => $result->paciente ?? 'N/A',
-            'medico' => $result->medico ?? 'N/A',
-            'especialidade' => $result->especialidade ?? 'N/A',
-            'data' => $result->Data_Agendamento,
-            'data_formatada' => date('d/m/Y', strtotime($result->Data_Agendamento)),
-            'hora' => substr($result->Hora_Agendamento, 0, 5),
-            'status' => $result->Status ?? 'Pendente',
-            'motivo' => $result->Motivo ?? '',
-            'criado_em' => isset($result->Criado_Em) ? date('d/m/Y H:i', strtotime($result->Criado_Em)) : ''
-        ];
+            // Verificar se os campos existem no resultado
+            $tipoAgendamento = property_exists($result, 'tipo_agendamento') ? $result->tipo_agendamento : 'self';
+            $pacienteNomeAgendado = property_exists($result, 'paciente_nome_agendado') ? $result->paciente_nome_agendado : '';
+            $pacienteRelacao = property_exists($result, 'paciente_relacao') ? $result->paciente_relacao : '';
+            $pacienteDataNascAgendado = property_exists($result, 'paciente_data_nasc_agendado') ? $result->paciente_data_nasc_agendado : null;
+            $pacienteDocTipo = property_exists($result, 'paciente_doc_tipo') ? $result->paciente_doc_tipo : '';
+            $pacienteDocNum = property_exists($result, 'paciente_doc_num') ? $result->paciente_doc_num : '';
+            $responsavelNome = property_exists($result, 'responsavel_nome') ? $result->responsavel_nome : '';
+            $responsavelTelefone = property_exists($result, 'responsavel_telefone') ? $result->responsavel_telefone : '';
+            $responsavelBi = property_exists($result, 'responsavel_bi') ? $result->responsavel_bi : '';
+
+            return [
+                'id' => $result->ID_Agendamento,
+                'paciente' => $result->paciente ?? 'N/A',
+                'medico' => $result->medico ?? 'N/A',
+                'especialidade' => $result->especialidade ?? 'N/A',
+                'data' => $result->Data_Agendamento,
+                'data_formatada' => isset($result->Data_Agendamento) ? date('d/m/Y', strtotime($result->Data_Agendamento)) : '',
+                'hora' => isset($result->Hora_Agendamento) ? substr($result->Hora_Agendamento, 0, 5) : '',
+                'status' => $result->Status ?? 'Pendente',
+                'motivo' => $result->Motivo ?? '',
+                'criado_em' => isset($result->Criado_Em) ? date('d/m/Y H:i', strtotime($result->Criado_Em)) : '',
+                // Campos do paciente
+                'paciente_data_nasc' => isset($result->paciente_data_nasc) ? date('d/m/Y', strtotime($result->paciente_data_nasc)) : '',
+                'paciente_telefone' => $result->paciente_telefone ?? '',
+                'paciente_bi' => $result->paciente_bi ?? '',
+                'paciente_endereco' => $result->paciente_endereco ?? '',
+                'paciente_genero' => $result->paciente_genero ?? '',
+                // Campos para "outra pessoa"
+                'tipo_agendamento' => $tipoAgendamento,
+                'paciente_nome_agendado' => $pacienteNomeAgendado,
+                'paciente_relacao' => $pacienteRelacao,
+                'paciente_data_nasc_agendado' => $pacienteDataNascAgendado ? date('d/m/Y', strtotime($pacienteDataNascAgendado)) : '',
+                'paciente_doc_tipo' => $pacienteDocTipo,
+                'paciente_doc_num' => $pacienteDocNum,
+                'responsavel_nome' => $responsavelNome ?: $result->paciente ?? '',
+                'responsavel_telefone' => $responsavelTelefone ?: $result->paciente_telefone ?? '',
+                'responsavel_bi' => $responsavelBi ?: $result->paciente_bi ?? ''
+            ];
+        } catch (\Exception $e) {
+            log_message('error', 'Erro em getAppointmentDetails: ' . $e->getMessage());
+            return null;
+        }
     }
 
     /**
@@ -958,40 +1079,6 @@ class AdminModel extends Model
             return $builder->insert($usuarioData);
         } catch (\Exception $e) {
             log_message('error', 'Erro em createSecretary: ' . $e->getMessage());
-            return false;
-        }
-    }
-
-    /**
-     * Atualiza um secretário
-     */
-    public function updateSecretary($bi, $nome, $telefone, $email)
-    {
-        try {
-            // Separar nome e sobrenome
-            $nameParts = explode(' ', trim($nome), 2);
-            $nomePart = $nameParts[0] ?? '';
-            $sobrenomePart = $nameParts[1] ?? '';
-
-            $data = [
-                'Nome' => $nomePart,
-                'Sobrenome' => $sobrenomePart,
-                'Telefone' => $telefone,
-                'Email' => $email
-            ];
-
-            // Atualizar secretário
-            $builder = $this->db->table('secretarios');
-            $result = $builder->update($data, ['ID_Secretario' => $bi]);
-
-            // Atualizar usuário
-            $builder = $this->db->table('usuarios');
-            $builder->where('Email', $email);
-            $builder->update(['Email' => $email]);
-
-            return $result;
-        } catch (\Exception $e) {
-            log_message('error', 'Erro em updateSecretary: ' . $e->getMessage());
             return false;
         }
     }

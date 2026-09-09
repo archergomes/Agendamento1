@@ -73,7 +73,10 @@ class Filters extends BaseConfig
                     'admin/chart_appointments_status',
                     'admin/chart_doctors_specialty',
                     'admin/chart_patients_monthly',
-                    
+
+                    'agenda/cancelar_agendamento',
+                    'agenda/save_appointment',
+
                     // Rotas de relatórios - ADICIONAR ESTAS
                     'admin/get_report_data',
                     'admin/export_report'

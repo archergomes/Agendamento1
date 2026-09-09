@@ -84,10 +84,6 @@ $routes->get('admin/activity', 'Admin::activity');
 $routes->get('admin/patient/(:any)', 'Admin::patient/$1');
 $routes->get('admin/doctor/(:any)', 'Admin::doctor/$1');
 
-// Atualizações
-$routes->post('admin/update_patient', 'Admin::updatePatient');
-$routes->post('admin/update_doctor', 'Admin::updateDoctor');
-
 // Operações com agendamentos
 $routes->post('admin/cancel_appointment', 'Admin::cancelAppointment');
 $routes->post('admin/delete_appointment', 'Admin::deleteAppointment');
@@ -122,7 +118,6 @@ $routes->post('admin/update_doctor', 'Admin::updateDoctor');
 $routes->get('admin/get_secretaries', 'Admin::getSecretaries');
 $routes->post('admin/get_secretary_details', 'Admin::getSecretaryDetails');
 $routes->post('admin/delete_secretary', 'Admin::deleteSecretary');
-$routes->post('admin/update_secretary', 'Admin::updateSecretary');
 
 // ============================================
 // ROTAS PARA AGENDAMENTOS (ADMIN)

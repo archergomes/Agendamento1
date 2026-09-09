@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Aug 27, 2026 at 03:15 PM
+-- Generation Time: Sep 09, 2026 at 07:41 AM
 -- Server version: 8.0.31
 -- PHP Version: 8.2.0
 
@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS `agendamentos` (
   PRIMARY KEY (`ID_Agendamento`),
   KEY `ID_Paciente` (`ID_Paciente`),
   KEY `ID_Medico` (`ID_Medico`)
-) ENGINE=MyISAM AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `agendamentos`
@@ -62,7 +62,8 @@ INSERT INTO `agendamentos` (`ID_Agendamento`, `ID_Paciente`, `ID_Medico`, `Data_
 (19, 9, 1345352, '2025-10-29', '09:30:00', NULL, 'Pendente', '2025-10-24 06:05:00', '2025-10-24 06:05:00'),
 (21, 1234568, 1345352, '2026-08-04', '11:00:00', 'Dores de cabeça', 'Cancelado', '2026-08-02 14:46:33', '2026-08-02 14:46:33'),
 (22, 1234568, 1345353, '2026-08-06', '15:31:00', 'testesaaaa', 'Cancelado', '2026-08-02 15:03:14', '2026-08-02 15:03:14'),
-(23, 1234568, 1345352, '2026-08-30', '11:00:00', NULL, 'Pendente', '2026-08-26 10:26:06', '2026-08-26 10:26:06');
+(23, 1234568, 1345352, '2026-08-30', '11:00:00', NULL, 'Cancelado', '2026-08-26 10:26:06', '2026-08-26 10:26:06'),
+(24, 1234568, 1345352, '2026-09-18', '11:00:00', NULL, 'Cancelado', '2026-09-09 05:59:50', '2026-09-09 05:59:50');
 
 -- --------------------------------------------------------
 
@@ -203,7 +204,6 @@ CREATE TABLE IF NOT EXISTS `horarios` (
 --
 
 INSERT INTO `horarios` (`ID_Horario`, `ID_Medico`, `Dia_Semana`, `Hora_Inicio`, `Hora_Fim`, `Intervalo_Inicio`, `Intervalo_Fim`, `Sala`, `Duracao_Consulta`, `Data_Inicio_Vigencia`, `Data_Fim_Vigencia`, `Observacoes`, `Status`) VALUES
-(1, 1, 'Segunda', '08:00:00', '12:00:00', NULL, NULL, NULL, 30, NULL, NULL, NULL, 'ativo'),
 (2, 1, 'Quarta', '14:00:00', '18:00:00', NULL, NULL, NULL, 30, NULL, NULL, NULL, 'ativo'),
 (3, 2, 'Terça', '09:00:00', '13:00:00', NULL, NULL, NULL, 30, NULL, NULL, NULL, 'ativo'),
 (238, 1345425, 'Segunda', '08:00:00', '12:00:00', NULL, NULL, NULL, 30, NULL, NULL, NULL, 'ativo'),
@@ -484,7 +484,7 @@ CREATE TABLE IF NOT EXISTS `medicos` (
 --
 
 INSERT INTO `medicos` (`ID_Medico`, `Nome`, `Sobrenome`, `Especialidade`, `ID_Especialidade`, `ID_Departamento`, `Telefone`, `Email`, `Data_Inicio`, `Numero_Licenca`, `Criado_Em`, `ID_Usuario`) VALUES
-(1345352, 'Archer', '', 'Medicina Geral', 0, NULL, '871914705', 'archer@gmail.com', NULL, '8739275023', '2025-10-18 20:09:23', NULL),
+(1345352, 'Archer', 'Gomes', 'Medicina Geral', 0, NULL, '+258871914705', 'archer@gmail.com', NULL, '8739275023', '2025-10-18 20:09:23', NULL),
 (1345427, 'Medico', '4', 'Cardiologia', 1, NULL, '+258873443438', 'medico4@hospital.com', NULL, 'LIC-034', '2026-08-21 08:02:13', 14),
 (1345426, 'Medico', '1', 'Cardiologia', 1, NULL, '+258843423232', 'medico1@hospital.com', NULL, 'LIC-0032', '2026-08-21 09:47:04', NULL),
 (1345390, 'Paula', 'Lima', 'Ortopedia', 4, 2, '+258846789015', 'paula.lima@hospital.com', '2020-03-12', 'LIC-036', '2025-10-22 09:24:08', NULL),
@@ -502,7 +502,6 @@ INSERT INTO `medicos` (`ID_Medico`, `Nome`, `Sobrenome`, `Especialidade`, `ID_Es
 (1345412, 'Luis', 'Horta', 'Neurologia', 6, 2, '+258848901239', 'luis.horta@hospital.com', '2020-03-04', 'LIC-058', '2025-10-22 09:24:08', NULL),
 (1345413, 'Marta', 'Inacio', 'Neurologia', 6, 2, '+258849012350', 'marta.inacio@hospital.com', '2023-01-15', 'LIC-059', '2025-10-22 09:24:08', NULL),
 (1345414, 'Nuno', 'Junqueira', 'Neurologia', 6, 2, '+258840123461', 'nuno.junqueira@hospital.com', '2019-06-22', 'LIC-060', '2025-10-22 09:24:08', NULL),
-(1345415, 'Otavia', 'Keller', 'Cirurgia Geral', 7, 2, '+258841234573', 'otavia.keller@hospital.com', '2021-04-11', 'LIC-061', '2025-10-22 09:24:08', NULL),
 (1345416, 'Paulo', 'Lencastre', 'Cirurgia Geral', 7, 2, '+258842345684', 'paulo.lencastre@hospital.com', '2017-11-18', 'LIC-062', '2025-10-22 09:24:08', NULL),
 (1345417, 'Quintino', 'Macedo', 'Cirurgia Geral', 7, 2, '+258843456785', 'quintino.macedo@hospital.com', '2022-07-26', 'LIC-063', '2025-10-22 09:24:08', NULL),
 (1345418, 'Raul', 'Neto', 'Cirurgia Geral', 7, 2, '+258844567896', 'raul.neto@hospital.com', '2019-01-03', 'LIC-064', '2025-10-22 09:24:08', NULL),
@@ -535,7 +534,7 @@ CREATE TABLE IF NOT EXISTS `pacientes` (
   PRIMARY KEY (`ID_Paciente`),
   UNIQUE KEY `BI` (`BI`),
   KEY `idx_paciente_bi` (`BI`)
-) ENGINE=MyISAM AUTO_INCREMENT=1234572 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=1234573 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `pacientes`
@@ -543,12 +542,11 @@ CREATE TABLE IF NOT EXISTS `pacientes` (
 
 INSERT INTO `pacientes` (`ID_Paciente`, `Nome`, `Sobrenome`, `Data_Nascimento`, `Genero`, `Endereco`, `Telefone`, `Contato_Emergencia`, `BI`, `Criado_Em`, `ID_Usuario`, `email`) VALUES
 (1, 'Teste', 'Usuario', '1990-01-01', 'Masculino', 'Rua Exemplo, Maputo', '+258 87 1914380', '+258 84 9999999', '123456789TEST', '2025-09-20 22:24:59', NULL, NULL),
-(8, 'Archer', 'Gomes', '2003-05-01', 'Masculino', NULL, '(+258) 871914705', NULL, '257985229875', '2025-10-08 06:52:24', NULL, NULL),
+(8, 'Archer', 'Gomes', '2003-05-01', 'Masculino', NULL, '+258871914705', NULL, '257985229875', '2025-10-08 06:52:24', NULL, NULL),
 (10, 'Janna', 'Sheinil', '2004-05-04', 'Feminino', NULL, '865757465', NULL, '6275628562', '2025-10-20 07:04:12', NULL, NULL),
 (1234567, 'Maria', 'Santos', '1995-05-15', 'Feminino', 'Maputo', '+258841234567', NULL, '', '2025-10-26 17:30:55', NULL, NULL),
-(1234568, 'João', 'Silva', '1990-01-15', 'Masculino', 'Rua 25 de Setembro, Maputo', '841234567', '845678901', '123456789ABC', '2026-08-02 14:46:04', 10, NULL),
 (1234569, 'Testando', '', '2000-01-04', 'Masculino', 'Matola', '+258844343844', NULL, '837483743s', '2026-08-03 07:59:25', NULL, 'teste@hospital.com'),
-(1234570, 'Teste', '1', '2013-06-20', 'Masculino', 'Matola', '+258844343844', NULL, '837383743s', '2026-08-20 13:17:42', NULL, 'teste1@hospital.com'),
+(1234572, 'paciente', '', '2012-06-09', 'Masculino', 'Matola', '+258875757577', NULL, '24343434s', '2026-09-09 07:20:39', NULL, 'paciente@hospital.com'),
 (1234571, 'Archer', 'Gomes', '2026-08-01', 'Masculino', 'Matola', '+258841234567', NULL, '837482343s', '2026-08-27 08:37:09', NULL, 'gomesarcher3@gmail.com');
 
 -- --------------------------------------------------------
@@ -598,6 +596,7 @@ CREATE TABLE IF NOT EXISTS `secretarios` (
   `Sobrenome` varchar(50) NOT NULL,
   `Telefone` varchar(20) DEFAULT NULL,
   `Email` varchar(100) NOT NULL,
+  `Cargo` varchar(100) DEFAULT 'Secretário',
   `Criado_Em` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `ID_Usuario` int DEFAULT NULL,
   PRIMARY KEY (`ID_Secretario`),
@@ -608,9 +607,9 @@ CREATE TABLE IF NOT EXISTS `secretarios` (
 -- Dumping data for table `secretarios`
 --
 
-INSERT INTO `secretarios` (`ID_Secretario`, `Nome`, `Sobrenome`, `Telefone`, `Email`, `Criado_Em`, `ID_Usuario`) VALUES
-(79573352, 'Archer', 'Gomes', '8738738', 'archer3@gmail.com', '2025-10-08 15:33:19', NULL),
-(2147483647, 'Secretario', 'Archer', '+258841234567', 'sarcher@hospital.com', '2026-08-19 11:21:11', NULL);
+INSERT INTO `secretarios` (`ID_Secretario`, `Nome`, `Sobrenome`, `Telefone`, `Email`, `Cargo`, `Criado_Em`, `ID_Usuario`) VALUES
+(79573352, 'Archer', 'Gomess', '+258873873823', 'archer3@gmail.com', 'Secretário', '2025-10-08 15:33:19', NULL),
+(2147483647, 'Secretario', 'Archer', '+258841234567', 'sarcher@hospital.com', 'Secretário', '2026-08-19 11:21:11', NULL);
 
 -- --------------------------------------------------------
 
@@ -630,7 +629,7 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
   UNIQUE KEY `Email` (`Email`),
   KEY `idx_usuario_email` (`Email`),
   KEY `fk_usuario_paciente` (`ID_Referencia`)
-) ENGINE=MyISAM AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `usuarios`
@@ -645,7 +644,7 @@ INSERT INTO `usuarios` (`ID_Usuario`, `Email`, `Senha`, `Tipo_Usuario`, `ID_Refe
 (6, 'beatriz.lima@exemplo.com', 'TEMPORARY_HASH', 'Paciente', 2, '2025-09-22 06:32:02'),
 (8, 'archergomes@gmail.com', '$2y$10$dTCWz43cN/71ydI09YgThugPmGWl9pEUyyfQlB4l/i3/oZF2.BwRO', 'Paciente', 9, '2025-10-20 05:29:18'),
 (9, 'janna3@gmail.com', '$2y$10$VTWuaEKjIK1q74GfJNpL.OAnJb9.jS1aBhBnNMFtrErSIOkI2R2tu', 'Paciente', 10, '2025-10-20 07:04:12'),
-(10, 'paciente@hospital.com', '$2y$12$sIrtM1lGnyrVfH8X2mzIreEhXtkyikuNPoHfCuAbUieDsuszaHIYa', 'Paciente', 1234568, '2026-08-02 14:46:04'),
+(15, 'sec3@hospital.com', '$2y$10$ATTfTuPckxNzCsuuyNoBA.aVmENH2DVf9yGX/ynutfT37eQTTMCO6', 'Secretario', 6765776, '2026-09-09 06:45:56'),
 (11, 'sec@hospital.com', '$2y$10$W3dhuqFb856OZD/re2BOu.xWXaTZH5vS1ziFF3qiJ6.rX9IczQS1.', 'Secretario', 2147483647, '2026-08-03 08:26:44'),
 (12, 'medico@hospital.com', '$2y$10$fZ8ChOga/PAmZbPqfGWr8e7DikaKr73.EMRcuwI0M11xby6.0lewC', 'Medico', 1345425, '2026-08-18 06:38:35'),
 (13, 'sarcher@hospital.com', '$2y$10$mHjBz8Pozze6pp0QjVHoteQSJaYq.D2arV5MdRcrQ7YIFyCHLAWXm', 'Secretario', 2147483647, '2026-08-19 11:21:11'),

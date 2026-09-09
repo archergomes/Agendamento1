@@ -338,34 +338,53 @@ class Admin extends Controller
                 ->setJSON(['error' => 'Método não permitido']);
         }
 
-        $bi = $this->request->getPost('bi');
-        $name = $this->request->getPost('name');
-        $phone = $this->request->getPost('phone');
-        $email = $this->request->getPost('email');
+        // Log para depuração
+        log_message('debug', 'updatePatient - POST data: ' . print_r($this->request->getPost(), true));
 
-        if (!$bi || !$name || !$phone) {
+        // Obter dados do POST - ALTERAR OS NOMES PARA CORRESPONDER AO FORMULÁRIO
+        $bi = $this->request->getPost('bi');
+        $nome = $this->request->getPost('nome');
+        $telefone = $this->request->getPost('telefone');
+        $email = $this->request->getPost('email');
+        $endereco = $this->request->getPost('endereco');
+
+        // Validar dados
+        if (!$bi) {
             return $this->response
                 ->setStatusCode(400)
-                ->setJSON(['error' => 'Dados incompletos']);
+                ->setJSON(['error' => 'BI do paciente não fornecido']);
+        }
+
+        if (!$nome) {
+            return $this->response
+                ->setStatusCode(400)
+                ->setJSON(['error' => 'Nome é obrigatório']);
+        }
+
+        if (!$telefone) {
+            return $this->response
+                ->setStatusCode(400)
+                ->setJSON(['error' => 'Telefone é obrigatório']);
         }
 
         try {
-            $result = $this->adminModel->updatePatient($bi, $name, $phone, $email);
+            // Chamar o modelo para atualizar
+            $result = $this->adminModel->updatePatient($bi, $nome, $telefone, $email, $endereco);
 
             if ($result) {
                 return $this->response->setJSON([
-                    'success' => 'Paciente atualizado com sucesso'
+                    'success' => 'Paciente atualizado com sucesso!'
                 ]);
             } else {
                 return $this->response
                     ->setStatusCode(500)
-                    ->setJSON(['error' => 'Erro ao atualizar paciente']);
+                    ->setJSON(['error' => 'Erro ao atualizar paciente. Nenhuma alteração foi feita.']);
             }
         } catch (\Exception $e) {
             log_message('error', 'Erro ao atualizar paciente: ' . $e->getMessage());
             return $this->response
                 ->setStatusCode(500)
-                ->setJSON(['error' => 'Erro interno do servidor']);
+                ->setJSON(['error' => 'Erro interno do servidor: ' . $e->getMessage()]);
         }
     }
 
@@ -862,12 +881,17 @@ class Admin extends Controller
 
         try {
             $appointments = $this->adminModel->getAppointmentsList($query);
+
+            // Log para depuração
+            log_message('debug', 'getAppointments - Encontrados: ' . count($appointments) . ' agendamentos');
+
             return $this->response->setJSON($appointments);
         } catch (\Exception $e) {
             log_message('error', 'Erro ao buscar agendamentos: ' . $e->getMessage());
+            log_message('error', 'Trace: ' . $e->getTraceAsString());
             return $this->response
                 ->setStatusCode(500)
-                ->setJSON(['error' => 'Erro ao carregar agendamentos']);
+                ->setJSON(['error' => 'Erro ao carregar agendamentos: ' . $e->getMessage()]);
         }
     }
 
@@ -1115,6 +1139,9 @@ class Admin extends Controller
     /**
      * AJAX: Atualizar secretário
      */
+    /**
+     * AJAX: Atualizar secretário
+     */
     public function updateSecretary()
     {
         if (!$this->request->isAJAX()) {
@@ -1129,34 +1156,85 @@ class Admin extends Controller
                 ->setJSON(['error' => 'Método não permitido']);
         }
 
-        $bi = $this->request->getPost('bi');
+        // Log para depuração
+        log_message('debug', 'updateSecretary - POST data: ' . print_r($this->request->getPost(), true));
+
+        // Obter dados do POST
+        $id = $this->request->getPost('id');
         $nome = $this->request->getPost('nome');
         $telefone = $this->request->getPost('telefone');
         $email = $this->request->getPost('email');
+        $cargo = $this->request->getPost('cargo');
 
-        if (!$bi || !$nome || !$telefone || !$email) {
+        // Validar dados
+        if (!$id) {
             return $this->response
                 ->setStatusCode(400)
-                ->setJSON(['error' => 'Dados incompletos']);
+                ->setJSON(['error' => 'ID do secretário não fornecido']);
+        }
+
+        if (!$nome) {
+            return $this->response
+                ->setStatusCode(400)
+                ->setJSON(['error' => 'Nome é obrigatório']);
+        }
+
+        if (!$telefone) {
+            return $this->response
+                ->setStatusCode(400)
+                ->setJSON(['error' => 'Telefone é obrigatório']);
+        }
+
+        if (!$email) {
+            return $this->response
+                ->setStatusCode(400)
+                ->setJSON(['error' => 'Email é obrigatório']);
+        }
+
+        if (!$cargo) {
+            return $this->response
+                ->setStatusCode(400)
+                ->setJSON(['error' => 'Cargo é obrigatório']);
+        }
+
+        // Validar formato do email
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            return $this->response
+                ->setStatusCode(400)
+                ->setJSON(['error' => 'Email inválido']);
         }
 
         try {
-            $result = $this->adminModel->updateSecretary($bi, $nome, $telefone, $email);
+            // Chamar o modelo para atualizar
+            $result = $this->adminModel->updateSecretary($id, $nome, $telefone, $email, $cargo);
 
             if ($result) {
                 return $this->response->setJSON([
-                    'success' => 'Secretário atualizado com sucesso'
+                    'success' => 'Secretário atualizado com sucesso!'
                 ]);
             } else {
+                // Tentar obter mais informações sobre o erro
+                $error = 'Erro ao atualizar secretário. Verifique os dados e tente novamente.';
+
+                // Verificar se o ID existe
+                $builder = $this->adminModel->db->table('secretarios');
+                $builder->where('ID_Secretario', $id);
+                $existing = $builder->get()->getRow();
+
+                if (!$existing) {
+                    $error = 'Secretário não encontrado com o ID: ' . $id;
+                }
+
                 return $this->response
                     ->setStatusCode(500)
-                    ->setJSON(['error' => 'Erro ao atualizar secretário']);
+                    ->setJSON(['error' => $error]);
             }
         } catch (\Exception $e) {
             log_message('error', 'Erro ao atualizar secretário: ' . $e->getMessage());
+            log_message('error', 'Trace: ' . $e->getTraceAsString());
             return $this->response
                 ->setStatusCode(500)
-                ->setJSON(['error' => 'Erro interno do servidor']);
+                ->setJSON(['error' => 'Erro interno do servidor: ' . $e->getMessage()]);
         }
     }
 

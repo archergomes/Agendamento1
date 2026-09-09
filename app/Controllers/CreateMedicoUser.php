@@ -4,90 +4,75 @@ namespace App\Controllers;
 
 use CodeIgniter\Controller;
 
-class CreateMedicoUser extends Controller
+class CreatePacienteUser extends Controller
 {
     public function index()
     {
         $db = \Config\Database::connect();
         
-        echo "<h1>👨‍⚕️ Criar Usuário Médico</h1>";
+        echo "<h1>👤 Criar Usuário Paciente</h1>";
         echo "<hr>";
 
         // ============================================
-        // DADOS DO MÉDICO
+        // DADOS DO PACIENTE
         // ============================================
-        $medicoData = [
-            'Nome' => 'Carlos',
-            'Sobrenome' => 'Mendes',
-            'Especialidade' => 'Cardiologia',
-            'ID_Especialidade' => 1,
-            'ID_Departamento' => 1,
-            'Telefone' => '+258 84 1234567',
-            'Email' => 'dr.carlos.mendes@hospital.com',
-            'Data_Inicio' => '2020-01-15',
-            'Numero_Licenca' => 'LIC-2020-001',
+        $pacienteData = [
+            'Nome' => 'Maria',
+            'Sobrenome' => 'Silva',
+            'Telefone' => '+258 84 7654321',
+            'BI' => '123456789MZ',
+            'email' => 'maria.silva@email.com',
+            'Data_Nascimento' => '1990-05-15',
+            'Genero' => 'Feminino',
+            'Endereco' => 'Av. 25 de Setembro, 123, Maputo',
             'Criado_Em' => date('Y-m-d H:i:s')
         ];
 
         // ============================================
         // DADOS DO USUÁRIO
         // ============================================
-        $email = 'medico@hospital.com';
+        $email = 'maria.silva@email.com';
         $senha = '123456';
         $senhaHash = password_hash($senha, PASSWORD_DEFAULT);
 
-        echo "<h2>📋 Dados do Médico</h2>";
+        echo "<h2>📋 Dados do Paciente</h2>";
         echo "<table border='1' cellpadding='8' style='border-collapse:collapse;'>";
-        echo "<tr><td><strong>Nome</strong></td><td>{$medicoData['Nome']} {$medicoData['Sobrenome']}</td></tr>";
-        echo "<tr><td><strong>Especialidade</strong></td><td>{$medicoData['Especialidade']}</td></tr>";
-        echo "<tr><td><strong>Telefone</strong></td><td>{$medicoData['Telefone']}</td></tr>";
-        echo "<tr><td><strong>Email</strong></td><td>{$medicoData['Email']}</td></tr>";
-        echo "<tr><td><strong>Nº Licença</strong></td><td>{$medicoData['Numero_Licenca']}</td></tr>";
+        echo "<tr><td><strong>Nome</strong></td><td>{$pacienteData['Nome']} {$pacienteData['Sobrenome']}</td></tr>";
+        echo "<tr><td><strong>Telefone</strong></td><td>{$pacienteData['Telefone']}</td></tr>";
+        echo "<tr><td><strong>BI</strong></td><td>{$pacienteData['BI']}</td></tr>";
+        echo "<tr><td><strong>Email</strong></td><td>{$pacienteData['email']}</td></tr>";
+        echo "<tr><td><strong>Data Nascimento</strong></td><td>{$pacienteData['Data_Nascimento']}</td></tr>";
+        echo "<tr><td><strong>Gênero</strong></td><td>{$pacienteData['Genero']}</td></tr>";
+        echo "<tr><td><strong>Endereço</strong></td><td>{$pacienteData['Endereco']}</td></tr>";
         echo "</table>";
 
         // ============================================
-        // 1. VERIFICAR SE O MÉDICO JÁ EXISTE
+        // 1. VERIFICAR SE O PACIENTE JÁ EXISTE
         // ============================================
         echo "<h3>🔍 Verificando existência...</h3>";
         
-        $existingMedico = $db->table('medicos')
-            ->where('Email', $medicoData['Email'])
+        $existingPaciente = $db->table('pacientes')
+            ->where('BI', $pacienteData['BI'])
             ->get()
             ->getRow();
         
-        if ($existingMedico) {
-            echo "<p style='color:orange;'>⚠️ Médico já existe! ID: {$existingMedico->ID_Medico}</p>";
-            $medicoId = $existingMedico->ID_Medico;
+        if ($existingPaciente) {
+            echo "<p style='color:orange;'>⚠️ Paciente já existe! ID: {$existingPaciente->ID_Paciente}</p>";
+            $pacienteId = $existingPaciente->ID_Paciente;
         } else {
             // ============================================
-            // 2. INSERIR MÉDICO
+            // 2. INSERIR PACIENTE
             // ============================================
-            echo "<h3>📝 Inserindo médico...</h3>";
+            echo "<h3>📝 Inserindo paciente...</h3>";
             
-            // Verificar se a especialidade existe
-            $especialidade = $db->table('especialidades')
-                ->where('Nome', $medicoData['Especialidade'])
-                ->get()
-                ->getRow();
+            // Inserir paciente
+            $db->table('pacientes')->insert($pacienteData);
+            $pacienteId = $db->insertID();
             
-            if (!$especialidade) {
-                // Criar especialidade se não existir
-                $db->table('especialidades')->insert(['Nome' => $medicoData['Especialidade']]);
-                $medicoData['ID_Especialidade'] = $db->insertID();
-                echo "<p style='color:green;'>✅ Especialidade '{$medicoData['Especialidade']}' criada com ID: {$medicoData['ID_Especialidade']}</p>";
+            if ($pacienteId) {
+                echo "<p style='color:green;'>✅ Paciente criado com ID: {$pacienteId}</p>";
             } else {
-                $medicoData['ID_Especialidade'] = $especialidade->ID_Especialidade;
-                echo "<p style='color:green;'>✅ Especialidade encontrada: ID {$medicoData['ID_Especialidade']}</p>";
-            }
-            
-            // Inserir médico
-            $db->table('medicos')->insert($medicoData);
-            $medicoId = $db->insertID();
-            
-            if ($medicoId) {
-                echo "<p style='color:green;'>✅ Médico criado com ID: {$medicoId}</p>";
-            } else {
-                echo "<p style='color:red;'>❌ Erro ao criar médico!</p>";
+                echo "<p style='color:red;'>❌ Erro ao criar paciente!</p>";
                 return;
             }
         }
@@ -107,11 +92,11 @@ class CreateMedicoUser extends Controller
             $usuarioId = $existingUser->ID_Usuario;
             
             // Atualizar ID_Referencia se necessário
-            if ($existingUser->ID_Referencia != $medicoId) {
+            if ($existingUser->ID_Referencia != $pacienteId) {
                 $db->table('usuarios')
                     ->where('ID_Usuario', $usuarioId)
-                    ->update(['ID_Referencia' => $medicoId]);
-                echo "<p style='color:green;'>✅ ID_Referencia atualizado para {$medicoId}</p>";
+                    ->update(['ID_Referencia' => $pacienteId]);
+                echo "<p style='color:green;'>✅ ID_Referencia atualizado para {$pacienteId}</p>";
             }
         } else {
             // ============================================
@@ -122,8 +107,8 @@ class CreateMedicoUser extends Controller
             $usuarioData = [
                 'Email' => $email,
                 'Senha' => $senhaHash,
-                'Tipo_Usuario' => 'Medico',
-                'ID_Referencia' => $medicoId,
+                'Tipo_Usuario' => 'Paciente',
+                'ID_Referencia' => $pacienteId,
                 'Criado_Em' => date('Y-m-d H:i:s')
             ];
             
@@ -133,11 +118,11 @@ class CreateMedicoUser extends Controller
             if ($usuarioId) {
                 echo "<p style='color:green;'>✅ Usuário criado com ID: {$usuarioId}</p>";
                 
-                // Atualizar médico com ID_Usuario
-                $db->table('medicos')
-                    ->where('ID_Medico', $medicoId)
+                // Atualizar paciente com ID_Usuario
+                $db->table('pacientes')
+                    ->where('ID_Paciente', $pacienteId)
                     ->update(['ID_Usuario' => $usuarioId]);
-                echo "<p style='color:green;'>✅ ID_Usuario {$usuarioId} vinculado ao médico {$medicoId}</p>";
+                echo "<p style='color:green;'>✅ ID_Usuario {$usuarioId} vinculado ao paciente {$pacienteId}</p>";
             } else {
                 echo "<p style='color:red;'>❌ Erro ao criar usuário!</p>";
                 return;
@@ -145,49 +130,7 @@ class CreateMedicoUser extends Controller
         }
 
         // ============================================
-        // 5. CRIAR HORÁRIOS PARA O MÉDICO
-        // ============================================
-        echo "<h3>📅 Criando horários para o médico...</h3>";
-        
-        $horarios = [
-            ['Segunda', '08:00', '12:00'],
-            ['Segunda', '14:00', '18:00'],
-            ['Terça', '08:00', '12:00'],
-            ['Terça', '14:00', '18:00'],
-            ['Quarta', '08:00', '12:00'],
-            ['Quarta', '14:00', '18:00'],
-            ['Quinta', '08:00', '12:00'],
-            ['Quinta', '14:00', '18:00'],
-            ['Sexta', '08:00', '12:00'],
-            ['Sexta', '14:00', '18:00']
-        ];
-        
-        $horariosCriados = 0;
-        foreach ($horarios as $horario) {
-            // Verificar se o horário já existe
-            $existing = $db->table('horarios')
-                ->where('ID_Medico', $medicoId)
-                ->where('Dia_Semana', $horario[0])
-                ->where('Hora_Inicio', $horario[1])
-                ->where('Hora_Fim', $horario[2])
-                ->get()
-                ->getRow();
-            
-            if (!$existing) {
-                $db->table('horarios')->insert([
-                    'ID_Medico' => $medicoId,
-                    'Dia_Semana' => $horario[0],
-                    'Hora_Inicio' => $horario[1],
-                    'Hora_Fim' => $horario[2]
-                ]);
-                $horariosCriados++;
-            }
-        }
-        
-        echo "<p style='color:green;'>✅ {$horariosCriados} horários criados/verificados</p>";
-
-        // ============================================
-        // 6. RESUMO FINAL
+        // 5. RESUMO FINAL
         // ============================================
         echo "<hr>";
         echo "<h2>✅ Cadastro Concluído!</h2>";
@@ -195,44 +138,44 @@ class CreateMedicoUser extends Controller
         echo "<div style='background:#f0f9ff;border:2px solid #2563eb;border-radius:8px;padding:20px;max-width:500px;'>";
         echo "<h3 style='margin-top:0;'>🔑 Credenciais de Acesso</h3>";
         echo "<table cellpadding='8'>";
-        echo "<tr><td><strong>👨‍⚕️ Médico</strong></td><td>Dr. Carlos Mendes</td></tr>";
+        echo "<tr><td><strong>👤 Paciente</strong></td><td>{$pacienteData['Nome']} {$pacienteData['Sobrenome']}</td></tr>";
         echo "<tr><td><strong>📧 Email</strong></td><td><code>{$email}</code></td></tr>";
         echo "<tr><td><strong>🔐 Senha</strong></td><td><code>{$senha}</code></td></tr>";
-        echo "<tr><td><strong>🏷️ Tipo</strong></td><td>Médico</td></tr>";
-        echo "<tr><td><strong>🆔 ID</strong></td><td>{$medicoId}</td></tr>";
+        echo "<tr><td><strong>🏷️ Tipo</strong></td><td>Paciente</td></tr>";
+        echo "<tr><td><strong>🆔 ID</strong></td><td>{$pacienteId}</td></tr>";
         echo "</table>";
         echo "</div>";
 
         // ============================================
-        // 7. LISTAR TODOS OS MÉDICOS
+        // 6. LISTAR TODOS OS PACIENTES
         // ============================================
         echo "<hr>";
-        echo "<h2>📋 Lista de Médicos Cadastrados</h2>";
+        echo "<h2>📋 Lista de Pacientes Cadastrados</h2>";
         
-        $medicos = $db->table('medicos')
-            ->select('ID_Medico, Nome, Sobrenome, Especialidade, Email, Numero_Licenca')
+        $pacientes = $db->table('pacientes')
+            ->select('ID_Paciente, Nome, Sobrenome, Telefone, BI, email')
             ->orderBy('Nome', 'ASC')
             ->get()
             ->getResult();
         
         echo "<table border='1' cellpadding='8' style='border-collapse:collapse;width:100%;'>";
         echo "<tr style='background:#f0f0f0;'>";
-        echo "<th>ID</th><th>Nome</th><th>Especialidade</th><th>Email</th><th>Licença</th>";
+        echo "<th>ID</th><th>Nome</th><th>Telefone</th><th>BI</th><th>Email</th>";
         echo "</tr>";
         
-        foreach ($medicos as $m) {
+        foreach ($pacientes as $p) {
             echo "<tr>";
-            echo "<td>{$m->ID_Medico}</td>";
-            echo "<td>{$m->Nome} {$m->Sobrenome}</td>";
-            echo "<td>{$m->Especialidade}</td>";
-            echo "<td>{$m->Email}</td>";
-            echo "<td>{$m->Numero_Licenca}</td>";
+            echo "<td>{$p->ID_Paciente}</td>";
+            echo "<td>{$p->Nome} {$p->Sobrenome}</td>";
+            echo "<td>{$p->Telefone}</td>";
+            echo "<td>{$p->BI}</td>";
+            echo "<td>{$p->email}</td>";
             echo "</tr>";
         }
         echo "</table>";
 
         // ============================================
-        // 8. LISTAR TODOS OS USUÁRIOS
+        // 7. LISTAR TODOS OS USUÁRIOS
         // ============================================
         echo "<hr>";
         echo "<h2>📋 Lista de Usuários</h2>";
@@ -262,12 +205,12 @@ class CreateMedicoUser extends Controller
         echo "</table>";
 
         // ============================================
-        // 9. BOTÕES DE AÇÃO
+        // 8. BOTÕES DE AÇÃO
         // ============================================
         echo "<hr>";
         echo "<div style='display:flex;gap:10px;flex-wrap:wrap;'>";
         echo "<a href='" . site_url('auth/login') . "' style='display:inline-block;padding:10px 20px;background:#2563eb;color:white;text-decoration:none;border-radius:5px;'>🔐 Ir para Login</a>";
-        echo "<a href='" . site_url('medico') . "' style='display:inline-block;padding:10px 20px;background:#059669;color:white;text-decoration:none;border-radius:5px;'>👨‍⚕️ Dashboard do Médico</a>";
+        echo "<a href='" . site_url('agenda') . "' style='display:inline-block;padding:10px 20px;background:#059669;color:white;text-decoration:none;border-radius:5px;'>📅 Agendamento</a>";
         echo "<a href='" . site_url('admin') . "' style='display:inline-block;padding:10px 20px;background:#7c3aed;color:white;text-decoration:none;border-radius:5px;'>📊 Admin Dashboard</a>";
         echo "</div>";
     }

@@ -366,6 +366,35 @@ class Agenda extends Controller
             ]);
         }
 
+        // Verificar CSRF Token
+        $csrfToken = $this->request->getPost('csrf_test_name');
+        if (!$csrfToken) {
+            return $this->response->setJSON([
+                'status' => 'error',
+                'message' => 'Token CSRF não fornecido. Recarregue a página.',
+                'csrf_token' => csrf_hash()
+            ]);
+        }
+
+        $security = \Config\Services::security();
+        if (method_exists($security, 'verify')) {
+            if (!$security->verify($csrfToken)) {
+                return $this->response->setJSON([
+                    'status' => 'error',
+                    'message' => 'Token CSRF inválido. Recarregue a página.',
+                    'csrf_token' => csrf_hash()
+                ]);
+            }
+        } else {
+            if (!$security->validate($csrfToken)) {
+                return $this->response->setJSON([
+                    'status' => 'error',
+                    'message' => 'Token CSRF inválido. Recarregue a página.',
+                    'csrf_token' => csrf_hash()
+                ]);
+            }
+        }
+
         try {
             // Pega dados do POST
             $especialidade = $this->request->getPost('especialidade');
@@ -501,33 +530,107 @@ class Agenda extends Controller
      */
     public function cancelarAgendamento()
     {
-        if (!$this->request->isAJAX()) {
+        try {
+            // Verificar se é AJAX
+            if (!$this->request->isAJAX()) {
+                return $this->response->setJSON([
+                    'status' => 'error',
+                    'message' => 'Requisição inválida'
+                ]);
+            }
+
+            $id = (int) $this->request->getPost('id');
+
+            if (!$id) {
+                return $this->response->setJSON([
+                    'status' => 'error',
+                    'message' => 'ID inválido'
+                ]);
+            }
+
+            // Verificar se o agendamento pertence ao paciente logado
+            $pacienteId = $this->session->get('paciente_id');
+            if (!$pacienteId) {
+                $usuarioId = $this->session->get('ID_Usuario');
+                if ($usuarioId) {
+                    $paciente = $this->authModel->getPacienteByUsuarioId($usuarioId);
+                    if ($paciente) {
+                        $pacienteId = $paciente->ID_Paciente;
+                        $this->session->set('paciente_id', $pacienteId);
+                    }
+                }
+            }
+
+            if (!$pacienteId) {
+                return $this->response->setJSON([
+                    'status' => 'error',
+                    'message' => 'Usuário não autenticado.'
+                ]);
+            }
+
+            // Verificar se o agendamento existe e pertence ao paciente
+            $db = \Config\Database::connect();
+            $builder = $db->table('agendamentos');
+            $builder->where('ID_Agendamento', $id);
+            $builder->where('ID_Paciente', $pacienteId);
+            $appointment = $builder->get()->getRow();
+
+            if (!$appointment) {
+                return $this->response->setJSON([
+                    'status' => 'error',
+                    'message' => 'Agendamento não encontrado ou não pertence a você.'
+                ]);
+            }
+
+            // Log do status atual para depuração
+            log_message('debug', 'Status atual do agendamento ID ' . $id . ': ' . $appointment->Status);
+
+            // Verificar se pode cancelar (apenas se estiver Pendente ou Confirmado)
+            $statusPermitidos = ['Pendente', 'Confirmado'];
+            if (!in_array($appointment->Status, $statusPermitidos)) {
+                return $this->response->setJSON([
+                    'status' => 'error',
+                    'message' => 'Este agendamento não pode ser cancelado. Status atual: ' . $appointment->Status
+                ]);
+            }
+
+            // Atualizar status para Cancelado
+            $builder = $db->table('agendamentos');
+            $result = $builder->update(
+                ['Status' => 'Cancelado'],
+                ['ID_Agendamento' => $id]
+            );
+
+            if ($result) {
+                // Verificar se realmente foi atualizado
+                $builder = $db->table('agendamentos');
+                $builder->where('ID_Agendamento', $id);
+                $updated = $builder->get()->getRow();
+
+                log_message('debug', 'Agendamento ID ' . $id . ' atualizado para: ' . ($updated ? $updated->Status : 'N/A'));
+
+                // Gerar novo token CSRF
+                $newToken = csrf_hash();
+
+                return $this->response->setJSON([
+                    'status' => 'success',
+                    'message' => 'Agendamento cancelado com sucesso!',
+                    'csrf_token' => $newToken,
+                    'csrf_name' => 'csrf_test_name'
+                ]);
+            } else {
+                return $this->response->setJSON([
+                    'status' => 'error',
+                    'message' => 'Erro ao cancelar agendamento. Tente novamente.'
+                ]);
+            }
+        } catch (\Exception $e) {
+            log_message('error', 'cancelarAgendamento - ERRO: ' . $e->getMessage());
+            log_message('error', 'cancelarAgendamento - TRACE: ' . $e->getTraceAsString());
+
             return $this->response->setJSON([
                 'status' => 'error',
-                'message' => 'Requisição inválida'
-            ]);
-        }
-
-        $id = (int) $this->request->getPost('id');
-
-        if (!$id) {
-            return $this->response->setJSON([
-                'status' => 'error',
-                'message' => 'ID inválido'
-            ]);
-        }
-
-        $result = $this->agendamentosModel->cancelAppointment($id);
-
-        if (isset($result['success'])) {
-            return $this->response->setJSON([
-                'status' => 'success',
-                'message' => $result['success']
-            ]);
-        } else {
-            return $this->response->setJSON([
-                'status' => 'error',
-                'message' => $result['error'] ?? 'Erro ao cancelar agendamento.'
+                'message' => 'Erro interno do servidor: ' . $e->getMessage()
             ]);
         }
     }
@@ -564,7 +667,6 @@ class Agenda extends Controller
 
         // Verificar se o agendamento pertence ao paciente logado
         $pacienteId = $this->session->get('paciente_id');
-
         if (!$pacienteId) {
             $usuarioId = $this->session->get('ID_Usuario');
             if ($usuarioId) {
@@ -576,13 +678,31 @@ class Agenda extends Controller
             }
         }
 
+        if (!$pacienteId) {
+            return $this->response->setJSON([
+                'status' => 'error',
+                'message' => 'Sessão inválida.'
+            ]);
+        }
+
         $db = \Config\Database::connect();
         $builder = $db->table('agendamentos a');
-        $builder->select('a.*, m.Nome as medico_nome, m.Sobrenome as medico_sobrenome, e.Nome as especialidade');
+        $builder->select('
+        a.*, 
+        m.Nome as medico_nome, 
+        m.Sobrenome as medico_sobrenome, 
+        e.Nome as especialidade,
+        p.Nome as paciente_nome,
+        p.Sobrenome as paciente_sobrenome,
+        p.Data_Nascimento as paciente_data_nasc,
+        p.Telefone as paciente_telefone,
+        p.BI as paciente_bi
+    ');
         $builder->join('medicos m', 'm.ID_Medico = a.ID_Medico', 'left');
         $builder->join('especialidades e', 'e.ID_Especialidade = m.ID_Especialidade', 'left');
+        $builder->join('pacientes p', 'p.ID_Paciente = a.ID_Paciente', 'left');
         $builder->where('a.ID_Agendamento', $id);
-        $builder->where('a.ID_Paciente', $pacienteId); // Garantir que pertence ao paciente
+        $builder->where('a.ID_Paciente', $pacienteId);
         $result = $builder->get()->getRow();
 
         if (!$result) {
@@ -592,6 +712,10 @@ class Agenda extends Controller
             ]);
         }
 
+        // Verificar se o agendamento pode ser cancelado
+        $podeCancelar = in_array($result->Status, ['Pendente', 'Confirmado']);
+
+        // Retornar também o token CSRF
         return $this->response->setJSON([
             'status' => 'success',
             'data' => [
@@ -603,8 +727,21 @@ class Agenda extends Controller
                 'hora' => substr($result->Hora_Agendamento, 0, 5),
                 'status' => $result->Status,
                 'motivo' => $result->Motivo ?? '',
-                'criado_em' => date('d/m/Y H:i', strtotime($result->Criado_Em ?? 'now'))
-            ]
+                'criado_em' => date('d/m/Y H:i', strtotime($result->Criado_Em ?? 'now')),
+                'pode_cancelar' => $podeCancelar,
+                // Campos para "outra pessoa"
+                'tipo_agendamento' => $result->tipo_agendamento ?? 'self',
+                'paciente_nome' => trim(($result->paciente_nome ?? '') . ' ' . ($result->paciente_sobrenome ?? '')),
+                'paciente_relacao' => $result->paciente_relacao ?? '',
+                'paciente_data_nasc' => isset($result->paciente_data_nasc) ? date('d/m/Y', strtotime($result->paciente_data_nasc)) : '',
+                'paciente_doc_tipo' => $result->paciente_doc_tipo ?? '',
+                'paciente_doc_num' => $result->paciente_doc_num ?? '',
+                'responsavel_nome' => trim(($result->Nome ?? '') . ' ' . ($result->Sobrenome ?? '')),
+                'telefone' => $result->Telefone ?? '',
+                'bi' => $result->BI ?? ''
+            ],
+            'csrf_token' => csrf_hash(),
+            'csrf_name' => 'csrf_test_name'
         ]);
     }
 

@@ -659,6 +659,14 @@
             width: 65%;
         }
 
+        .detail-value .sub-detail {
+            display: block;
+            font-size: 0.8rem;
+            color: #6b7280;
+            font-weight: 400;
+            margin-top: 0.15rem;
+        }
+
         .form-group {
             margin-bottom: 1rem;
         }
@@ -688,6 +696,11 @@
             outline: none;
             border-color: var(--brand-500);
             box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .form-group input:read-only {
+            background-color: #f3f4f6;
+            cursor: not-allowed;
         }
 
         /* Filter Buttons */
@@ -758,6 +771,27 @@
             color: #1e40af;
         }
 
+        /* Tipo Badge */
+        .tipo-badge {
+            display: inline-block;
+            padding: 0.15rem 0.6rem;
+            border-radius: 9999px;
+            font-size: 0.65rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+        }
+
+        .tipo-badge.proprio {
+            background-color: #dbeafe;
+            color: #1d4ed8;
+        }
+
+        .tipo-badge.outro {
+            background-color: #fef3c7;
+            color: #92400e;
+        }
+
         .pagination {
             display: flex;
             justify-content: center;
@@ -809,6 +843,11 @@
             margin: 0 auto 1rem;
         }
 
+        .confirm-icon.amber {
+            background-color: #fef3c7;
+            color: #f59e0b;
+        }
+
         .btn-danger-modal {
             background-color: #ef4444;
             color: white;
@@ -825,6 +864,25 @@
 
         .btn-danger-modal:hover {
             background-color: #dc2626;
+            transform: translateY(-1px);
+        }
+
+        .btn-amber {
+            background-color: #f59e0b;
+            color: white;
+            padding: 0.65rem 1.25rem;
+            border-radius: 0.55rem;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-amber:hover {
+            background-color: #d97706;
             transform: translateY(-1px);
         }
 
@@ -864,30 +922,6 @@
                 font-size: 0.65rem;
                 padding: 0.25rem 0.6rem;
             }
-        }
-
-        .btn-amber {
-            background-color: #f59e0b;
-            color: white;
-            padding: 0.65rem 1.25rem;
-            border-radius: 0.55rem;
-            font-weight: 500;
-            border: none;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .btn-amber:hover {
-            background-color: #d97706;
-            transform: translateY(-1px);
-        }
-
-        .confirm-icon.amber {
-            background-color: #fef3c7;
-            color: #f59e0b;
         }
     </style>
 </head>
@@ -1006,7 +1040,9 @@
                             <thead>
                                 <tr>
                                     <th>Paciente</th>
+                                    <th>Tipo</th>
                                     <th>Médico</th>
+                                    <th>Especialidade</th>
                                     <th>Data</th>
                                     <th>Hora</th>
                                     <th>Status</th>
@@ -1015,7 +1051,7 @@
                             </thead>
                             <tbody id="appointments-table">
                                 <tr>
-                                    <td colspan="6" class="text-center py-8">
+                                    <td colspan="8" class="text-center py-8">
                                         <span class="loading-spinner"></span> Carregando...
                                     </td>
                                 </tr>
@@ -1046,11 +1082,9 @@
             </div>
             <div class="modal-footer">
                 <button class="btn-secondary" onclick="closeModal('view-modal')">Fechar</button>
-                <?php if (session()->get('Tipo_Usuario') === 'Admin'): ?>
-                    <button class="btn-primary" id="view-modal-edit-btn" onclick="editFromView()">
-                        <i class="fas fa-edit mr-1"></i>Editar
-                    </button>
-                <?php endif; ?>
+                <button class="btn-primary" id="view-modal-edit-btn" onclick="editFromView()">
+                    <i class="fas fa-edit mr-1"></i>Editar
+                </button>
             </div>
         </div>
     </div>
@@ -1113,8 +1147,8 @@
                 <button class="modal-close" onclick="closeConfirmModal()">&times;</button>
             </div>
             <div class="modal-body">
-                <div class="confirm-icon amber">
-                    <i class="fas fa-ban"></i>
+                <div class="confirm-icon">
+                    <i class="fas fa-trash-alt"></i>
                 </div>
                 <div id="confirm-delete-message">
                     <p class="text-gray-600">Tem certeza que deseja excluir este agendamento?</p>
@@ -1138,7 +1172,7 @@
                 <button class="modal-close" onclick="closeCancelModal()">&times;</button>
             </div>
             <div class="modal-body">
-                <div class="confirm-icon" style="background-color: #fef3c7; color: #f59e0b;">
+                <div class="confirm-icon amber">
                     <i class="fas fa-ban"></i>
                 </div>
                 <div id="confirm-cancel-message">
@@ -1148,7 +1182,7 @@
             </div>
             <div class="modal-footer">
                 <button class="btn-secondary" onclick="closeCancelModal()">Manter Agendamento</button>
-                <button class="btn btn-amber" id="confirm-cancel-btn" style="background-color: #f59e0b; color: white; padding: 0.65rem 1.25rem; border-radius: 0.55rem; font-weight: 500; border: none; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 0.5rem;">
+                <button class="btn-amber" id="confirm-cancel-btn">
                     <i class="fas fa-ban mr-1"></i>Sim, Cancelar
                 </button>
             </div>
@@ -1219,6 +1253,7 @@
         let currentFilter = 'all';
         let currentViewId = null;
         let deleteId = null;
+        let cancelId = null;
 
         // ==================== STATUS BADGE ====================
         function getStatusBadge(status) {
@@ -1290,59 +1325,115 @@
                 .then(data => {
                     if (data.error) {
                         modalBody.innerHTML = `
-                        <div class="text-center py-4 text-red-500">
-                            <i class="fas fa-exclamation-circle text-2xl block mb-2"></i>
-                            ${data.error}
-                        </div>
-                    `;
+                            <div class="text-center py-4 text-red-500">
+                                <i class="fas fa-exclamation-circle text-2xl block mb-2"></i>
+                                ${data.error}
+                            </div>
+                        `;
                         return;
                     }
 
                     const appt = data;
-                    modalBody.innerHTML = `
-                    <div class="detail-row">
-                        <span class="detail-label"><i class="fas fa-user mr-1"></i>Paciente</span>
-                        <span class="detail-value font-medium">${appt.paciente || 'N/A'}</span>
-                    </div>
-                    <div class="detail-row">
-                        <span class="detail-label"><i class="fas fa-user-md mr-1"></i>Médico</span>
-                        <span class="detail-value">${appt.medico || 'N/A'}</span>
-                    </div>
-                    <div class="detail-row">
-                        <span class="detail-label"><i class="fas fa-stethoscope mr-1"></i>Especialidade</span>
-                        <span class="detail-value">${appt.especialidade || 'N/A'}</span>
-                    </div>
-                    <div class="detail-row">
-                        <span class="detail-label"><i class="fas fa-calendar-alt mr-1"></i>Data</span>
-                        <span class="detail-value">${appt.data_formatada || appt.data}</span>
-                    </div>
-                    <div class="detail-row">
-                        <span class="detail-label"><i class="fas fa-clock mr-1"></i>Horário</span>
-                        <span class="detail-value">${appt.hora || 'N/A'}</span>
-                    </div>
-                    <div class="detail-row">
-                        <span class="detail-label"><i class="fas fa-tag mr-1"></i>Status</span>
-                        <span class="detail-value">${getStatusBadge(appt.status)}</span>
-                    </div>
-                    <div class="detail-row">
-                        <span class="detail-label"><i class="fas fa-sticky-note mr-1"></i>Motivo</span>
-                        <span class="detail-value">${appt.motivo || 'Não informado'}</span>
-                    </div>
-                    <div class="detail-row">
-                        <span class="detail-label"><i class="fas fa-calendar-plus mr-1"></i>Criado em</span>
-                        <span class="detail-value">${appt.criado_em || 'N/A'}</span>
-                    </div>
-                `;
+                    const isForOther = appt.tipo_agendamento === 'other';
+                    const tipoLabel = isForOther ? 'Para outra pessoa' : 'Para si';
+                    const tipoClass = isForOther ? 'outro' : 'proprio';
+                    const tipoIcon = isForOther ? 'fa-users' : 'fa-user';
+
+                    let html = `
+                        <div class="detail-row">
+                            <span class="detail-label"><i class="fas fa-user mr-1"></i>Paciente</span>
+                            <span class="detail-value font-medium">${appt.paciente || 'N/A'}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label"><i class="fas fa-user-tag mr-1"></i>Tipo</span>
+                            <span class="detail-value">
+                                <span class="tipo-badge ${tipoClass}">
+                                    <i class="fas ${tipoIcon} mr-1"></i>${tipoLabel}
+                                </span>
+                            </span>
+                        </div>
+                    `;
+
+                    // Se for para outra pessoa, mostrar dados do paciente agendado
+                    if (isForOther) {
+                        html += `
+                            <div class="detail-row" style="background-color: #fef3c7; border-radius: 0.25rem; padding: 0.5rem 0.75rem; margin: 0.5rem 0; border-left: 4px solid #f59e0b;">
+                                <span class="detail-label" style="color: #92400e;"><i class="fas fa-child mr-1"></i>Paciente Agendado</span>
+                                <span class="detail-value">
+                                    <strong>${appt.paciente_nome_agendado || 'Não informado'}</strong>
+                                    ${appt.paciente_relacao ? `<span class="sub-detail"><i class="fas fa-heart mr-1"></i>Parentesco: ${appt.paciente_relacao}</span>` : ''}
+                                    ${appt.paciente_data_nasc_agendado ? `<span class="sub-detail"><i class="fas fa-birthday-cake mr-1"></i>Data Nasc.: ${appt.paciente_data_nasc_agendado}</span>` : ''}
+                                    ${appt.paciente_doc_tipo ? `<span class="sub-detail"><i class="fas fa-id-card mr-1"></i>Documento: ${appt.paciente_doc_tipo} ${appt.paciente_doc_num || ''}</span>` : ''}
+                                </span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label"><i class="fas fa-user mr-1"></i>Responsável</span>
+                                <span class="detail-value">${appt.responsavel_nome || appt.paciente || 'N/A'}</span>
+                            </div>
+                            ${appt.responsavel_telefone ? `
+                            <div class="detail-row">
+                                <span class="detail-label"><i class="fas fa-phone mr-1"></i>Telefone Responsável</span>
+                                <span class="detail-value">${appt.responsavel_telefone}</span>
+                            </div>` : ''}
+                            ${appt.responsavel_bi ? `
+                            <div class="detail-row">
+                                <span class="detail-label"><i class="fas fa-id-card mr-1"></i>BI Responsável</span>
+                                <span class="detail-value">${appt.responsavel_bi}</span>
+                            </div>` : ''}
+                        `;
+                    }
+
+                    html += `
+                        <div class="detail-row">
+                            <span class="detail-label"><i class="fas fa-user-md mr-1"></i>Médico</span>
+                            <span class="detail-value">${appt.medico || 'N/A'}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label"><i class="fas fa-stethoscope mr-1"></i>Especialidade</span>
+                            <span class="detail-value">${appt.especialidade || 'N/A'}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label"><i class="fas fa-calendar-alt mr-1"></i>Data</span>
+                            <span class="detail-value">${appt.data_formatada || appt.data}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label"><i class="fas fa-clock mr-1"></i>Horário</span>
+                            <span class="detail-value">${appt.hora || 'N/A'}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label"><i class="fas fa-tag mr-1"></i>Status</span>
+                            <span class="detail-value">${getStatusBadge(appt.status)}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label"><i class="fas fa-sticky-note mr-1"></i>Motivo</span>
+                            <span class="detail-value">${appt.motivo || 'Não informado'}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label"><i class="fas fa-calendar-plus mr-1"></i>Criado em</span>
+                            <span class="detail-value">${appt.criado_em || 'N/A'}</span>
+                        </div>
+                        ${!isForOther ? `
+                        <div class="detail-row">
+                            <span class="detail-label"><i class="fas fa-phone mr-1"></i>Telefone</span>
+                            <span class="detail-value">${appt.paciente_telefone || 'N/A'}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label"><i class="fas fa-id-card mr-1"></i>BI</span>
+                            <span class="detail-value">${appt.paciente_bi || 'N/A'}</span>
+                        </div>` : ''}
+                    `;
+
+                    modalBody.innerHTML = html;
                     openModal('view-modal');
                 })
                 .catch(error => {
                     console.error('Erro:', error);
                     modalBody.innerHTML = `
-                    <div class="text-center py-4 text-red-500">
-                        <i class="fas fa-exclamation-circle text-2xl block mb-2"></i>
-                        ${error.message || 'Erro ao carregar dados do agendamento.'}
-                    </div>
-                `;
+                        <div class="text-center py-4 text-red-500">
+                            <i class="fas fa-exclamation-circle text-2xl block mb-2"></i>
+                            ${error.message || 'Erro ao carregar dados do agendamento.'}
+                        </div>
+                    `;
                 });
         }
 
@@ -1543,8 +1634,6 @@
         });
 
         // ==================== CANCEL APPOINTMENT ====================
-        let cancelId = null;
-
         function confirmCancel(id) {
             if (!id) {
                 showNotification('ID do agendamento não encontrado.', 'error');
@@ -1715,7 +1804,7 @@
             if (appointmentsList.length === 0) {
                 tableBody.innerHTML = `
                     <tr>
-                        <td colspan="6" class="empty-state">
+                        <td colspan="8" class="empty-state">
                             <i class="fas fa-calendar-check"></i>
                             <p class="text-lg font-medium mb-2">Nenhum agendamento encontrado</p>
                             <p class="text-gray-500 mb-4">Tente uma busca diferente ou cadastre um novo agendamento.</p>
@@ -1734,9 +1823,37 @@
             paginatedAppointments.forEach(appointment => {
                 const row = document.createElement('tr');
                 row.className = 'border-t';
+
+                // Determinar o tipo de agendamento
+                const isForOther = appointment.tipo_agendamento === 'other';
+                const tipoLabel = isForOther ? 'Outra pessoa' : 'Próprio';
+                const tipoClass = isForOther ? 'outro' : 'proprio';
+                const tipoIcon = isForOther ? 'fa-users' : 'fa-user';
+
+                // Nome do paciente com detalhes se for outra pessoa
+                let pacienteDisplay = appointment.paciente || 'N/A';
+                if (isForOther && appointment.paciente_nome_agendado) {
+                    pacienteDisplay = `${appointment.paciente_nome_agendado}`;
+                    if (appointment.paciente_relacao) {
+                        pacienteDisplay += ` <span class="text-xs text-gray-500">(${appointment.paciente_relacao})</span>`;
+                    }
+                }
+
                 row.innerHTML = `
-                    <td class="font-medium">${appointment.paciente || 'N/A'}</td>
+                    <td>
+                        <div>
+                            <div class="font-medium">${pacienteDisplay}</div>
+                            ${isForOther ? `<div class="text-xs text-gray-500"><i class="fas fa-user mr-1"></i>Responsável: ${appointment.paciente || 'N/A'}</div>` : ''}
+                        </div>
+                    </td>
+                    <td>
+                        <span class="tipo-badge ${tipoClass}">
+                            <i class="fas ${tipoIcon} mr-1"></i>
+                            ${tipoLabel}
+                        </span>
+                    </td>
                     <td>${appointment.medico || 'N/A'}</td>
+                    <td>${appointment.especialidade || 'N/A'}</td>
                     <td>${appointment.data || '-'}</td>
                     <td>${appointment.hora || '-'}</td>
                     <td>${getStatusBadge(appointment.status)}</td>
@@ -1797,7 +1914,7 @@
             if (tableBody) {
                 tableBody.innerHTML = `
                     <tr>
-                        <td colspan="6" class="text-center py-8">
+                        <td colspan="8" class="text-center py-8">
                             <span class="loading-spinner"></span> Carregando...
                         </td>
                     </tr>

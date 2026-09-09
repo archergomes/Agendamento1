@@ -1,0 +1,988 @@
+DEBUG - 2026-09-09 05:40:48 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 05:41:05 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 05:41:06 --> Login - Tipo de usuário: Paciente
+DEBUG - 2026-09-09 05:41:06 --> Login - Sessão: Array
+(
+    [ID_Usuario] => 10
+    [Email] => paciente@hospital.com
+    [Tipo_Usuario] => Paciente
+    [ID_Referencia] => 1234568
+    [paciente_id] => 1234568
+    [logged_in] => 1
+    [user_id] => 10
+)
+
+DEBUG - 2026-09-09 05:41:07 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 05:41:07 --> index - Sessão: paciente_id=1234568, usuario_id=10, email=paciente@hospital.com
+DEBUG - 2026-09-09 05:41:07 --> Especialidades encontradas: 3
+INFO - 2026-09-09 05:41:15 --> CSRF token verified.
+DEBUG - 2026-09-09 05:41:15 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 05:41:15 --> getDoctors - specialty: Cardiologia, query: 
+DEBUG - 2026-09-09 05:41:16 --> countMedicos - specialty: Cardiologia, count: 3
+DEBUG - 2026-09-09 05:41:16 --> getMedicos - encontrados: 3
+INFO - 2026-09-09 05:41:18 --> CSRF token verified.
+INFO - 2026-09-09 05:41:18 --> CSRF token verified.
+INFO - 2026-09-09 05:41:18 --> CSRF token verified.
+DEBUG - 2026-09-09 05:41:18 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2026-09-09 05:41:18 --> CSRF token verified.
+INFO - 2026-09-09 05:41:18 --> CSRF token verified.
+INFO - 2026-09-09 05:41:18 --> CSRF token verified.
+DEBUG - 2026-09-09 05:41:18 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 05:41:18 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2026-09-09 05:41:19 --> CSRF token verified.
+DEBUG - 2026-09-09 05:41:19 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2026-09-09 05:41:19 --> CSRF token verified.
+DEBUG - 2026-09-09 05:41:19 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2026-09-09 05:41:19 --> CSRF token verified.
+DEBUG - 2026-09-09 05:41:19 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2026-09-09 05:41:19 --> CSRF token verified.
+DEBUG - 2026-09-09 05:41:19 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2026-09-09 05:41:19 --> CSRF token verified.
+DEBUG - 2026-09-09 05:41:19 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 05:41:19 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2026-09-09 05:41:19 --> CSRF token verified.
+DEBUG - 2026-09-09 05:41:19 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2026-09-09 05:41:19 --> CSRF token verified.
+DEBUG - 2026-09-09 05:41:20 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 05:41:20 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 05:41:20 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2026-09-09 05:41:21 --> CSRF token verified.
+INFO - 2026-09-09 05:41:21 --> CSRF token verified.
+DEBUG - 2026-09-09 05:41:21 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 05:41:21 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 05:41:52 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2026-09-09 05:41:56 --> CSRF token verified.
+DEBUG - 2026-09-09 05:41:57 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2026-09-09 05:42:03 --> CodeIgniter\Security\Exceptions\SecurityException: The action you requested is not allowed.
+[Method: POST, Route: agenda/get_appointment_details]
+in SYSTEMPATH\Security\Security.php on line 258.
+ 1 SYSTEMPATH\Security\Security.php(258): CodeIgniter\Security\Exceptions\SecurityException::forDisallowedAction()
+ 2 SYSTEMPATH\Filters\CSRF.php(52): CodeIgniter\Security\Security->verify(Object(CodeIgniter\HTTP\IncomingRequest))
+ 3 SYSTEMPATH\Filters\Filters.php(241): CodeIgniter\Filters\CSRF->before(Object(CodeIgniter\HTTP\IncomingRequest), null)
+ 4 SYSTEMPATH\Filters\Filters.php(221): CodeIgniter\Filters\Filters->runBefore([...])
+ 5 SYSTEMPATH\CodeIgniter.php(488): CodeIgniter\Filters\Filters->run('agenda/get_appointment_details', 'before')
+ 6 SYSTEMPATH\CodeIgniter.php(363): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-09-09 05:42:07 --> CodeIgniter\Security\Exceptions\SecurityException: The action you requested is not allowed.
+[Method: POST, Route: agenda/get_appointment_details]
+in SYSTEMPATH\Security\Security.php on line 258.
+ 1 SYSTEMPATH\Security\Security.php(258): CodeIgniter\Security\Exceptions\SecurityException::forDisallowedAction()
+ 2 SYSTEMPATH\Filters\CSRF.php(52): CodeIgniter\Security\Security->verify(Object(CodeIgniter\HTTP\IncomingRequest))
+ 3 SYSTEMPATH\Filters\Filters.php(241): CodeIgniter\Filters\CSRF->before(Object(CodeIgniter\HTTP\IncomingRequest), null)
+ 4 SYSTEMPATH\Filters\Filters.php(221): CodeIgniter\Filters\Filters->runBefore([...])
+ 5 SYSTEMPATH\CodeIgniter.php(488): CodeIgniter\Filters\Filters->run('agenda/get_appointment_details', 'before')
+ 6 SYSTEMPATH\CodeIgniter.php(363): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-09-09 05:42:08 --> CodeIgniter\Security\Exceptions\SecurityException: The action you requested is not allowed.
+[Method: POST, Route: agenda/get_appointment_details]
+in SYSTEMPATH\Security\Security.php on line 258.
+ 1 SYSTEMPATH\Security\Security.php(258): CodeIgniter\Security\Exceptions\SecurityException::forDisallowedAction()
+ 2 SYSTEMPATH\Filters\CSRF.php(52): CodeIgniter\Security\Security->verify(Object(CodeIgniter\HTTP\IncomingRequest))
+ 3 SYSTEMPATH\Filters\Filters.php(241): CodeIgniter\Filters\CSRF->before(Object(CodeIgniter\HTTP\IncomingRequest), null)
+ 4 SYSTEMPATH\Filters\Filters.php(221): CodeIgniter\Filters\Filters->runBefore([...])
+ 5 SYSTEMPATH\CodeIgniter.php(488): CodeIgniter\Filters\Filters->run('agenda/get_appointment_details', 'before')
+ 6 SYSTEMPATH\CodeIgniter.php(363): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2026-09-09 05:42:10 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 05:42:14 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 05:42:15 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 05:42:26 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 05:42:26 --> Login - Tipo de usuário: Admin
+DEBUG - 2026-09-09 05:42:26 --> Login - Sessão: Array
+(
+    [ID_Usuario] => 4
+    [Email] => admin@hospital.com
+    [Tipo_Usuario] => Admin
+    [ID_Referencia] => 0
+    [paciente_id] => 
+    [logged_in] => 1
+    [user_id] => 4
+)
+
+DEBUG - 2026-09-09 05:42:27 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 05:42:29 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 05:42:29 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 05:42:29 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 05:42:29 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 05:42:30 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 05:42:30 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 05:42:35 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 05:42:36 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 05:42:38 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 05:42:39 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 05:42:40 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 05:42:40 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 05:42:40 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 05:42:40 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 05:42:40 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 05:42:52 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 05:42:53 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 05:42:55 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 05:42:56 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 05:42:57 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 05:42:58 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 05:42:59 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 05:43:00 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 05:43:03 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 05:43:11 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 05:43:12 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 05:43:19 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 05:43:33 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 05:43:34 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 05:43:36 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 05:43:36 --> getHorarios - Encontrados: 247
+INFO - 2026-09-09 05:44:30 --> CSRF token verified.
+DEBUG - 2026-09-09 05:44:31 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 05:45:00 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 05:45:00 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 05:45:09 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 05:45:10 --> Login - Tipo de usuário: Medico
+DEBUG - 2026-09-09 05:45:10 --> Login - Sessão: Array
+(
+    [ID_Usuario] => 12
+    [Email] => medico@hospital.com
+    [Tipo_Usuario] => Medico
+    [ID_Referencia] => 1345425
+    [paciente_id] => 
+    [logged_in] => 1
+    [user_id] => 12
+)
+
+DEBUG - 2026-09-09 05:45:10 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 05:45:12 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 05:45:12 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 05:45:12 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 05:45:12 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 05:45:13 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 05:45:13 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 05:45:13 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 05:45:13 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 05:45:17 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 05:45:18 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 05:45:22 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 05:45:23 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 05:45:27 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 05:45:28 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 05:57:18 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 05:57:18 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 05:57:46 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 05:57:47 --> Login - Tipo de usuário: Paciente
+DEBUG - 2026-09-09 05:57:47 --> Login - Sessão: Array
+(
+    [ID_Usuario] => 10
+    [Email] => paciente@hospital.com
+    [Tipo_Usuario] => Paciente
+    [ID_Referencia] => 1234568
+    [paciente_id] => 1234568
+    [logged_in] => 1
+    [user_id] => 10
+)
+
+DEBUG - 2026-09-09 05:57:48 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 05:57:48 --> index - Sessão: paciente_id=1234568, usuario_id=10, email=paciente@hospital.com
+DEBUG - 2026-09-09 05:57:48 --> Especialidades encontradas: 3
+INFO - 2026-09-09 05:59:15 --> CSRF token verified.
+DEBUG - 2026-09-09 05:59:15 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 05:59:15 --> getDoctors - specialty: Cardiologia, query: 
+DEBUG - 2026-09-09 05:59:15 --> countMedicos - specialty: Cardiologia, count: 3
+DEBUG - 2026-09-09 05:59:15 --> getMedicos - encontrados: 3
+INFO - 2026-09-09 05:59:17 --> CSRF token verified.
+DEBUG - 2026-09-09 05:59:17 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2026-09-09 05:59:17 --> CSRF token verified.
+INFO - 2026-09-09 05:59:17 --> CSRF token verified.
+INFO - 2026-09-09 05:59:17 --> CSRF token verified.
+INFO - 2026-09-09 05:59:17 --> CSRF token verified.
+INFO - 2026-09-09 05:59:17 --> CSRF token verified.
+DEBUG - 2026-09-09 05:59:17 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 05:59:17 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2026-09-09 05:59:17 --> CSRF token verified.
+DEBUG - 2026-09-09 05:59:17 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 05:59:18 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2026-09-09 05:59:18 --> CSRF token verified.
+INFO - 2026-09-09 05:59:18 --> CSRF token verified.
+DEBUG - 2026-09-09 05:59:18 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 05:59:18 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2026-09-09 05:59:18 --> CSRF token verified.
+INFO - 2026-09-09 05:59:18 --> CSRF token verified.
+DEBUG - 2026-09-09 05:59:18 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2026-09-09 05:59:18 --> CSRF token verified.
+DEBUG - 2026-09-09 05:59:18 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2026-09-09 05:59:18 --> CSRF token verified.
+DEBUG - 2026-09-09 05:59:18 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 05:59:18 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 05:59:18 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 05:59:18 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2026-09-09 05:59:19 --> CSRF token verified.
+INFO - 2026-09-09 05:59:19 --> CSRF token verified.
+DEBUG - 2026-09-09 05:59:19 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 05:59:20 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2026-09-09 05:59:50 --> CSRF token verified.
+DEBUG - 2026-09-09 05:59:50 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 05:59:50 --> saveAppointment - Dados recebidos: Array
+(
+    [especialidade] => Cardiologia
+    [medicoId] => 1345352
+    [dataConsulta] => 2026-09-18
+    [horario] => 11:00
+    [nome] => João Silva
+    [telefone] => 841234567
+    [bi] => 123456789ABC
+)
+
+DEBUG - 2026-09-09 05:59:50 --> saveAppointment - Sessão atual: Array
+(
+    [__ci_last_regenerate] => 1788933438
+    [_ci_previous_url] => http://localhost/Agendamento1/agenda
+    [ID_Usuario] => 10
+    [Email] => paciente@hospital.com
+    [Tipo_Usuario] => Paciente
+    [ID_Referencia] => 1234568
+    [paciente_id] => 1234568
+    [logged_in] => 1
+    [user_id] => 10
+)
+
+DEBUG - 2026-09-09 05:59:50 --> saveAppointment - Dados para insert: Array
+(
+    [ID_Paciente] => 1234568
+    [ID_Medico] => 1345352
+    [Data_Agendamento] => 2026-09-18
+    [Hora_Agendamento] => 11:00
+    [Status] => Pendente
+    [Motivo] => 
+)
+
+DEBUG - 2026-09-09 05:59:56 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2026-09-09 06:00:03 --> CSRF token verified.
+DEBUG - 2026-09-09 06:00:03 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:11:23 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:11:23 --> index - Sessão: paciente_id=1234568, usuario_id=10, email=paciente@hospital.com
+DEBUG - 2026-09-09 06:11:23 --> Especialidades encontradas: 3
+DEBUG - 2026-09-09 06:13:06 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2026-09-09 06:13:09 --> CSRF token verified.
+DEBUG - 2026-09-09 06:13:09 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:17:52 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2026-09-09 06:18:00 --> CSRF token verified.
+DEBUG - 2026-09-09 06:18:00 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2026-09-09 06:18:55 --> CodeIgniter\Security\Exceptions\SecurityException: The action you requested is not allowed.
+[Method: POST, Route: agenda/cancelar_agendamento]
+in SYSTEMPATH\Security\Security.php on line 258.
+ 1 SYSTEMPATH\Security\Security.php(258): CodeIgniter\Security\Exceptions\SecurityException::forDisallowedAction()
+ 2 SYSTEMPATH\Filters\CSRF.php(52): CodeIgniter\Security\Security->verify(Object(CodeIgniter\HTTP\IncomingRequest))
+ 3 SYSTEMPATH\Filters\Filters.php(241): CodeIgniter\Filters\CSRF->before(Object(CodeIgniter\HTTP\IncomingRequest), null)
+ 4 SYSTEMPATH\Filters\Filters.php(221): CodeIgniter\Filters\Filters->runBefore([...])
+ 5 SYSTEMPATH\CodeIgniter.php(488): CodeIgniter\Filters\Filters->run('agenda/cancelar_agendamento', 'before')
+ 6 SYSTEMPATH\CodeIgniter.php(363): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-09-09 06:18:57 --> CodeIgniter\Security\Exceptions\SecurityException: The action you requested is not allowed.
+[Method: POST, Route: agenda/cancelar_agendamento]
+in SYSTEMPATH\Security\Security.php on line 258.
+ 1 SYSTEMPATH\Security\Security.php(258): CodeIgniter\Security\Exceptions\SecurityException::forDisallowedAction()
+ 2 SYSTEMPATH\Filters\CSRF.php(52): CodeIgniter\Security\Security->verify(Object(CodeIgniter\HTTP\IncomingRequest))
+ 3 SYSTEMPATH\Filters\Filters.php(241): CodeIgniter\Filters\CSRF->before(Object(CodeIgniter\HTTP\IncomingRequest), null)
+ 4 SYSTEMPATH\Filters\Filters.php(221): CodeIgniter\Filters\Filters->runBefore([...])
+ 5 SYSTEMPATH\CodeIgniter.php(488): CodeIgniter\Filters\Filters->run('agenda/cancelar_agendamento', 'before')
+ 6 SYSTEMPATH\CodeIgniter.php(363): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-09-09 06:19:03 --> CodeIgniter\Security\Exceptions\SecurityException: The action you requested is not allowed.
+[Method: POST, Route: agenda/cancelar_agendamento]
+in SYSTEMPATH\Security\Security.php on line 258.
+ 1 SYSTEMPATH\Security\Security.php(258): CodeIgniter\Security\Exceptions\SecurityException::forDisallowedAction()
+ 2 SYSTEMPATH\Filters\CSRF.php(52): CodeIgniter\Security\Security->verify(Object(CodeIgniter\HTTP\IncomingRequest))
+ 3 SYSTEMPATH\Filters\Filters.php(241): CodeIgniter\Filters\CSRF->before(Object(CodeIgniter\HTTP\IncomingRequest), null)
+ 4 SYSTEMPATH\Filters\Filters.php(221): CodeIgniter\Filters\Filters->runBefore([...])
+ 5 SYSTEMPATH\CodeIgniter.php(488): CodeIgniter\Filters\Filters->run('agenda/cancelar_agendamento', 'before')
+ 6 SYSTEMPATH\CodeIgniter.php(363): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-09-09 06:19:31 --> CodeIgniter\Security\Exceptions\SecurityException: The action you requested is not allowed.
+[Method: POST, Route: agenda/get_appointment_details]
+in SYSTEMPATH\Security\Security.php on line 258.
+ 1 SYSTEMPATH\Security\Security.php(258): CodeIgniter\Security\Exceptions\SecurityException::forDisallowedAction()
+ 2 SYSTEMPATH\Filters\CSRF.php(52): CodeIgniter\Security\Security->verify(Object(CodeIgniter\HTTP\IncomingRequest))
+ 3 SYSTEMPATH\Filters\Filters.php(241): CodeIgniter\Filters\CSRF->before(Object(CodeIgniter\HTTP\IncomingRequest), null)
+ 4 SYSTEMPATH\Filters\Filters.php(221): CodeIgniter\Filters\Filters->runBefore([...])
+ 5 SYSTEMPATH\CodeIgniter.php(488): CodeIgniter\Filters\Filters->run('agenda/get_appointment_details', 'before')
+ 6 SYSTEMPATH\CodeIgniter.php(363): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2026-09-09 06:21:23 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2026-09-09 06:21:29 --> CSRF token verified.
+DEBUG - 2026-09-09 06:21:29 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:25:43 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2026-09-09 06:25:47 --> CSRF token verified.
+INFO - 2026-09-09 06:25:47 --> CSRF token verified.
+DEBUG - 2026-09-09 06:25:47 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2026-09-09 06:25:47 --> TypeError: CodeIgniter\Security\Security::verify(): Argument #1 ($request) must be of type CodeIgniter\HTTP\RequestInterface, string given, called in C:\wamp64\www\Agendamento1\app\Controllers\Agenda.php on line 538
+[Method: POST, Route: agenda/cancelar_agendamento]
+in SYSTEMPATH\Security\Security.php on line 236.
+ 1 APPPATH\Controllers\Agenda.php(538): CodeIgniter\Security\Security->verify('ad5e3fded6c0b43ec6182dd8690d50e4')
+ 2 SYSTEMPATH\CodeIgniter.php(974): App\Controllers\Agenda->cancelarAgendamento()
+ 3 SYSTEMPATH\CodeIgniter.php(520): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Agenda))
+ 4 SYSTEMPATH\CodeIgniter.php(363): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2026-09-09 06:25:47 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2026-09-09 06:25:47 --> TypeError: CodeIgniter\Security\Security::verify(): Argument #1 ($request) must be of type CodeIgniter\HTTP\RequestInterface, string given, called in C:\wamp64\www\Agendamento1\app\Controllers\Agenda.php on line 538
+[Method: POST, Route: agenda/cancelar_agendamento]
+in SYSTEMPATH\Security\Security.php on line 236.
+ 1 APPPATH\Controllers\Agenda.php(538): CodeIgniter\Security\Security->verify('ad5e3fded6c0b43ec6182dd8690d50e4')
+ 2 SYSTEMPATH\CodeIgniter.php(974): App\Controllers\Agenda->cancelarAgendamento()
+ 3 SYSTEMPATH\CodeIgniter.php(520): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Agenda))
+ 4 SYSTEMPATH\CodeIgniter.php(363): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-09-09 06:25:54 --> CodeIgniter\Security\Exceptions\SecurityException: The action you requested is not allowed.
+[Method: POST, Route: agenda/cancelar_agendamento]
+in SYSTEMPATH\Security\Security.php on line 258.
+ 1 SYSTEMPATH\Security\Security.php(258): CodeIgniter\Security\Exceptions\SecurityException::forDisallowedAction()
+ 2 SYSTEMPATH\Filters\CSRF.php(52): CodeIgniter\Security\Security->verify(Object(CodeIgniter\HTTP\IncomingRequest))
+ 3 SYSTEMPATH\Filters\Filters.php(241): CodeIgniter\Filters\CSRF->before(Object(CodeIgniter\HTTP\IncomingRequest), null)
+ 4 SYSTEMPATH\Filters\Filters.php(221): CodeIgniter\Filters\Filters->runBefore([...])
+ 5 SYSTEMPATH\CodeIgniter.php(488): CodeIgniter\Filters\Filters->run('agenda/cancelar_agendamento', 'before')
+ 6 SYSTEMPATH\CodeIgniter.php(363): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-09-09 06:25:54 --> CodeIgniter\Security\Exceptions\SecurityException: The action you requested is not allowed.
+[Method: POST, Route: agenda/cancelar_agendamento]
+in SYSTEMPATH\Security\Security.php on line 258.
+ 1 SYSTEMPATH\Security\Security.php(258): CodeIgniter\Security\Exceptions\SecurityException::forDisallowedAction()
+ 2 SYSTEMPATH\Filters\CSRF.php(52): CodeIgniter\Security\Security->verify(Object(CodeIgniter\HTTP\IncomingRequest))
+ 3 SYSTEMPATH\Filters\Filters.php(241): CodeIgniter\Filters\CSRF->before(Object(CodeIgniter\HTTP\IncomingRequest), null)
+ 4 SYSTEMPATH\Filters\Filters.php(221): CodeIgniter\Filters\Filters->runBefore([...])
+ 5 SYSTEMPATH\CodeIgniter.php(488): CodeIgniter\Filters\Filters->run('agenda/cancelar_agendamento', 'before')
+ 6 SYSTEMPATH\CodeIgniter.php(363): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2026-09-09 06:27:15 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2026-09-09 06:27:23 --> CSRF token verified.
+INFO - 2026-09-09 06:27:23 --> CSRF token verified.
+DEBUG - 2026-09-09 06:27:23 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2026-09-09 06:27:23 --> TypeError: CodeIgniter\Security\Security::verify(): Argument #1 ($request) must be of type CodeIgniter\HTTP\RequestInterface, string given, called in C:\wamp64\www\Agendamento1\app\Controllers\Agenda.php on line 571
+[Method: POST, Route: agenda/cancelar_agendamento]
+in SYSTEMPATH\Security\Security.php on line 236.
+ 1 APPPATH\Controllers\Agenda.php(571): CodeIgniter\Security\Security->verify('9f4a82db0a1c2f6117c221dedd2f3f61')
+ 2 SYSTEMPATH\CodeIgniter.php(974): App\Controllers\Agenda->cancelarAgendamento()
+ 3 SYSTEMPATH\CodeIgniter.php(520): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Agenda))
+ 4 SYSTEMPATH\CodeIgniter.php(363): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2026-09-09 06:27:23 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2026-09-09 06:27:23 --> TypeError: CodeIgniter\Security\Security::verify(): Argument #1 ($request) must be of type CodeIgniter\HTTP\RequestInterface, string given, called in C:\wamp64\www\Agendamento1\app\Controllers\Agenda.php on line 571
+[Method: POST, Route: agenda/cancelar_agendamento]
+in SYSTEMPATH\Security\Security.php on line 236.
+ 1 APPPATH\Controllers\Agenda.php(571): CodeIgniter\Security\Security->verify('9f4a82db0a1c2f6117c221dedd2f3f61')
+ 2 SYSTEMPATH\CodeIgniter.php(974): App\Controllers\Agenda->cancelarAgendamento()
+ 3 SYSTEMPATH\CodeIgniter.php(520): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Agenda))
+ 4 SYSTEMPATH\CodeIgniter.php(363): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2026-09-09 06:30:29 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:30:33 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2026-09-09 06:30:33 --> Error: Call to undefined method CodeIgniter\Security\Security::validate()
+[Method: POST, Route: agenda/cancelar_agendamento]
+in APPPATH\Controllers\Agenda.php on line 569.
+ 1 SYSTEMPATH\CodeIgniter.php(974): App\Controllers\Agenda->cancelarAgendamento()
+ 2 SYSTEMPATH\CodeIgniter.php(520): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Agenda))
+ 3 SYSTEMPATH\CodeIgniter.php(363): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2026-09-09 06:30:33 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2026-09-09 06:30:33 --> Error: Call to undefined method CodeIgniter\Security\Security::validate()
+[Method: POST, Route: agenda/cancelar_agendamento]
+in APPPATH\Controllers\Agenda.php on line 569.
+ 1 SYSTEMPATH\CodeIgniter.php(974): App\Controllers\Agenda->cancelarAgendamento()
+ 2 SYSTEMPATH\CodeIgniter.php(520): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Agenda))
+ 3 SYSTEMPATH\CodeIgniter.php(363): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2026-09-09 06:32:35 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:32:40 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:32:40 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:32:41 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2026-09-09 06:33:27 --> CSRF token verified.
+DEBUG - 2026-09-09 06:33:27 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:35:31 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:35:35 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:35:35 --> Status atual do agendamento ID 23: Pendente
+DEBUG - 2026-09-09 06:35:35 --> Agendamento ID 23 atualizado para: Cancelado
+DEBUG - 2026-09-09 06:35:35 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:35:35 --> Status atual do agendamento ID 23: Cancelado
+DEBUG - 2026-09-09 06:35:37 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:35:52 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:35:52 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:36:00 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:36:00 --> Login - Tipo de usuário: Admin
+DEBUG - 2026-09-09 06:36:00 --> Login - Sessão: Array
+(
+    [ID_Usuario] => 4
+    [Email] => admin@hospital.com
+    [Tipo_Usuario] => Admin
+    [ID_Referencia] => 0
+    [paciente_id] => 
+    [logged_in] => 1
+    [user_id] => 4
+)
+
+DEBUG - 2026-09-09 06:36:01 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:36:04 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:36:04 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:36:04 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:36:04 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:36:05 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:36:05 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:36:11 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:36:20 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:36:24 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:36:25 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:36:30 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:36:31 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:36:33 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:36:35 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:36:39 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:36:41 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:36:43 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:36:44 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:36:45 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:36:48 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:36:49 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:37:23 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:37:27 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:37:29 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:37:33 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:37:36 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:37:49 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:37:49 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:37:53 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:37:54 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:37:55 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:37:56 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:37:58 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:38:01 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:38:11 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:38:13 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:38:15 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:38:18 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:38:25 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:38:35 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:38:50 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:38:53 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:44:13 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:44:18 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:44:19 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:44:21 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:44:21 --> updatePatient - POST data: Array
+(
+    [bi] => 257985229875
+    [nome] => Archer Gomess
+    [telefone] => +258871914705
+    [email] => 
+    [endereco] => 
+    [csrf_test_name] => 461c8bf70720e642185b3e9488a4fab5
+)
+
+DEBUG - 2026-09-09 06:44:21 --> updatePatient - Dados para atualização: Array
+(
+    [Nome] => Archer
+    [Sobrenome] => Gomess
+    [Telefone] => +258871914705
+)
+
+DEBUG - 2026-09-09 06:44:21 --> updatePatient - Resultado: Sucesso
+DEBUG - 2026-09-09 06:44:22 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:44:24 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:44:28 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:44:28 --> updatePatient - POST data: Array
+(
+    [bi] => 257985229875
+    [nome] => Archer Gomes
+    [telefone] => +258871914705
+    [email] => 
+    [endereco] => 
+    [csrf_test_name] => 461c8bf70720e642185b3e9488a4fab5
+)
+
+DEBUG - 2026-09-09 06:44:28 --> updatePatient - Dados para atualização: Array
+(
+    [Nome] => Archer
+    [Sobrenome] => Gomes
+    [Telefone] => +258871914705
+)
+
+DEBUG - 2026-09-09 06:44:28 --> updatePatient - Resultado: Sucesso
+DEBUG - 2026-09-09 06:44:28 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:44:35 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:44:37 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:44:47 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:44:47 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:44:50 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:44:55 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:44:55 --> updateDoctorFull - Médico e usuário atualizados
+DEBUG - 2026-09-09 06:44:55 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:44:58 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:44:59 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:45:03 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:45:56 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:45:58 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:45:59 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:46:02 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:46:04 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:46:07 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2026-09-09 06:48:58 --> ErrorException: Cannot redeclare App\Models\AdminModel::updateSecretary()
+[Method: GET, Route: admin/secretarios]
+in APPPATH\Models\AdminModel.php on line 1011.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+DEBUG - 2026-09-09 06:49:45 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:49:50 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:49:51 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:49:54 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:49:54 --> updateSecretary - POST data: Array
+(
+    [id] => 6765776
+    [nome] => Secretário 3sa
+    [telefone] => +258878787878
+    [email] => sec3@hospital.com
+    [cargo] => Secretário
+    [csrf_test_name] => 461c8bf70720e642185b3e9488a4fab5
+)
+
+DEBUG - 2026-09-09 06:49:54 --> updateSecretary - Dados para atualização: Array
+(
+    [Nome] => Secretário
+    [Sobrenome] => 3sa
+    [Telefone] => +258878787878
+    [Email] => sec3@hospital.com
+    [Cargo] => Secretário
+)
+
+ERROR - 2026-09-09 06:49:54 --> Unknown column 'Cargo' in 'field list'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 300.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(300): mysqli->query('UPDATE `secretarios` SET `Nome` = \'Secretário\', `Sobrenome` = \'3sa\', `Telefone` = \'+258878787878\', `Email` = \'sec3@hospital.com\', `Cargo` = \'Secretário\'
+WHERE `ID_Secretario` = \'6765776\'', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(908): CodeIgniter\Database\MySQLi\Connection->execute('UPDATE `secretarios` SET `Nome` = \'Secretário\', `Sobrenome` = \'3sa\', `Telefone` = \'+258878787878\', `Email` = \'sec3@hospital.com\', `Cargo` = \'Secretário\'
+WHERE `ID_Secretario` = \'6765776\'')
+ 3 SYSTEMPATH\Database\BaseConnection.php(825): CodeIgniter\Database\BaseConnection->simpleQuery('UPDATE `secretarios` SET `Nome` = \'Secretário\', `Sobrenome` = \'3sa\', `Telefone` = \'+258878787878\', `Email` = \'sec3@hospital.com\', `Cargo` = \'Secretário\'
+WHERE `ID_Secretario` = \'6765776\'')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(2531): CodeIgniter\Database\BaseConnection->query('UPDATE `secretarios` SET `Nome` = :Nome:, `Sobrenome` = :Sobrenome:, `Telefone` = :Telefone:, `Email` = :Email:, `Cargo` = :Cargo:
+WHERE `ID_Secretario` = :ID_Secretario:', [...], false)
+ 5 APPPATH\Models\AdminModel.php(768): CodeIgniter\Database\BaseBuilder->update([...])
+ 6 APPPATH\Controllers\Admin.php(1201): App\Models\AdminModel->updateSecretary('6765776', 'Secretário 3sa', '+258878787878', 'sec3@hospital.com', 'Secretário')
+ 7 SYSTEMPATH\CodeIgniter.php(974): App\Controllers\Admin->updateSecretary()
+ 8 SYSTEMPATH\CodeIgniter.php(520): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin))
+ 9 SYSTEMPATH\CodeIgniter.php(363): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+12 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ERROR - 2026-09-09 06:49:54 --> updateSecretary - Erro: Unknown column 'Cargo' in 'field list'
+DEBUG - 2026-09-09 06:51:30 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:51:32 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:51:33 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:51:36 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:51:36 --> updateSecretary - POST data: Array
+(
+    [id] => 6765776
+    [nome] => Secretário 3s
+    [telefone] => +258878787878
+    [email] => sec3@hospital.com
+    [cargo] => Secretário
+    [csrf_test_name] => 461c8bf70720e642185b3e9488a4fab5
+)
+
+DEBUG - 2026-09-09 06:51:36 --> updateSecretary - Dados para atualização: Array
+(
+    [Nome] => Secretário
+    [Sobrenome] => 3s
+    [Telefone] => +258878787878
+    [Email] => sec3@hospital.com
+    [Cargo] => Secretário
+)
+
+ERROR - 2026-09-09 06:51:36 --> Unknown column 'Cargo' in 'field list'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 300.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(300): mysqli->query('UPDATE `secretarios` SET `Nome` = \'Secretário\', `Sobrenome` = \'3s\', `Telefone` = \'+258878787878\', `Email` = \'sec3@hospital.com\', `Cargo` = \'Secretário\'
+WHERE `ID_Secretario` = \'6765776\'', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(908): CodeIgniter\Database\MySQLi\Connection->execute('UPDATE `secretarios` SET `Nome` = \'Secretário\', `Sobrenome` = \'3s\', `Telefone` = \'+258878787878\', `Email` = \'sec3@hospital.com\', `Cargo` = \'Secretário\'
+WHERE `ID_Secretario` = \'6765776\'')
+ 3 SYSTEMPATH\Database\BaseConnection.php(825): CodeIgniter\Database\BaseConnection->simpleQuery('UPDATE `secretarios` SET `Nome` = \'Secretário\', `Sobrenome` = \'3s\', `Telefone` = \'+258878787878\', `Email` = \'sec3@hospital.com\', `Cargo` = \'Secretário\'
+WHERE `ID_Secretario` = \'6765776\'')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(2531): CodeIgniter\Database\BaseConnection->query('UPDATE `secretarios` SET `Nome` = :Nome:, `Sobrenome` = :Sobrenome:, `Telefone` = :Telefone:, `Email` = :Email:, `Cargo` = :Cargo:
+WHERE `ID_Secretario` = :ID_Secretario:', [...], false)
+ 5 APPPATH\Models\AdminModel.php(776): CodeIgniter\Database\BaseBuilder->update([...])
+ 6 APPPATH\Controllers\Admin.php(1204): App\Models\AdminModel->updateSecretary('6765776', 'Secretário 3s', '+258878787878', 'sec3@hospital.com', 'Secretário')
+ 7 SYSTEMPATH\CodeIgniter.php(974): App\Controllers\Admin->updateSecretary()
+ 8 SYSTEMPATH\CodeIgniter.php(520): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin))
+ 9 SYSTEMPATH\CodeIgniter.php(363): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+12 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ERROR - 2026-09-09 06:51:36 --> updateSecretary - Erro: Unknown column 'Cargo' in 'field list'
+ERROR - 2026-09-09 06:51:36 --> updateSecretary - Trace: #0 C:\wamp64\www\Agendamento1\system\Database\BaseBuilder.php(2531): CodeIgniter\Database\BaseConnection->query('UPDATE `secreta...', Array, false)
+#1 C:\wamp64\www\Agendamento1\app\Models\AdminModel.php(776): CodeIgniter\Database\BaseBuilder->update(Array)
+#2 C:\wamp64\www\Agendamento1\app\Controllers\Admin.php(1204): App\Models\AdminModel->updateSecretary('6765776', 'Secret\xC3\xA1rio 3s', '+258878787878', 'sec3@hospital.c...', 'Secret\xC3\xA1rio')
+#3 C:\wamp64\www\Agendamento1\system\CodeIgniter.php(974): App\Controllers\Admin->updateSecretary()
+#4 C:\wamp64\www\Agendamento1\system\CodeIgniter.php(520): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin))
+#5 C:\wamp64\www\Agendamento1\system\CodeIgniter.php(363): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#6 C:\wamp64\www\Agendamento1\system\Boot.php(417): CodeIgniter\CodeIgniter->run()
+#7 C:\wamp64\www\Agendamento1\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#8 C:\wamp64\www\Agendamento1\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#9 {main}
+DEBUG - 2026-09-09 06:51:58 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:51:59 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:52:00 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:52:03 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:52:03 --> updateSecretary - POST data: Array
+(
+    [id] => 6765776
+    [nome] => Secretário 3d
+    [telefone] => +258878787878
+    [email] => sec3@hospital.com
+    [cargo] => Secretário
+    [csrf_test_name] => 461c8bf70720e642185b3e9488a4fab5
+)
+
+DEBUG - 2026-09-09 06:52:03 --> updateSecretary - Dados para atualização: Array
+(
+    [Nome] => Secretário
+    [Sobrenome] => 3d
+    [Telefone] => +258878787878
+    [Email] => sec3@hospital.com
+    [Cargo] => Secretário
+)
+
+ERROR - 2026-09-09 06:52:03 --> Unknown column 'Cargo' in 'field list'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 300.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(300): mysqli->query('UPDATE `secretarios` SET `Nome` = \'Secretário\', `Sobrenome` = \'3d\', `Telefone` = \'+258878787878\', `Email` = \'sec3@hospital.com\', `Cargo` = \'Secretário\'
+WHERE `ID_Secretario` = \'6765776\'', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(908): CodeIgniter\Database\MySQLi\Connection->execute('UPDATE `secretarios` SET `Nome` = \'Secretário\', `Sobrenome` = \'3d\', `Telefone` = \'+258878787878\', `Email` = \'sec3@hospital.com\', `Cargo` = \'Secretário\'
+WHERE `ID_Secretario` = \'6765776\'')
+ 3 SYSTEMPATH\Database\BaseConnection.php(825): CodeIgniter\Database\BaseConnection->simpleQuery('UPDATE `secretarios` SET `Nome` = \'Secretário\', `Sobrenome` = \'3d\', `Telefone` = \'+258878787878\', `Email` = \'sec3@hospital.com\', `Cargo` = \'Secretário\'
+WHERE `ID_Secretario` = \'6765776\'')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(2531): CodeIgniter\Database\BaseConnection->query('UPDATE `secretarios` SET `Nome` = :Nome:, `Sobrenome` = :Sobrenome:, `Telefone` = :Telefone:, `Email` = :Email:, `Cargo` = :Cargo:
+WHERE `ID_Secretario` = :ID_Secretario:', [...], false)
+ 5 APPPATH\Models\AdminModel.php(776): CodeIgniter\Database\BaseBuilder->update([...])
+ 6 APPPATH\Controllers\Admin.php(1204): App\Models\AdminModel->updateSecretary('6765776', 'Secretário 3d', '+258878787878', 'sec3@hospital.com', 'Secretário')
+ 7 SYSTEMPATH\CodeIgniter.php(974): App\Controllers\Admin->updateSecretary()
+ 8 SYSTEMPATH\CodeIgniter.php(520): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin))
+ 9 SYSTEMPATH\CodeIgniter.php(363): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+12 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ERROR - 2026-09-09 06:52:03 --> updateSecretary - Erro: Unknown column 'Cargo' in 'field list'
+ERROR - 2026-09-09 06:52:03 --> updateSecretary - Trace: #0 C:\wamp64\www\Agendamento1\system\Database\BaseBuilder.php(2531): CodeIgniter\Database\BaseConnection->query('UPDATE `secreta...', Array, false)
+#1 C:\wamp64\www\Agendamento1\app\Models\AdminModel.php(776): CodeIgniter\Database\BaseBuilder->update(Array)
+#2 C:\wamp64\www\Agendamento1\app\Controllers\Admin.php(1204): App\Models\AdminModel->updateSecretary('6765776', 'Secret\xC3\xA1rio 3d', '+258878787878', 'sec3@hospital.c...', 'Secret\xC3\xA1rio')
+#3 C:\wamp64\www\Agendamento1\system\CodeIgniter.php(974): App\Controllers\Admin->updateSecretary()
+#4 C:\wamp64\www\Agendamento1\system\CodeIgniter.php(520): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin))
+#5 C:\wamp64\www\Agendamento1\system\CodeIgniter.php(363): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#6 C:\wamp64\www\Agendamento1\system\Boot.php(417): CodeIgniter\CodeIgniter->run()
+#7 C:\wamp64\www\Agendamento1\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#8 C:\wamp64\www\Agendamento1\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#9 {main}
+DEBUG - 2026-09-09 06:54:14 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:54:17 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:54:19 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:54:30 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:54:30 --> updateSecretary - POST data: Array
+(
+    [id] => 79573352
+    [nome] => Archer Gomess
+    [telefone] => +258873873823
+    [email] => archer3@gmail.com
+    [cargo] => Secretário
+    [csrf_test_name] => 461c8bf70720e642185b3e9488a4fab5
+)
+
+DEBUG - 2026-09-09 06:54:30 --> updateSecretary - Dados para atualização: Array
+(
+    [Nome] => Archer
+    [Sobrenome] => Gomess
+    [Telefone] => +258873873823
+    [Email] => archer3@gmail.com
+    [Cargo] => Secretário
+)
+
+DEBUG - 2026-09-09 06:54:30 --> updateSecretary - Resultado da atualização: true
+DEBUG - 2026-09-09 06:54:30 --> updateSecretary - Atualização do usuário: true
+DEBUG - 2026-09-09 06:54:31 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:54:35 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:54:35 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:54:39 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:54:40 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 06:54:55 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 07:00:10 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 07:00:12 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2026-09-09 07:00:12 --> Unknown column 'a.tipo_agendamento' in 'field list'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 300.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(300): mysqli->query('SELECT `a`.`ID_Agendamento` as `id`, `a`.`Data_Agendamento` as `data`, `a`.`Hora_Agendamento` as `hora`, `a`.`Status` as `status`, `a`.`Motivo` as `motivo`, `a`.`Criado_Em` as `criado_em`, `a`.`tipo_agendamento`, `a`.`paciente_nome_agendado`, `a`.`paciente_relacao`, CONCAT(p.Nome, " ", p.Sobrenome) as paciente_nome, CONCAT(m.Nome, " ", m.Sobrenome) as medico_nome, `e`.`Nome` as `especialidade`
+FROM `agendamentos` `a`
+LEFT JOIN `pacientes` `p` ON `p`.`ID_Paciente` = `a`.`ID_Paciente`
+LEFT JOIN `medicos` `m` ON `m`.`ID_Medico` = `a`.`ID_Medico`
+LEFT JOIN `especialidades` `e` ON `e`.`ID_Especialidade` = `m`.`ID_Especialidade`
+ORDER BY `a`.`Data_Agendamento` DESC', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(908): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `a`.`ID_Agendamento` as `id`, `a`.`Data_Agendamento` as `data`, `a`.`Hora_Agendamento` as `hora`, `a`.`Status` as `status`, `a`.`Motivo` as `motivo`, `a`.`Criado_Em` as `criado_em`, `a`.`tipo_agendamento`, `a`.`paciente_nome_agendado`, `a`.`paciente_relacao`, CONCAT(p.Nome, " ", p.Sobrenome) as paciente_nome, CONCAT(m.Nome, " ", m.Sobrenome) as medico_nome, `e`.`Nome` as `especialidade`
+FROM `agendamentos` `a`
+LEFT JOIN `pacientes` `p` ON `p`.`ID_Paciente` = `a`.`ID_Paciente`
+LEFT JOIN `medicos` `m` ON `m`.`ID_Medico` = `a`.`ID_Medico`
+LEFT JOIN `especialidades` `e` ON `e`.`ID_Especialidade` = `m`.`ID_Especialidade`
+ORDER BY `a`.`Data_Agendamento` DESC')
+ 3 SYSTEMPATH\Database\BaseConnection.php(825): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `a`.`ID_Agendamento` as `id`, `a`.`Data_Agendamento` as `data`, `a`.`Hora_Agendamento` as `hora`, `a`.`Status` as `status`, `a`.`Motivo` as `motivo`, `a`.`Criado_Em` as `criado_em`, `a`.`tipo_agendamento`, `a`.`paciente_nome_agendado`, `a`.`paciente_relacao`, CONCAT(p.Nome, " ", p.Sobrenome) as paciente_nome, CONCAT(m.Nome, " ", m.Sobrenome) as medico_nome, `e`.`Nome` as `especialidade`
+FROM `agendamentos` `a`
+LEFT JOIN `pacientes` `p` ON `p`.`ID_Paciente` = `a`.`ID_Paciente`
+LEFT JOIN `medicos` `m` ON `m`.`ID_Medico` = `a`.`ID_Medico`
+LEFT JOIN `especialidades` `e` ON `e`.`ID_Especialidade` = `m`.`ID_Especialidade`
+ORDER BY `a`.`Data_Agendamento` DESC')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(1659): CodeIgniter\Database\BaseConnection->query('SELECT `a`.`ID_Agendamento` as `id`, `a`.`Data_Agendamento` as `data`, `a`.`Hora_Agendamento` as `hora`, `a`.`Status` as `status`, `a`.`Motivo` as `motivo`, `a`.`Criado_Em` as `criado_em`, `a`.`tipo_agendamento`, `a`.`paciente_nome_agendado`, `a`.`paciente_relacao`, CONCAT(p.Nome, " ", p.Sobrenome) as paciente_nome, CONCAT(m.Nome, " ", m.Sobrenome) as medico_nome, `e`.`Nome` as `especialidade`
+FROM `agendamentos` `a`
+LEFT JOIN `pacientes` `p` ON `p`.`ID_Paciente` = `a`.`ID_Paciente`
+LEFT JOIN `medicos` `m` ON `m`.`ID_Medico` = `a`.`ID_Medico`
+LEFT JOIN `especialidades` `e` ON `e`.`ID_Especialidade` = `m`.`ID_Especialidade`
+ORDER BY `a`.`Data_Agendamento` DESC', [], false)
+ 5 APPPATH\Models\AdminModel.php(833): CodeIgniter\Database\BaseBuilder->get()
+ 6 APPPATH\Controllers\Admin.php(883): App\Models\AdminModel->getAppointmentsList('')
+ 7 SYSTEMPATH\CodeIgniter.php(974): App\Controllers\Admin->getAppointments()
+ 8 SYSTEMPATH\CodeIgniter.php(520): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin))
+ 9 SYSTEMPATH\CodeIgniter.php(363): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+12 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ERROR - 2026-09-09 07:00:12 --> Erro ao buscar agendamentos: Unknown column 'a.tipo_agendamento' in 'field list'
+DEBUG - 2026-09-09 07:02:58 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 07:02:59 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2026-09-09 07:02:59 --> Unknown column 'a.tipo_agendamento' in 'field list'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 300.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(300): mysqli->query('SELECT `a`.`ID_Agendamento` as `id`, `a`.`Data_Agendamento` as `data`, `a`.`Hora_Agendamento` as `hora`, `a`.`Status` as `status`, `a`.`Motivo` as `motivo`, `a`.`Criado_Em` as `criado_em`, `a`.`tipo_agendamento`, `a`.`paciente_nome_agendado`, `a`.`paciente_relacao`, CONCAT(p.Nome, " ", p.Sobrenome) as paciente_nome, CONCAT(m.Nome, " ", m.Sobrenome) as medico_nome, `e`.`Nome` as `especialidade`
+FROM `agendamentos` `a`
+LEFT JOIN `pacientes` `p` ON `p`.`ID_Paciente` = `a`.`ID_Paciente`
+LEFT JOIN `medicos` `m` ON `m`.`ID_Medico` = `a`.`ID_Medico`
+LEFT JOIN `especialidades` `e` ON `e`.`ID_Especialidade` = `m`.`ID_Especialidade`
+ORDER BY `a`.`Data_Agendamento` DESC', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(908): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `a`.`ID_Agendamento` as `id`, `a`.`Data_Agendamento` as `data`, `a`.`Hora_Agendamento` as `hora`, `a`.`Status` as `status`, `a`.`Motivo` as `motivo`, `a`.`Criado_Em` as `criado_em`, `a`.`tipo_agendamento`, `a`.`paciente_nome_agendado`, `a`.`paciente_relacao`, CONCAT(p.Nome, " ", p.Sobrenome) as paciente_nome, CONCAT(m.Nome, " ", m.Sobrenome) as medico_nome, `e`.`Nome` as `especialidade`
+FROM `agendamentos` `a`
+LEFT JOIN `pacientes` `p` ON `p`.`ID_Paciente` = `a`.`ID_Paciente`
+LEFT JOIN `medicos` `m` ON `m`.`ID_Medico` = `a`.`ID_Medico`
+LEFT JOIN `especialidades` `e` ON `e`.`ID_Especialidade` = `m`.`ID_Especialidade`
+ORDER BY `a`.`Data_Agendamento` DESC')
+ 3 SYSTEMPATH\Database\BaseConnection.php(825): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `a`.`ID_Agendamento` as `id`, `a`.`Data_Agendamento` as `data`, `a`.`Hora_Agendamento` as `hora`, `a`.`Status` as `status`, `a`.`Motivo` as `motivo`, `a`.`Criado_Em` as `criado_em`, `a`.`tipo_agendamento`, `a`.`paciente_nome_agendado`, `a`.`paciente_relacao`, CONCAT(p.Nome, " ", p.Sobrenome) as paciente_nome, CONCAT(m.Nome, " ", m.Sobrenome) as medico_nome, `e`.`Nome` as `especialidade`
+FROM `agendamentos` `a`
+LEFT JOIN `pacientes` `p` ON `p`.`ID_Paciente` = `a`.`ID_Paciente`
+LEFT JOIN `medicos` `m` ON `m`.`ID_Medico` = `a`.`ID_Medico`
+LEFT JOIN `especialidades` `e` ON `e`.`ID_Especialidade` = `m`.`ID_Especialidade`
+ORDER BY `a`.`Data_Agendamento` DESC')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(1659): CodeIgniter\Database\BaseConnection->query('SELECT `a`.`ID_Agendamento` as `id`, `a`.`Data_Agendamento` as `data`, `a`.`Hora_Agendamento` as `hora`, `a`.`Status` as `status`, `a`.`Motivo` as `motivo`, `a`.`Criado_Em` as `criado_em`, `a`.`tipo_agendamento`, `a`.`paciente_nome_agendado`, `a`.`paciente_relacao`, CONCAT(p.Nome, " ", p.Sobrenome) as paciente_nome, CONCAT(m.Nome, " ", m.Sobrenome) as medico_nome, `e`.`Nome` as `especialidade`
+FROM `agendamentos` `a`
+LEFT JOIN `pacientes` `p` ON `p`.`ID_Paciente` = `a`.`ID_Paciente`
+LEFT JOIN `medicos` `m` ON `m`.`ID_Medico` = `a`.`ID_Medico`
+LEFT JOIN `especialidades` `e` ON `e`.`ID_Especialidade` = `m`.`ID_Especialidade`
+ORDER BY `a`.`Data_Agendamento` DESC', [], false)
+ 5 APPPATH\Models\AdminModel.php(833): CodeIgniter\Database\BaseBuilder->get()
+ 6 APPPATH\Controllers\Admin.php(883): App\Models\AdminModel->getAppointmentsList('')
+ 7 SYSTEMPATH\CodeIgniter.php(974): App\Controllers\Admin->getAppointments()
+ 8 SYSTEMPATH\CodeIgniter.php(520): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin))
+ 9 SYSTEMPATH\CodeIgniter.php(363): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+12 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ERROR - 2026-09-09 07:02:59 --> Erro ao buscar agendamentos: Unknown column 'a.tipo_agendamento' in 'field list'
+DEBUG - 2026-09-09 07:05:03 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 07:05:06 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2026-09-09 07:05:06 --> Unknown column 'a.tipo_agendamento' in 'field list'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 300.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(300): mysqli->query('SELECT `a`.`ID_Agendamento` as `id`, `a`.`Data_Agendamento` as `data`, `a`.`Hora_Agendamento` as `hora`, `a`.`Status` as `status`, `a`.`Motivo` as `motivo`, `a`.`Criado_Em` as `criado_em`, `a`.`tipo_agendamento`, `a`.`paciente_nome_agendado`, `a`.`paciente_relacao`, CONCAT(p.Nome, " ", p.Sobrenome) as paciente_nome, CONCAT(m.Nome, " ", m.Sobrenome) as medico_nome, `e`.`Nome` as `especialidade`
+FROM `agendamentos` `a`
+LEFT JOIN `pacientes` `p` ON `p`.`ID_Paciente` = `a`.`ID_Paciente`
+LEFT JOIN `medicos` `m` ON `m`.`ID_Medico` = `a`.`ID_Medico`
+LEFT JOIN `especialidades` `e` ON `e`.`ID_Especialidade` = `m`.`ID_Especialidade`
+ORDER BY `a`.`Data_Agendamento` DESC, `a`.`Hora_Agendamento` DESC', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(908): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `a`.`ID_Agendamento` as `id`, `a`.`Data_Agendamento` as `data`, `a`.`Hora_Agendamento` as `hora`, `a`.`Status` as `status`, `a`.`Motivo` as `motivo`, `a`.`Criado_Em` as `criado_em`, `a`.`tipo_agendamento`, `a`.`paciente_nome_agendado`, `a`.`paciente_relacao`, CONCAT(p.Nome, " ", p.Sobrenome) as paciente_nome, CONCAT(m.Nome, " ", m.Sobrenome) as medico_nome, `e`.`Nome` as `especialidade`
+FROM `agendamentos` `a`
+LEFT JOIN `pacientes` `p` ON `p`.`ID_Paciente` = `a`.`ID_Paciente`
+LEFT JOIN `medicos` `m` ON `m`.`ID_Medico` = `a`.`ID_Medico`
+LEFT JOIN `especialidades` `e` ON `e`.`ID_Especialidade` = `m`.`ID_Especialidade`
+ORDER BY `a`.`Data_Agendamento` DESC, `a`.`Hora_Agendamento` DESC')
+ 3 SYSTEMPATH\Database\BaseConnection.php(825): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `a`.`ID_Agendamento` as `id`, `a`.`Data_Agendamento` as `data`, `a`.`Hora_Agendamento` as `hora`, `a`.`Status` as `status`, `a`.`Motivo` as `motivo`, `a`.`Criado_Em` as `criado_em`, `a`.`tipo_agendamento`, `a`.`paciente_nome_agendado`, `a`.`paciente_relacao`, CONCAT(p.Nome, " ", p.Sobrenome) as paciente_nome, CONCAT(m.Nome, " ", m.Sobrenome) as medico_nome, `e`.`Nome` as `especialidade`
+FROM `agendamentos` `a`
+LEFT JOIN `pacientes` `p` ON `p`.`ID_Paciente` = `a`.`ID_Paciente`
+LEFT JOIN `medicos` `m` ON `m`.`ID_Medico` = `a`.`ID_Medico`
+LEFT JOIN `especialidades` `e` ON `e`.`ID_Especialidade` = `m`.`ID_Especialidade`
+ORDER BY `a`.`Data_Agendamento` DESC, `a`.`Hora_Agendamento` DESC')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(1659): CodeIgniter\Database\BaseConnection->query('SELECT `a`.`ID_Agendamento` as `id`, `a`.`Data_Agendamento` as `data`, `a`.`Hora_Agendamento` as `hora`, `a`.`Status` as `status`, `a`.`Motivo` as `motivo`, `a`.`Criado_Em` as `criado_em`, `a`.`tipo_agendamento`, `a`.`paciente_nome_agendado`, `a`.`paciente_relacao`, CONCAT(p.Nome, " ", p.Sobrenome) as paciente_nome, CONCAT(m.Nome, " ", m.Sobrenome) as medico_nome, `e`.`Nome` as `especialidade`
+FROM `agendamentos` `a`
+LEFT JOIN `pacientes` `p` ON `p`.`ID_Paciente` = `a`.`ID_Paciente`
+LEFT JOIN `medicos` `m` ON `m`.`ID_Medico` = `a`.`ID_Medico`
+LEFT JOIN `especialidades` `e` ON `e`.`ID_Especialidade` = `m`.`ID_Especialidade`
+ORDER BY `a`.`Data_Agendamento` DESC, `a`.`Hora_Agendamento` DESC', [], false)
+ 5 APPPATH\Models\AdminModel.php(836): CodeIgniter\Database\BaseBuilder->get()
+ 6 APPPATH\Controllers\Admin.php(883): App\Models\AdminModel->getAppointmentsList('')
+ 7 SYSTEMPATH\CodeIgniter.php(974): App\Controllers\Admin->getAppointments()
+ 8 SYSTEMPATH\CodeIgniter.php(520): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin))
+ 9 SYSTEMPATH\CodeIgniter.php(363): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+12 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ERROR - 2026-09-09 07:05:06 --> Erro em getAppointmentsList: Unknown column 'a.tipo_agendamento' in 'field list'
+ERROR - 2026-09-09 07:05:06 --> Trace: #0 C:\wamp64\www\Agendamento1\system\Database\BaseBuilder.php(1659): CodeIgniter\Database\BaseConnection->query('SELECT `a`.`ID_...', Array, false)
+#1 C:\wamp64\www\Agendamento1\app\Models\AdminModel.php(836): CodeIgniter\Database\BaseBuilder->get()
+#2 C:\wamp64\www\Agendamento1\app\Controllers\Admin.php(883): App\Models\AdminModel->getAppointmentsList('')
+#3 C:\wamp64\www\Agendamento1\system\CodeIgniter.php(974): App\Controllers\Admin->getAppointments()
+#4 C:\wamp64\www\Agendamento1\system\CodeIgniter.php(520): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin))
+#5 C:\wamp64\www\Agendamento1\system\CodeIgniter.php(363): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#6 C:\wamp64\www\Agendamento1\system\Boot.php(417): CodeIgniter\CodeIgniter->run()
+#7 C:\wamp64\www\Agendamento1\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#8 C:\wamp64\www\Agendamento1\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#9 {main}
+DEBUG - 2026-09-09 07:05:06 --> getAppointments - Encontrados: 0 agendamentos
+DEBUG - 2026-09-09 07:05:13 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 07:19:07 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 07:19:08 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2026-09-09 07:19:08 --> Unknown column 'a.tipo_agendamento' in 'field list'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 300.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(300): mysqli->query('SELECT `a`.`ID_Agendamento` as `id`, `a`.`Data_Agendamento` as `data`, `a`.`Hora_Agendamento` as `hora`, `a`.`Status` as `status`, `a`.`Motivo` as `motivo`, `a`.`Criado_Em` as `criado_em`, `a`.`tipo_agendamento`, `a`.`paciente_nome_agendado`, `a`.`paciente_relacao`, CONCAT(p.Nome, " ", p.Sobrenome) as paciente_nome, CONCAT(m.Nome, " ", m.Sobrenome) as medico_nome, `e`.`Nome` as `especialidade`
+FROM `agendamentos` `a`
+LEFT JOIN `pacientes` `p` ON `p`.`ID_Paciente` = `a`.`ID_Paciente`
+LEFT JOIN `medicos` `m` ON `m`.`ID_Medico` = `a`.`ID_Medico`
+LEFT JOIN `especialidades` `e` ON `e`.`ID_Especialidade` = `m`.`ID_Especialidade`
+ORDER BY `a`.`Data_Agendamento` DESC, `a`.`Hora_Agendamento` DESC', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(908): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `a`.`ID_Agendamento` as `id`, `a`.`Data_Agendamento` as `data`, `a`.`Hora_Agendamento` as `hora`, `a`.`Status` as `status`, `a`.`Motivo` as `motivo`, `a`.`Criado_Em` as `criado_em`, `a`.`tipo_agendamento`, `a`.`paciente_nome_agendado`, `a`.`paciente_relacao`, CONCAT(p.Nome, " ", p.Sobrenome) as paciente_nome, CONCAT(m.Nome, " ", m.Sobrenome) as medico_nome, `e`.`Nome` as `especialidade`
+FROM `agendamentos` `a`
+LEFT JOIN `pacientes` `p` ON `p`.`ID_Paciente` = `a`.`ID_Paciente`
+LEFT JOIN `medicos` `m` ON `m`.`ID_Medico` = `a`.`ID_Medico`
+LEFT JOIN `especialidades` `e` ON `e`.`ID_Especialidade` = `m`.`ID_Especialidade`
+ORDER BY `a`.`Data_Agendamento` DESC, `a`.`Hora_Agendamento` DESC')
+ 3 SYSTEMPATH\Database\BaseConnection.php(825): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `a`.`ID_Agendamento` as `id`, `a`.`Data_Agendamento` as `data`, `a`.`Hora_Agendamento` as `hora`, `a`.`Status` as `status`, `a`.`Motivo` as `motivo`, `a`.`Criado_Em` as `criado_em`, `a`.`tipo_agendamento`, `a`.`paciente_nome_agendado`, `a`.`paciente_relacao`, CONCAT(p.Nome, " ", p.Sobrenome) as paciente_nome, CONCAT(m.Nome, " ", m.Sobrenome) as medico_nome, `e`.`Nome` as `especialidade`
+FROM `agendamentos` `a`
+LEFT JOIN `pacientes` `p` ON `p`.`ID_Paciente` = `a`.`ID_Paciente`
+LEFT JOIN `medicos` `m` ON `m`.`ID_Medico` = `a`.`ID_Medico`
+LEFT JOIN `especialidades` `e` ON `e`.`ID_Especialidade` = `m`.`ID_Especialidade`
+ORDER BY `a`.`Data_Agendamento` DESC, `a`.`Hora_Agendamento` DESC')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(1659): CodeIgniter\Database\BaseConnection->query('SELECT `a`.`ID_Agendamento` as `id`, `a`.`Data_Agendamento` as `data`, `a`.`Hora_Agendamento` as `hora`, `a`.`Status` as `status`, `a`.`Motivo` as `motivo`, `a`.`Criado_Em` as `criado_em`, `a`.`tipo_agendamento`, `a`.`paciente_nome_agendado`, `a`.`paciente_relacao`, CONCAT(p.Nome, " ", p.Sobrenome) as paciente_nome, CONCAT(m.Nome, " ", m.Sobrenome) as medico_nome, `e`.`Nome` as `especialidade`
+FROM `agendamentos` `a`
+LEFT JOIN `pacientes` `p` ON `p`.`ID_Paciente` = `a`.`ID_Paciente`
+LEFT JOIN `medicos` `m` ON `m`.`ID_Medico` = `a`.`ID_Medico`
+LEFT JOIN `especialidades` `e` ON `e`.`ID_Especialidade` = `m`.`ID_Especialidade`
+ORDER BY `a`.`Data_Agendamento` DESC, `a`.`Hora_Agendamento` DESC', [], false)
+ 5 APPPATH\Models\AdminModel.php(836): CodeIgniter\Database\BaseBuilder->get()
+ 6 APPPATH\Controllers\Admin.php(883): App\Models\AdminModel->getAppointmentsList('')
+ 7 SYSTEMPATH\CodeIgniter.php(974): App\Controllers\Admin->getAppointments()
+ 8 SYSTEMPATH\CodeIgniter.php(520): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin))
+ 9 SYSTEMPATH\CodeIgniter.php(363): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+12 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ERROR - 2026-09-09 07:19:08 --> Erro em getAppointmentsList: Unknown column 'a.tipo_agendamento' in 'field list'
+ERROR - 2026-09-09 07:19:08 --> Trace: #0 C:\wamp64\www\Agendamento1\system\Database\BaseBuilder.php(1659): CodeIgniter\Database\BaseConnection->query('SELECT `a`.`ID_...', Array, false)
+#1 C:\wamp64\www\Agendamento1\app\Models\AdminModel.php(836): CodeIgniter\Database\BaseBuilder->get()
+#2 C:\wamp64\www\Agendamento1\app\Controllers\Admin.php(883): App\Models\AdminModel->getAppointmentsList('')
+#3 C:\wamp64\www\Agendamento1\system\CodeIgniter.php(974): App\Controllers\Admin->getAppointments()
+#4 C:\wamp64\www\Agendamento1\system\CodeIgniter.php(520): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin))
+#5 C:\wamp64\www\Agendamento1\system\CodeIgniter.php(363): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#6 C:\wamp64\www\Agendamento1\system\Boot.php(417): CodeIgniter\CodeIgniter->run()
+#7 C:\wamp64\www\Agendamento1\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#8 C:\wamp64\www\Agendamento1\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#9 {main}
+DEBUG - 2026-09-09 07:19:08 --> getAppointments - Encontrados: 0 agendamentos
+DEBUG - 2026-09-09 07:19:15 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 07:19:15 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 07:19:22 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 07:19:36 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 07:19:43 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 07:19:43 --> Login - Tipo de usuário: Admin
+DEBUG - 2026-09-09 07:19:43 --> Login - Sessão: Array
+(
+    [ID_Usuario] => 4
+    [Email] => admin@hospital.com
+    [Tipo_Usuario] => Admin
+    [ID_Referencia] => 0
+    [paciente_id] => 
+    [logged_in] => 1
+    [user_id] => 4
+)
+
+DEBUG - 2026-09-09 07:19:44 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 07:19:46 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 07:19:46 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 07:19:47 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 07:19:47 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 07:19:47 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 07:19:47 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 07:19:49 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 07:19:50 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 07:19:54 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 07:20:39 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 07:20:39 --> createPatient - Dados recebidos: Array
+(
+    [bi] => 24343434s
+    [nome] => paciente
+    [telefone] => +258875757577
+    [email] => paciente@hospital.com
+    [data_nascimento] => 2012-06-09
+    [genero] => Masculino
+    [endereco] => Matola
+)
+
+DEBUG - 2026-09-09 07:20:39 --> createPatient - Dados para inserção: Array
+(
+    [Nome] => paciente
+    [Sobrenome] => 
+    [Telefone] => +258875757577
+    [BI] => 24343434s
+    [email] => paciente@hospital.com
+    [Endereco] => Matola
+    [Data_Nascimento] => 2012-06-09
+    [Genero] => Masculino
+)
+
+DEBUG - 2026-09-09 07:20:41 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 07:20:42 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 07:20:49 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 07:20:50 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 07:20:56 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 07:21:09 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 07:21:10 --> Login - Tipo de usuário: Admin
+DEBUG - 2026-09-09 07:21:10 --> Login - Sessão: Array
+(
+    [ID_Usuario] => 4
+    [Email] => admin@hospital.com
+    [Tipo_Usuario] => Admin
+    [ID_Referencia] => 0
+    [paciente_id] => 
+    [logged_in] => 1
+    [user_id] => 4
+)
+
+DEBUG - 2026-09-09 07:21:11 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 07:21:13 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 07:21:13 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 07:21:13 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 07:21:13 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 07:21:14 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 07:21:14 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 07:21:15 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 07:21:16 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 07:21:18 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 07:21:49 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 07:21:50 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 07:21:59 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 07:22:05 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 07:22:15 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 07:22:19 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-09-09 07:22:20 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
