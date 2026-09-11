@@ -70,8 +70,11 @@ class Security extends BaseConfig
      * --------------------------------------------------------------------------
      *
      * Regenerate CSRF Token on every submission.
+     *
+     * Deixamos false para não invalidar o token a cada pedido AJAX.
+     * O token é gerado uma vez por sessão e mantém-se válido até expirar.
      */
-    public bool $regenerate = true;
+    public bool $regenerate = false;
 
     /**
      * --------------------------------------------------------------------------
@@ -83,4 +86,21 @@ class Security extends BaseConfig
      * @see https://codeigniter4.github.io/userguide/libraries/security.html#redirection-on-failure
      */
     public bool $redirect = (ENVIRONMENT === 'production');
+
+    /**
+     * --------------------------------------------------------------------------
+     * CSRF Cookie Settings
+     * --------------------------------------------------------------------------
+     *
+     * Configurações do cookie CSRF.
+     * Em ambiente local (HTTP) o cookieSecure TEM de ser false,
+     * senão o browser rejeita o cookie e todos os POST falham com 403.
+     */
+    public bool $cookieSecure = false;
+
+    public string $cookieSameSite = 'Lax';
+
+    public string $cookieDomain = '';
+
+    public string $cookiePath = '/';
 }

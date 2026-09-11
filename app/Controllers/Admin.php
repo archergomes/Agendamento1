@@ -37,6 +37,8 @@ class Admin extends Controller
      */
     public function index()
     {
+        $adminId = $this->session->get('ID_Referencia') ?? $this->session->get('ID_Usuario');
+        $data['admin'] = $this->adminModel->getAdminById($adminId);
         $data['metrics'] = $this->adminModel->getMetrics();
         $data['active_menu'] = 'dashboard';
         return view('admin/dashboard', $data);
@@ -1692,6 +1694,161 @@ class Admin extends Controller
             }
         } catch (\Exception $e) {
             return $this->response->setStatusCode(500)->setJSON(['error' => 'Erro interno do servidor']);
+        }
+    }
+
+    /**
+     * Página de gestão de especialidades
+     */
+    public function especialidades()
+    {
+        $data['active_menu'] = 'especialidades';
+        return view('admin/especialidades', $data);
+    }
+
+    /**
+     * AJAX: listar especialidades
+     */
+    public function getEspecialidades()
+    {
+        if (!$this->request->isAJAX()) {
+            return $this->response->setStatusCode(405)->setJSON(['error' => 'Método não permitido']);
+        }
+
+        try {
+            $db = \Config\Database::connect();
+            $builder = $db->table('especialidades e');
+            $builder->select('e.ID_Especialidade, e.Nome, e.Descricao, e.Criado_Em,
+                          (SELECT COUNT(*) FROM medicos m WHERE m.ID_Especialidade = e.ID_Especialidade) AS total_medicos');
+            $builder->orderBy('e.Nome', 'ASC');
+            $data = $builder->get()->getResultArray();
+
+            return $this->response->setJSON([
+                'data'  => $data,
+                'total' => count($data)
+            ]);
+        } catch (\Exception $e) {
+            log_message('error', 'Erro ao listar especialidades: ' . $e->getMessage());
+            return $this->response->setStatusCode(500)->setJSON(['error' => 'Erro ao carregar especialidades.']);
+        }
+    }
+
+    /**
+     * AJAX: criar especialidade
+     */
+    public function createEspecialidade()
+    {
+        if (!$this->request->isAJAX() || strtolower($this->request->getMethod()) !== 'post') {
+            return $this->response->setStatusCode(405)->setJSON(['error' => 'Método não permitido']);
+        }
+
+        $nome = trim((string) $this->request->getPost('nome'));
+        $descricao = trim((string) $this->request->getPost('descricao'));
+
+        if ($nome === '' || mb_strlen($nome) < 3) {
+            return $this->response->setJSON(['error' => 'O nome deve ter pelo menos 3 caracteres.']);
+        }
+
+        $db = \Config\Database::connect();
+        $existe = $db->table('especialidades')->where('Nome', $nome)->countAllResults();
+        if ($existe > 0) {
+            return $this->response->setJSON(['error' => 'Já existe uma especialidade com este nome.']);
+        }
+
+        try {
+            $db->table('especialidades')->insert([
+                'Nome'      => $nome,
+                'Descricao' => $descricao !== '' ? $descricao : null,
+                'Criado_Em' => date('Y-m-d H:i:s')
+            ]);
+
+            return $this->response->setJSON([
+                'success'    => 'Especialidade criada com sucesso!',
+                'csrf_token' => csrf_hash()
+            ]);
+        } catch (\Exception $e) {
+            log_message('error', 'Erro ao criar especialidade: ' . $e->getMessage());
+            return $this->response->setJSON(['error' => 'Erro ao criar especialidade.']);
+        }
+    }
+
+    /**
+     * AJAX: atualizar especialidade
+     */
+    public function updateEspecialidade()
+    {
+        if (!$this->request->isAJAX() || strtolower($this->request->getMethod()) !== 'post') {
+            return $this->response->setStatusCode(405)->setJSON(['error' => 'Método não permitido']);
+        }
+
+        $id = (int) $this->request->getPost('id');
+        $nome = trim((string) $this->request->getPost('nome'));
+        $descricao = trim((string) $this->request->getPost('descricao'));
+
+        if (!$id || $nome === '' || mb_strlen($nome) < 3) {
+            return $this->response->setJSON(['error' => 'Dados inválidos.']);
+        }
+
+        $db = \Config\Database::connect();
+        $existe = $db->table('especialidades')
+            ->where('Nome', $nome)
+            ->where('ID_Especialidade !=', $id)
+            ->countAllResults();
+        if ($existe > 0) {
+            return $this->response->setJSON(['error' => 'Já existe outra especialidade com este nome.']);
+        }
+
+        try {
+            $db->table('especialidades')
+                ->where('ID_Especialidade', $id)
+                ->update([
+                    'Nome'      => $nome,
+                    'Descricao' => $descricao !== '' ? $descricao : null
+                ]);
+
+            return $this->response->setJSON([
+                'success'    => 'Especialidade atualizada com sucesso!',
+                'csrf_token' => csrf_hash()
+            ]);
+        } catch (\Exception $e) {
+            log_message('error', 'Erro ao atualizar especialidade: ' . $e->getMessage());
+            return $this->response->setJSON(['error' => 'Erro ao atualizar especialidade.']);
+        }
+    }
+
+    /**
+     * AJAX: eliminar especialidade
+     */
+    public function deleteEspecialidade()
+    {
+        if (!$this->request->isAJAX() || strtolower($this->request->getMethod()) !== 'post') {
+            return $this->response->setStatusCode(405)->setJSON(['error' => 'Método não permitido']);
+        }
+
+        $id = (int) $this->request->getPost('id');
+        if (!$id) {
+            return $this->response->setJSON(['error' => 'ID inválido.']);
+        }
+
+        $db = \Config\Database::connect();
+
+        // Bloquear eliminação se houver médicos associados
+        $associados = $db->table('medicos')->where('ID_Especialidade', $id)->countAllResults();
+        if ($associados > 0) {
+            return $this->response->setJSON([
+                'error' => "Não é possível eliminar: existem {$associados} médico(s) associados a esta especialidade."
+            ]);
+        }
+
+        try {
+            $db->table('especialidades')->where('ID_Especialidade', $id)->delete();
+            return $this->response->setJSON([
+                'success'    => 'Especialidade eliminada com sucesso!',
+                'csrf_token' => csrf_hash()
+            ]);
+        } catch (\Exception $e) {
+            log_message('error', 'Erro ao eliminar especialidade: ' . $e->getMessage());
+            return $this->response->setJSON(['error' => 'Erro ao eliminar especialidade.']);
         }
     }
 }

@@ -155,6 +155,18 @@ $routes->post('admin/delete_schedule', 'Admin::deleteSchedule');
 $routes->get('admin/cad_agendamento', 'Admin::cadAgendamento');
 $routes->post('admin/create_appointment', 'Admin::createAppointment');
 
+$routes->post('admin/aprovar_agendamento', 'Admin::aprovarAgendamento');
+$routes->post('admin/rejeitar_agendamento', 'Admin::rejeitarAgendamento');
+
+// ============================================
+// ROTAS DE ESPECIALIDADES (ADMIN)
+// ============================================
+$routes->get('admin/especialidades', 'Admin::especialidades');
+$routes->get('admin/get_especialidades', 'Admin::getEspecialidades');
+$routes->post('admin/create_especialidade', 'Admin::createEspecialidade');
+$routes->post('admin/update_especialidade', 'Admin::updateEspecialidade');
+$routes->post('admin/delete_especialidade', 'Admin::deleteEspecialidade');
+
 // ============================================
 // ROTAS DO MÉDICO
 // ============================================
@@ -211,6 +223,9 @@ $routes->get('secretario/get_appointments', 'Secretario::getAppointments');
 $routes->get('secretario/get_patients', 'Secretario::getPatients');
 $routes->get('secretario/get_doctors', 'Secretario::getDoctors');
 $routes->post('secretario/update_appointment_status', 'Secretario::updateAppointmentStatus');
+
+$routes->post('secretario/aprovar_agendamento', 'Secretario::aprovarAgendamento');
+$routes->post('secretario/rejeitar_agendamento', 'Secretario::rejeitarAgendamento');
 
 $routes->get('create-paciente-user', 'CreatePacienteUser::index');
 

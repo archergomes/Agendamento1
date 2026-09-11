@@ -175,4 +175,54 @@ class AuthModel extends Model
         $builder->where('ID_Usuario', $usuario_id);
         return $builder->update(['Senha' => $senha_hash]);
     }
+
+    /**
+     * Guarda um remember token para o utilizador
+     */
+    public function saveRememberToken($usuarioId, $token, $expiracao)
+    {
+        $builder = $this->db->table('remember_tokens');
+
+        // Remover tokens antigos do mesmo utilizador
+        $builder->where('ID_Usuario', $usuarioId)->delete();
+
+        // Inserir novo token
+        return $this->db->table('remember_tokens')->insert([
+            'ID_Usuario' => $usuarioId,
+            'Token'      => hash('sha256', $token),
+            'Expira_Em'  => $expiracao,
+            'Criado_Em'  => date('Y-m-d H:i:s')
+        ]);
+    }
+
+    /**
+     * Busca um remember token válido
+     */
+    public function getRememberToken($token)
+    {
+        $builder = $this->db->table('remember_tokens');
+        $builder->where('Token', hash('sha256', $token));
+        $builder->where('Expira_Em >=', date('Y-m-d H:i:s'));
+        return $builder->get()->getRow();
+    }
+
+    /**
+     * Remove o remember token do utilizador
+     */
+    public function deleteRememberTokenByUser($usuarioId)
+    {
+        $builder = $this->db->table('remember_tokens');
+        $builder->where('ID_Usuario', $usuarioId);
+        return $builder->delete();
+    }
+
+    /**
+     * Remove o remember token pelo valor do token
+     */
+    public function deleteRememberToken($token)
+    {
+        $builder = $this->db->table('remember_tokens');
+        $builder->where('Token', hash('sha256', $token));
+        return $builder->delete();
+    }
 }

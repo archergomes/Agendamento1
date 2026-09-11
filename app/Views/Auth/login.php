@@ -145,7 +145,7 @@
             }
         }
 
-        /* ---------- CARD PRINCIPAL - CORRIGIDO ---------- */
+        /* ---------- CARD PRINCIPAL ---------- */
         .login-container {
             position: relative;
             z-index: 1;
@@ -200,7 +200,7 @@
             box-shadow: 0 40px 100px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.15);
         }
 
-        /* ---------- LOGO - REDUZIDO ---------- */
+        /* ---------- LOGO ---------- */
         .logo-container {
             text-align: center;
             margin-bottom: 1.5rem;
@@ -260,7 +260,7 @@
             font-weight: 400;
         }
 
-        /* ---------- MENSAGENS - REDUZIDAS ---------- */
+        /* ---------- MENSAGENS ---------- */
         .msg-container {
             margin-bottom: 1.25rem;
         }
@@ -299,7 +299,7 @@
             border-left: 4px solid #10b981;
         }
 
-        /* ---------- FORMULÁRIO - REDUZIDO ---------- */
+        /* ---------- FORMULÁRIO ---------- */
         .form-group {
             margin-bottom: 1rem;
         }
@@ -390,7 +390,7 @@
             font-size: 0.6rem;
         }
 
-        /* ---------- OPÇÕES EXTRAS - REDUZIDAS ---------- */
+        /* ---------- OPÇÕES EXTRAS ---------- */
         .form-options {
             display: flex;
             justify-content: space-between;
@@ -423,6 +423,11 @@
             text-decoration: none;
             font-weight: 500;
             transition: color 0.2s ease;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            font-family: 'Roboto', sans-serif;
         }
 
         .form-options .forgot-link:hover {
@@ -430,7 +435,7 @@
             text-decoration: underline;
         }
 
-        /* ---------- BOTÃO - REDUZIDO ---------- */
+        /* ---------- BOTÃO ---------- */
         .btn-login {
             width: 100%;
             padding: 0.7rem;
@@ -509,11 +514,36 @@
             }
         }
 
-        /* ---------- RODAPÉ - REDUZIDO ---------- */
+        /* ---------- LINK REGISTAR ---------- */
+        .register-link {
+            text-align: center;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #f3f4f6;
+        }
+
+        .register-link p {
+            color: #6b7280;
+            font-size: 0.8rem;
+        }
+
+        .register-link a {
+            color: var(--brand-500);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s ease;
+        }
+
+        .register-link a:hover {
+            color: var(--brand-700);
+            text-decoration: underline;
+        }
+
+        /* ---------- RODAPÉ ---------- */
         .footer {
             text-align: center;
-            margin-top: 1.25rem;
-            padding-top: 1.25rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
             border-top: 1px solid #f3f4f6;
         }
 
@@ -527,7 +557,204 @@
             font-weight: 600;
         }
 
-        /* ---------- RESPONSIVO - AJUSTADO ---------- */
+        /* ---------- MODAL ESQUECEU A SENHA ---------- */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .modal-card {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 1.5rem;
+            padding: 2rem 1.75rem;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.1);
+            width: 100%;
+            max-width: 420px;
+            max-height: 95vh;
+            overflow-y: auto;
+            position: relative;
+            animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .modal-card::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .modal-card::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .modal-card::-webkit-scrollbar-thumb {
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 2px;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #f3f4f6;
+            border: none;
+            color: #6b7280;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            font-size: 0.85rem;
+        }
+
+        .modal-close:hover {
+            background: #e5e7eb;
+            color: #1f2937;
+            transform: rotate(90deg);
+        }
+
+        .modal-header {
+            text-align: center;
+            margin-bottom: 1.25rem;
+        }
+
+        .modal-header .modal-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--brand-600), var(--teal-500));
+            border-radius: 1rem;
+            color: white;
+            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
+            box-shadow: 0 8px 24px rgba(37, 99, 235, 0.3);
+        }
+
+        .modal-header h2 {
+            font-family: 'Outfit', 'Roboto', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 0.25rem;
+        }
+
+        .modal-header p {
+            color: #6b7280;
+            font-size: 0.8rem;
+            font-weight: 400;
+        }
+
+        .btn-recover {
+            width: 100%;
+            padding: 0.7rem;
+            background: linear-gradient(135deg, var(--brand-600), var(--teal-500));
+            color: white;
+            border: none;
+            border-radius: 0.75rem;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            margin-top: 0.5rem;
+        }
+
+        .btn-recover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(37, 99, 235, 0.35);
+        }
+
+        .btn-recover:active {
+            transform: translateY(0);
+        }
+
+        .btn-recover:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .btn-recover .spinner {
+            display: none;
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        .btn-recover.loading .spinner {
+            display: inline-block;
+        }
+
+        .btn-recover.loading .btn-text {
+            display: none;
+        }
+
+        .modal-msg {
+            display: none;
+            padding: 0.6rem 0.9rem;
+            border-radius: 0.75rem;
+            font-size: 0.8rem;
+            font-weight: 500;
+            text-align: center;
+            margin-bottom: 1rem;
+            animation: slideDown 0.4s ease-out forwards;
+        }
+
+        .modal-msg.show {
+            display: block;
+        }
+
+        .modal-msg.error {
+            background: linear-gradient(135deg, #fef2f2, #fee2e2);
+            color: #991b1b;
+            border-left: 4px solid #ef4444;
+        }
+
+        .modal-msg.success {
+            background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+            color: #065f46;
+            border-left: 4px solid #10b981;
+        }
+
+        /* ---------- RESPONSIVO ---------- */
         @media (max-width: 480px) {
             body {
                 padding: 0.5rem;
@@ -587,6 +814,21 @@
 
             .footer p {
                 font-size: 0.65rem;
+            }
+
+            .modal-card {
+                padding: 1.5rem 1.25rem;
+                border-radius: 1.25rem;
+            }
+
+            .modal-header .modal-icon {
+                width: 48px;
+                height: 48px;
+                font-size: 1.25rem;
+            }
+
+            .modal-header h2 {
+                font-size: 1.1rem;
             }
         }
 
@@ -654,6 +896,11 @@
         .btn-login {
             opacity: 0;
             animation: fadeInField 0.6s ease 0.45s forwards;
+        }
+
+        .register-link {
+            opacity: 0;
+            animation: fadeInField 0.6s ease 0.5s forwards;
         }
 
         .footer {
@@ -793,9 +1040,9 @@
                         <input type="checkbox" name="remember" id="remember">
                         <span>Lembrar-me</span>
                     </label>
-                    <a href="<?= site_url('auth/recuperar-senha') ?>" class="forgot-link">
+                    <button type="button" class="forgot-link" id="forgot-password-btn">
                         <i class="fas fa-key mr-1"></i> Esqueceu a senha?
-                    </a>
+                    </button>
                 </div>
 
                 <button type="submit" class="btn-login" id="login-btn">
@@ -805,6 +1052,15 @@
                     </span>
                 </button>
             </form>
+
+            <!-- Link para Registar -->
+            <div class="register-link">
+                <p>Não tem uma conta?
+                    <a href="<?= site_url('auth/register'); ?>">
+                        <i class="fas fa-user-plus mr-1"></i> Registe-se aqui
+                    </a>
+                </p>
+            </div>
 
             <div class="footer">
                 <p>
@@ -816,6 +1072,48 @@
                     <i class="fas fa-shield-alt text-blue-500 ml-1"></i> Seguro
                 </p>
             </div>
+        </div>
+    </div>
+
+    <!-- ==================== MODAL ESQUECEU A SENHA ==================== -->
+    <div class="modal-overlay" id="forgot-modal">
+        <div class="modal-card">
+            <button type="button" class="modal-close" id="modal-close" aria-label="Fechar">
+                <i class="fas fa-times"></i>
+            </button>
+
+            <div class="modal-header">
+                <div class="modal-icon">
+                    <i class="fas fa-key"></i>
+                </div>
+                <h2>Redefinir Senha</h2>
+                <p>Insira o seu email para receber as instruções de recuperação</p>
+            </div>
+
+            <div id="modal-msg" class="modal-msg"></div>
+
+            <form id="forgot-form">
+                <?= csrf_field(); ?>
+                <div class="form-group">
+                    <label for="forgot-email">
+                        <i class="fas fa-envelope"></i> Email
+                    </label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">
+                            <i class="fas fa-envelope"></i>
+                        </span>
+                        <input type="email" id="forgot-email" name="email" required
+                            placeholder="seu.email@dominio.com" autocomplete="email">
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-recover" id="recover-btn">
+                    <span class="spinner"></span>
+                    <span class="btn-text">
+                        <i class="fas fa-paper-plane mr-2"></i> Enviar Instruções
+                    </span>
+                </button>
+            </form>
         </div>
     </div>
 
@@ -854,7 +1152,7 @@
                 });
             }
 
-            // ==================== FORMULÁRIO ====================
+            // ==================== FORMULÁRIO DE LOGIN ====================
             const form = document.getElementById('login-form');
             const errorMsg = document.getElementById('login-error');
             const successMsg = document.getElementById('login-success');
@@ -869,13 +1167,11 @@
                     const email = formData.get('email').trim();
                     const senha = formData.get('senha').trim();
 
-                    // Resetar mensagens
                     errorMsg.style.display = 'none';
                     successMsg.style.display = 'none';
                     loginBtn.classList.add('loading');
                     loginBtn.disabled = true;
 
-                    // Validação básica no frontend
                     if (!email || !senha) {
                         errorText.textContent = 'Preencha todos os campos.';
                         errorMsg.style.display = 'block';
@@ -926,7 +1222,7 @@
             }
 
             // ==================== PREVENT DOUBLE SUBMIT ====================
-            document.querySelectorAll('input').forEach(input => {
+            document.querySelectorAll('#login-form input').forEach(input => {
                 input.addEventListener('keypress', function(e) {
                     if (e.key === 'Enter') {
                         e.preventDefault();
@@ -934,6 +1230,124 @@
                     }
                 });
             });
+
+            // ==================== MODAL ESQUECEU A SENHA ====================
+            const forgotBtn = document.getElementById('forgot-password-btn');
+            const forgotModal = document.getElementById('forgot-modal');
+            const modalClose = document.getElementById('modal-close');
+            const forgotForm = document.getElementById('forgot-form');
+            const modalMsg = document.getElementById('modal-msg');
+            const recoverBtn = document.getElementById('recover-btn');
+            const forgotEmail = document.getElementById('forgot-email');
+
+            // Abrir modal
+            if (forgotBtn) {
+                forgotBtn.addEventListener('click', function() {
+                    forgotModal.classList.add('active');
+                    modalMsg.classList.remove('show', 'error', 'success');
+                    modalMsg.textContent = '';
+                    forgotForm.reset();
+                    setTimeout(() => forgotEmail.focus(), 300);
+                });
+            }
+
+            // Fechar modal
+            if (modalClose) {
+                modalClose.addEventListener('click', function() {
+                    forgotModal.classList.remove('active');
+                });
+            }
+
+            // Fechar ao clicar fora
+            if (forgotModal) {
+                forgotModal.addEventListener('click', function(e) {
+                    if (e.target === forgotModal) {
+                        forgotModal.classList.remove('active');
+                    }
+                });
+            }
+
+            // Fechar com ESC
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && forgotModal.classList.contains('active')) {
+                    forgotModal.classList.remove('active');
+                }
+            });
+
+            // Submeter formulário de recuperação
+            if (forgotForm) {
+                forgotForm.addEventListener('submit', async function(e) {
+                    e.preventDefault();
+
+                    const email = forgotEmail.value.trim();
+                    modalMsg.classList.remove('show', 'error', 'success');
+                    modalMsg.textContent = '';
+
+                    if (!email) {
+                        modalMsg.textContent = 'Por favor, insira o seu email.';
+                        modalMsg.classList.add('show', 'error');
+                        return;
+                    }
+
+                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    if (!emailRegex.test(email)) {
+                        modalMsg.textContent = 'Por favor, insira um email válido.';
+                        modalMsg.classList.add('show', 'error');
+                        return;
+                    }
+
+                    recoverBtn.classList.add('loading');
+                    recoverBtn.disabled = true;
+
+                    try {
+                        const formData = new FormData(forgotForm);
+                        const response = await fetch("<?= site_url('auth/enviar-link-recuperacao'); ?>", {
+                            method: 'POST',
+                            headers: {
+                                'X-Requested-With': 'XMLHttpRequest',
+                                'Accept': 'application/json'
+                            },
+                            body: formData
+                        });
+
+                        const text = await response.text();
+
+                        // DEBUG: mostra o que o servidor devolveu
+                        console.log('Status HTTP:', response.status);
+                        console.log('Resposta do servidor:', text);
+
+                        let result;
+                        try {
+                            result = JSON.parse(text);
+                        } catch (parseErr) {
+                            console.error('Resposta não é JSON:', text);
+                            // Mostra o início da resposta no modal para ajudar no debug
+                            modalMsg.textContent = 'Erro no servidor. Verifique a consola (F12) para detalhes.';
+                            modalMsg.classList.add('show', 'error');
+                            return;
+                        }
+
+                        if (response.ok && result.status === 'success') {
+                            modalMsg.textContent = result.message || 'Instruções enviadas! Verifique o seu email.';
+                            modalMsg.classList.add('show', 'success');
+                            forgotForm.reset();
+                            setTimeout(() => {
+                                forgotModal.classList.remove('active');
+                            }, 3000);
+                        } else {
+                            modalMsg.textContent = result.message || 'Erro ao enviar instruções. Tente novamente.';
+                            modalMsg.classList.add('show', 'error');
+                        }
+                    } catch (err) {
+                        console.error('Erro de rede:', err);
+                        modalMsg.textContent = 'Erro ao conectar ao servidor. Tente novamente.';
+                        modalMsg.classList.add('show', 'error');
+                    } finally {
+                        recoverBtn.classList.remove('loading');
+                        recoverBtn.disabled = false;
+                    }
+                });
+            }
         });
     </script>
 </body>

@@ -17,6 +17,7 @@ class Filters extends BaseConfig
         'honeypot'      => Honeypot::class,
         'invalidchars'  => InvalidChars::class,
         'secureheaders' => SecureHeaders::class,
+        'autoLogin' => \App\Filters\AutoLoginFilter::class,
     ];
 
     public $globals = [
@@ -79,7 +80,9 @@ class Filters extends BaseConfig
 
                     // Rotas de relatórios - ADICIONAR ESTAS
                     'admin/get_report_data',
-                    'admin/export_report'
+                    'admin/export_report',
+
+                    'autoLogin'
                 ]
             ],
         ],

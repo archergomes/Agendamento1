@@ -32,7 +32,7 @@ class Auth extends Controller
             'nome' => 'required|trim|min_length[2]|max_length[50]',
             'sobrenome' => 'required|trim|min_length[2]|max_length[50]',
             'data_nascimento' => 'required|valid_date',
-            'genero' => 'required|in_list[Masculino,Feminino,Outro]',
+            'genero' => 'required|in_list[Masculino,Feminino]',
             'telefone' => 'required|trim|min_length[9]|max_length[20]',
             'bi' => 'required|trim|min_length[5]|max_length[50]|is_unique[pacientes.BI]',
             'email' => 'required|trim|valid_email|is_unique[usuarios.Email]',
@@ -210,9 +210,42 @@ class Auth extends Controller
 
         $this->session->set($sessionData);
 
-        // Log para debug
-        log_message('debug', 'Login - Tipo de usuário: ' . $usuario->Tipo_Usuario);
-        log_message('debug', 'Login - Sessão: ' . print_r($sessionData, true));
+        // ============================================
+        // "LEMBRAR-ME" — cria cookie de longa duração
+        // ============================================
+        $remember = $this->request->getPost('remember');
+
+        if ($remember) {
+            // Gera token aleatório
+            $token = bin2hex(random_bytes(32));
+            $expiracao = date('Y-m-d H:i:s', strtotime('+30 days'));
+
+            // Guarda no banco (hash do token)
+            $this->authModel->saveRememberToken($usuario->ID_Usuario, $token, $expiracao);
+
+            // Guarda cookie com o token original (não hashed)
+            // Formato: usuarioId:token
+            $cookieValue = $usuario->ID_Usuario . ':' . $token;
+
+            setcookie(
+                'remember_me',
+                $cookieValue,
+                [
+                    'expires'  => time() + (30 * 24 * 60 * 60), // 30 dias
+                    'path'     => '/',
+                    'httponly' => true,
+                    'samesite' => 'Lax',
+                    'secure'   => isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
+                ]
+            );
+        } else {
+            // Se não marcou "Lembrar-me", remove qualquer token anterior
+            $this->authModel->deleteRememberTokenByUser($usuario->ID_Usuario);
+
+            if (isset($_COOKIE['remember_me'])) {
+                setcookie('remember_me', '', time() - 3600, '/');
+            }
+        }
 
         // ============================================
         // REDIRECIONAMENTO POR TIPO DE USUÁRIO
@@ -250,6 +283,19 @@ class Auth extends Controller
 
     public function logout()
     {
+        // Remove o remember token do banco
+        if (isset($_COOKIE['remember_me'])) {
+            $this->authModel->deleteRememberToken($_COOKIE['remember_me']);
+
+            // Apaga o cookie
+            setcookie('remember_me', '', time() - 3600, '/');
+        }
+
+        // Se houver utilizador logado, remove também o token do usuário
+        if ($this->session->get('ID_Usuario')) {
+            $this->authModel->deleteRememberTokenByUser($this->session->get('ID_Usuario'));
+        }
+
         $this->session->destroy();
         return redirect()->to('auth/login');
     }
@@ -299,34 +345,47 @@ class Auth extends Controller
 
             // Gerar token de recuperação
             $token = bin2hex(random_bytes(32));
-            $expiracao = date('Y-m-d H:i:s', strtotime('+1 hour'));
+            $expiracao = date('Y-m-d H:i:s', strtotime('+5 minutes'));
 
             // Salvar token no banco
             $this->authModel->saveRecoveryToken($usuario->ID_Usuario, $token, $expiracao);
 
-            // Enviar email com link de recuperação
-            $link = base_url("auth/redefinir_senha/$token");
+            // Link de recuperação
+            $link = base_url("auth/redefinir-senha/$token");
 
-            // Aqui você deve enviar o email
-            // Usando CodeIgniter Email Library ou PHPMailer
+            // ============================================
+            // Buscar o nome real do paciente (correção do erro
+            // "Undefined property: stdClass::$Nome")
+            // ============================================
+            $nomeExibicao = 'utilizador';
 
-            // Exemplo simples de envio de email
+            if (isset($usuario->Tipo_Usuario) && $usuario->Tipo_Usuario === 'Paciente' && !empty($usuario->ID_Referencia)) {
+                $paciente = $this->authModel->getPacienteById($usuario->ID_Referencia);
+                if ($paciente) {
+                    $nomeCompleto = trim(($paciente->Nome ?? '') . ' ' . ($paciente->Sobrenome ?? ''));
+                    if ($nomeCompleto !== '') {
+                        $nomeExibicao = $nomeCompleto;
+                    }
+                }
+            }
+
+            // Enviar email
             $emailService = \Config\Services::email();
-            $emailService->setFrom('noreply@hospitalmatlhovele.com', 'Hospital Matlhovele');
+            $emailService->setFrom('noreply@hospitalmatlhovele.com', 'Centro de Saúde Da Matola II');
             $emailService->setTo($email);
-            $emailService->setSubject('Recuperação de Senha - Hospital Matlhovele');
+            $emailService->setSubject('Recuperação de Senha - Centro de Saúde Da Matola II');
             $emailService->setMessage("
-            <h2>Recuperação de Senha</h2>
-            <p>Olá {$usuario->Nome},</p>
-            <p>Recebemos uma solicitação para redefinir sua senha no Hospital Matlhovele.</p>
-            <p>Clique no link abaixo para redefinir sua senha:</p>
-            <p><a href='{$link}'>Redefinir Senha</a></p>
-            <p>Este link é válido por 1 hora.</p>
-            <p>Se você não solicitou esta alteração, ignore este email.</p>
-            <br>
-            <p>Atenciosamente,</p>
-            <p><strong>Hospital Matlhovele</strong></p>
-        ");
+                <h2>Recuperação de Senha</h2>
+                <p>Olá {$nomeExibicao},</p>
+                <p>Recebemos uma solicitação para redefinir sua senha no Centro de Saúde Da Matola II.</p>
+                <p>Clique no link abaixo para redefinir sua senha:</p>
+                <p><a href='{$link}'>Redefinir Senha</a></p>
+                <p>Este link é válido por 5 minutos.</p>
+                <p>Se você não solicitou esta alteração, ignore este email.</p>
+                <br>
+                <p>Atenciosamente,</p>
+                <p><strong>Centro de Saúde Da Matola II</strong></p>
+            ");
 
             if ($emailService->send()) {
                 return $this->response->setJSON([
@@ -341,7 +400,7 @@ class Auth extends Controller
                 ]);
             }
         } catch (\Exception $e) {
-            log_message('error', 'Erro ao recuperar senha: ' . $e->getMessage());
+            log_message('error', 'Erro ao recuperar senha: ' . $e->getMessage() . ' | ' . $e->getFile() . ':' . $e->getLine());
             return $this->response->setJSON([
                 'status' => 'error',
                 'message' => 'Erro interno do servidor. Tente novamente.'
@@ -349,16 +408,12 @@ class Auth extends Controller
         }
     }
 
-    /**
-     * Página para redefinir a senha com token
-     */
     public function redefinir_senha($token = null)
     {
         if (!$token) {
             return redirect()->to('auth/login');
         }
 
-        // Verificar se o token é válido
         $tokenData = $this->authModel->getTokenData($token);
 
         if (!$tokenData || strtotime($tokenData->Expiracao) < time()) {
@@ -368,7 +423,7 @@ class Auth extends Controller
 
         $data['token'] = $token;
         $data['usuario_id'] = $tokenData->ID_Usuario;
-        return view('auth/senha', $data);
+        return view('auth/senha', $data);  // <-- esta view é a que criámos
     }
 
     /**
@@ -445,5 +500,83 @@ class Auth extends Controller
                 'message' => 'Erro interno do servidor.'
             ]);
         }
+    }
+
+    /**
+     * Verifica o cookie "remember_me" e autentica automaticamente
+     */
+    public function autoLogin()
+    {
+        // Se já está logado, não faz nada
+        if ($this->session->get('logged_in')) {
+            return false;
+        }
+
+        // Verifica se existe o cookie
+        if (!isset($_COOKIE['remember_me'])) {
+            return false;
+        }
+
+        // Formato: usuarioId:token
+        $parts = explode(':', $_COOKIE['remember_me']);
+        if (count($parts) !== 2) {
+            // Cookie corrompido — apaga
+            setcookie('remember_me', '', time() - 3600, '/');
+            return false;
+        }
+
+        [$usuarioId, $token] = $parts;
+
+        // Busca o token no banco
+        $tokenData = $this->authModel->getRememberToken($token);
+
+        if (!$tokenData || $tokenData->ID_Usuario != $usuarioId) {
+            // Token inválido — apaga
+            setcookie('remember_me', '', time() - 3600, '/');
+            return false;
+        }
+
+        // Token válido — busca o usuário e cria sessão
+        $usuario = $this->authModel->find($usuarioId);
+        if (!$usuario) {
+            setcookie('remember_me', '', time() - 3600, '/');
+            return false;
+        }
+
+        // Buscar paciente_id se for paciente
+        $pacienteId = null;
+        if ($usuario->Tipo_Usuario === 'Paciente' && $usuario->ID_Referencia > 0) {
+            $pacienteId = $usuario->ID_Referencia;
+        }
+
+        // Recria sessão
+        $this->session->set([
+            'ID_Usuario'    => $usuario->ID_Usuario,
+            'Email'         => $usuario->Email,
+            'Tipo_Usuario'  => $usuario->Tipo_Usuario,
+            'ID_Referencia' => $usuario->ID_Referencia,
+            'paciente_id'   => $pacienteId,
+            'logged_in'     => true,
+            'user_id'       => $usuario->ID_Usuario
+        ]);
+
+        // Renova o token (rotação por segurança)
+        $novoToken = bin2hex(random_bytes(32));
+        $novaExpiracao = date('Y-m-d H:i:s', strtotime('+30 days'));
+        $this->authModel->saveRememberToken($usuario->ID_Usuario, $novoToken, $novaExpiracao);
+
+        setcookie(
+            'remember_me',
+            $usuario->ID_Usuario . ':' . $novoToken,
+            [
+                'expires'  => time() + (30 * 24 * 60 * 60),
+                'path'     => '/',
+                'httponly' => true,
+                'samesite' => 'Lax',
+                'secure'   => isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'
+            ]
+        );
+
+        return true;
     }
 }

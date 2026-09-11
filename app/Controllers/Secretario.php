@@ -183,7 +183,7 @@ class Secretario extends Controller
 
         try {
             $result = $this->secretarioModel->updateAppointmentStatus($id, $status, $motivo);
-            
+
             if ($result) {
                 return $this->response->setJSON(['success' => 'Status atualizado com sucesso!']);
             } else {
@@ -267,5 +267,93 @@ class Secretario extends Controller
                 ->setStatusCode(500)
                 ->setJSON(['error' => 'Erro ao carregar médicos']);
         }
+    }
+
+    public function aprovarAgendamento()
+    {
+        if (!$this->request->isAJAX()) {
+            return $this->response->setJSON(['status' => 'error', 'message' => 'Requisição inválida']);
+        }
+
+        $id = (int) $this->request->getPost('id');
+        if (!$id) {
+            return $this->response->setJSON(['status' => 'error', 'message' => 'ID inválido']);
+        }
+
+        $db = \Config\Database::connect();
+        $builder = $db->table('agendamentos');
+        $builder->where('ID_Agendamento', $id);
+        $appt = $builder->get()->getRow();
+
+        if (!$appt) {
+            return $this->response->setJSON(['status' => 'error', 'message' => 'Agendamento não encontrado.']);
+        }
+        if ($appt->Status !== 'Pendente') {
+            return $this->response->setJSON([
+                'status'  => 'error',
+                'message' => 'Só é possível aprovar agendamentos com status Pendente. Atual: ' . $appt->Status
+            ]);
+        }
+
+        $builder = $db->table('agendamentos');
+        $builder->where('ID_Agendamento', $id);
+        $ok = $builder->update(['Status' => 'Confirmado']);
+
+        if ($ok) {
+            return $this->response->setJSON([
+                'status'  => 'success',
+                'message' => 'Agendamento confirmado com sucesso.',
+                'csrf_token' => csrf_hash()
+            ]);
+        }
+        return $this->response->setJSON(['status' => 'error', 'message' => 'Erro ao aprovar.']);
+    }
+
+    public function rejeitarAgendamento()
+    {
+        if (!$this->request->isAJAX()) {
+            return $this->response->setJSON(['status' => 'error', 'message' => 'Requisição inválida']);
+        }
+
+        $id = (int) $this->request->getPost('id');
+        $motivo = trim((string) $this->request->getPost('motivo'));
+
+        if (!$id) {
+            return $this->response->setJSON(['status' => 'error', 'message' => 'ID inválido']);
+        }
+
+        $db = \Config\Database::connect();
+        $builder = $db->table('agendamentos');
+        $builder->where('ID_Agendamento', $id);
+        $appt = $builder->get()->getRow();
+
+        if (!$appt) {
+            return $this->response->setJSON(['status' => 'error', 'message' => 'Agendamento não encontrado.']);
+        }
+        if ($appt->Status !== 'Pendente') {
+            return $this->response->setJSON([
+                'status'  => 'error',
+                'message' => 'Só é possível rejeitar agendamentos Pendentes. Atual: ' . $appt->Status
+            ]);
+        }
+
+        $update = ['Status' => 'Cancelado'];
+        if ($motivo !== '') {
+            // Se tiver coluna para guardar o motivo da rejeição, use. Se não, ignora.
+            // $update['motivo_cancelamento'] = $motivo;
+        }
+
+        $builder = $db->table('agendamentos');
+        $builder->where('ID_Agendamento', $id);
+        $ok = $builder->update($update);
+
+        if ($ok) {
+            return $this->response->setJSON([
+                'status'  => 'success',
+                'message' => 'Agendamento rejeitado. O horário foi libertado.',
+                'csrf_token' => csrf_hash()
+            ]);
+        }
+        return $this->response->setJSON(['status' => 'error', 'message' => 'Erro ao rejeitar.']);
     }
 }

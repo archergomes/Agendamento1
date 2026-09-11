@@ -137,19 +137,25 @@ class AgendamentosModel extends Model
      */
     public function isSlotAvailable($data, $hora, $medicoId)
     {
-        try {
-            $builder = $this->db->table('agendamentos');
-            $builder->where('ID_Medico', $medicoId);
-            $builder->where('Data_Agendamento', $data);
-            $builder->where('Hora_Agendamento', $hora);
-            $builder->where('Status !=', 'Cancelado');
-            $existing = $builder->get()->getRow();
+        $builder = $this->db->table('agendamentos');
+        $builder->where('ID_Medico', $medicoId);
+        $builder->where('Data_Agendamento', $data);
+        $builder->where('Hora_Agendamento', $hora);
+        $builder->whereIn('Status', ['Pendente', 'Confirmado', 'Concluido']);
+        return $builder->countAllResults() === 0;
+    }
 
-            return $existing === null;
-        } catch (\Exception $e) {
-            log_message('error', 'isSlotAvailable - Erro: ' . $e->getMessage());
-            return false;
-        }
+    /**
+     * Busca os horários ocupados de um médico num dia
+     */
+    public function getOcupados($data, $medicoId)
+    {
+        $builder = $this->db->table('agendamentos');
+        $builder->select('Hora_Agendamento');
+        $builder->where('ID_Medico', $medicoId);
+        $builder->where('Data_Agendamento', $data);
+        $builder->whereIn('Status', ['Pendente', 'Confirmado', 'Concluido']);
+        return array_column($builder->get()->getResultArray(), 'Hora_Agendamento');
     }
 
     /**
